@@ -7,12 +7,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className='bg-bodyBg'>
+    <main className='h-full bg-bodyBg'>
       <Header />
       <section >
         {children}
       </section>
-      {/* <Footer /> */}
+      <Footer />
     </main>
   );
 }
