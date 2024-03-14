@@ -107,3 +107,36 @@ export const SloganWithCategory = ({
     </div>
   );
 };
+
+
+
+export const SloganUpdates = ({
+  title,
+  middleText,
+  slogan,
+  beginningText,
+  endingText,
+}: SloganType) => {
+  return (
+    <div
+      className={`flex flex-col w-full bg-[#F3E8FF] h-[400px] items-center justify-center`}>
+      {endingText && (
+        <div className='w-full flex space-x-2 justify-center'>
+          <p className='font-[800] text-[48px] leading-[65px] text-textTitle'>
+            {beginningText}
+          </p>
+          <p className={`text-[#0F9A49] font-[800] text-[48px] leading-[65px]`}>
+            {endingText}
+          </p>
+        </div>
+      )}
+      <p>{slogan}</p>
+      <SearchJob
+        placeholder={'Job title or keyword'}
+        searchText={'Search Job'}
+        onChange={() => {}}
+        width='400px'
+      />
+    </div>
+  );
+};
