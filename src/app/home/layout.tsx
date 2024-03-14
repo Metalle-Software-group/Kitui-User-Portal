@@ -9,8 +9,8 @@ export default function RootLayout({
   return (
     <main className='bg-bodyBg'>
       <Header />
-      <section className='w-full h-[100dvh] px-[100px] pb-[100px]'>{children}</section>
-      {/* <Footer /> */}
+      <div className='w-full h-full px-[100px] pb-[100px]'>{children}</div>
+      <Footer />
     </main>
   );
 }

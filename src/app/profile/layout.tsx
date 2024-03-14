@@ -9,9 +9,7 @@ export default function RootLayout({
   return (
     <main className='h-full bg-bodyBg'>
       <Header />
-      <section >
-        {children}
-      </section>
+      <section>{children}</section>
       <Footer />
     </main>
   );

@@ -194,6 +194,38 @@ export const EmploymentType = [
 	},
 ];
 
+export const Kitui = [
+	'Home',
+	'Governor',
+	'Deputy Governor',
+	'County Secretary',
+	'KCPSB',
+	'County News',
+	'Contact us',
+	'Disclaimer & Privacy Statement',
+];
+
+export const Partners = [
+	' ICT Authority',
+	'Kitui Municipality',
+	'Council of Governors',
+	'County Assembly of Kitui',
+	'Commission on Revenue Allocation',
+];
+
+export const quickLinks = [
+	' GHRIS',
+	'eCitizen',
+	'Staffmail',
+	'Public Service Payroll',
+];
+
+export const Government = [
+	'IFMIS',
+	'Ministry of ICT',
+	'Ministry of Devolution',
+];
+
 export const BASE_ASSET_URL = '/images';
 
 export const BASE_URL = '/dashboard';

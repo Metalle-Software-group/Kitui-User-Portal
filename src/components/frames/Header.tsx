@@ -4,7 +4,7 @@ import React from 'react';
 
 export const Header = () => {
   return (
-    <nav className='top-0 flex w-full h-[108px] justify-center mt-[10px] mb-[10px] border-b-2 items-center pl-[10px] pr-[10px] shadow-lg'>
+    <nav className='top-0  sticky  z-10 flex w-full h-[108px] justify-center mt-[10px] mb-[10px] border-b-2 items-center pl-[10px] pr-[10px] shadow-lg'>
       <div className='flex justify-items-start'>
         <Image
           src='/vercel.svg'
