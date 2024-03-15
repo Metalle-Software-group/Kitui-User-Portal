@@ -21,6 +21,7 @@ const config = {
 			colors: {
 				'commentCardTextColor': 'var(--commentCardTextColor)',
 				'boxBorder-color': 'var(--boxBorder-color)',
+				'search-iconColor': 'var(--search-iconColor)',
 				'brown-border': 'var(--brown-border)',
 				'brown-text': 'var(--brown-text)',
 				'mainGreen': 'var(--mainGreen)',
