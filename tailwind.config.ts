@@ -19,12 +19,17 @@ const config = {
 		},
 		extend: {
 			colors: {
+				'commentCardTextColor': 'var(--commentCardTextColor)',
+				'boxBorder-color': 'var(--boxBorder-color)',
+				'brown-border': 'var(--brown-border)',
+				'brown-text': 'var(--brown-text)',
 				'mainGreen': 'var(--mainGreen)',
 				'bodyText': 'var(--bodyText)',
 				'bodyBg': 'var(--bodyBg)',
 				'textTitle': 'var(--text-title)',
 				'foundationGreen': 'var(--foundation-green)',
 				'foundationGreen2': 'var(--foundation-green2)',
+				'tag-color': 'var(--tag-color)',
 				'main-Green': 'var(--main-Green)',
 				'light-Purple': 'var(--light-Purple)',
 				'login-screen-text-color': 'var(--login-screen-text-color)',
@@ -69,6 +74,8 @@ const config = {
 			boxShadow: {
 				searchShadow: '0px 2px 4px -1px #1A38601A,0px 3px 12px -1px #1C375A29',
 				btnBoxShadow: '0px 1px 2px 0px #1018280D',
+				headerShadow:
+					'0px 3px 18px -2px #1A38601A,0px 12px 48px -6px #1C375A29',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

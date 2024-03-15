@@ -1,4 +1,5 @@
 'use client';
+import { BASE_ASSET_URL } from '@/constants';
 import { SearchJob } from '../frames/SearchJob';
 import { GraphicsIcon } from '../icons';
 
@@ -47,7 +48,11 @@ export const HomeHero = () => {
 				</div>
 			</section>
 			<section className='col-span-2'>
-				<img src='/people/hero.jpg' alt='person' className='w-full h-full' />
+				<img
+					src={`${BASE_ASSET_URL}/others/steps-img.png`}
+					className='w-full h-full'
+					alt='person'
+				/>
 			</section>
 		</div>
 	);
