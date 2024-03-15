@@ -132,7 +132,7 @@ export const DepartmentCard = ({
 	Icon,
 	title,
 }: TDepartmentCardProps) => (
-	<div className='w-[325px] h-[240px] rounded-[20px] p-[20px] border border-gray-300 flex flex-col items-center justify-between'>
+	<div className='w-[265px] h-[202px] gap-[24px] rounded-[20px] p-[20px] border border-gray-300 flex flex-col items-center justify-around'>
 		<div className=''>
 			{Icon ? (
 				<Icon
@@ -154,20 +154,12 @@ export const DepartmentCard = ({
 				{subtitle}
 			</p>
 		</div>
-		<div className='flex justify-center w-[60%]'>
-			{/* <button className='w-[53px] h-[36px] rounded-[8px] border-[1px] px-[14px] py-[8px] gap-[8px] border-border-color-btn flex justify-center items-center hover:text-foundation-dark-orange hover:bg-hover-bg-color-btn'>
-					Edit
-				</button> */}
-			<button className='w-[53px] h-[36px] rounded-[8px] border-[1px] px-[14px] py-[8px] gap-[8px] border-border-color-btn flex justify-center items-center hover:text-foundation-dark-orange hover:bg-hover-bg-color-btn'>
-				Jobs
-			</button>
-		</div>
 	</div>
 );
 
 export const Comment = () => {
 	return (
-		<div className=''>
+		<div className='w-fit'>
 			<div className='flex justify-between'>
 				<div className='flex gap-[6px] my-[6px]'>
 					<p className='font-bold text-[16px] leading-[24px] text-name-color'>
@@ -258,7 +250,7 @@ export const CommentCard = () => {
 					<ArrowRightIcon width={24} height={24} color='#0B7437' />
 				</div>
 
-				<div className='flex gap-[4px] items-center justify-center'>
+				<div className='flex gap-[4px] items-center justify-center selection:bg-inherit cursor-pointer'>
 					<CommentsIcon
 						{...{
 							styles: {

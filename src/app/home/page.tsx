@@ -1,4 +1,5 @@
 'use client';
+
 import { Alert } from '@/components/cards/Alert';
 import { HomeHero } from '@/components/cards/HomeHero';
 import { ArrowRightIcon } from '@/components/icons';
