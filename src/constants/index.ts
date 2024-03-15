@@ -1,8 +1,19 @@
 import {
-	ExplorationCardsTypes,
+	AgricultureAndLivestockIcon,
+	EnergyIcon,
+	HealthCareIcon,
+	HomeIcon,
+	RoadsIcon,
+	TradeIcon,
+	WaterIcon,
+	YSportIcon,
+} from '@/components/icons';
+import {
 	FeatureCategoriesTypes,
 	FeaturedJobsTypes,
 	NavUrlType,
+	TDepartmentCardProps,
+	THowItWorksCardProps,
 } from '@/types/types';
 
 export const NavUrls: NavUrlType[] = [
@@ -23,55 +34,47 @@ export const NavUrls: NavUrlType[] = [
 	},
 ];
 
-export const ExploreCategoryCards: ExplorationCardsTypes[] = [
+export const ExploreCategoryCards: TDepartmentCardProps[] = [
 	{
-		url: '/icons/basketball.svg',
-		alt: 'basket ball',
-		name: 'Youth, Sport & Culture',
-		description: '10 Open Positions',
+		title: 'Youth, Sport & Culture',
+		subtitle: '10 Open Positions',
+		Icon: YSportIcon,
 	},
 	{
-		url: '/icons/heart.svg',
-		alt: 'heart',
-		name: 'Health & Sanitation',
-		description: '10 Open Positions',
+		title: 'Health & Sanitation',
+		subtitle: '10 Open Positions',
+		Icon: HealthCareIcon,
 	},
 	{
-		url: '/icons/leaf.svg',
-		alt: 'agriculture',
-		name: 'Agriculture & Livestock',
-		description: '10 Open Positions',
+		Icon: AgricultureAndLivestockIcon,
+		title: 'Agriculture & Livestock',
+		subtitle: '10 Open Positions',
 	},
 	{
-		url: '/icons/waterDrop.svg',
-		alt: 'irrigation',
-		name: 'Water & Irrigation',
-		description: '10 Open Positions',
+		title: 'Water & Irrigation',
+		subtitle: '10 Open Positions',
+		Icon: WaterIcon,
 	},
 
 	{
-		url: '/icons/house.svg',
-		alt: 'housing',
-		name: 'Land,Housing & Urban Planning',
-		description: '10 Open Positions',
+		title: 'Land,Housing & Urban Planning',
+		subtitle: '10 Open Positions',
+		Icon: HomeIcon,
 	},
 	{
-		url: '/icons/road.svg',
-		alt: 'roads',
-		name: 'Roads,Public Works & Transport',
-		description: '10 Open Positions',
+		title: 'Roads,Public Works & Transport',
+		subtitle: '10 Open Positions',
+		Icon: RoadsIcon,
 	},
 	{
-		url: '/icons/factory.svg',
-		alt: 'industry',
-		name: 'Trade,Industry & Co-Operatives',
-		description: '10 Open Positions',
+		title: 'Trade,Industry & Co-Operatives',
+		subtitle: '10 Open Positions',
+		Icon: TradeIcon,
 	},
 	{
-		url: '/icons/bulb.svg',
-		alt: 'energy',
-		name: 'Energy,Environment & Forestry',
-		description: '10 Open Positions',
+		title: 'Energy,Environment & Forestry',
+		subtitle: '10 Open Positions',
+		Icon: EnergyIcon,
 	},
 ];
 
@@ -300,3 +303,22 @@ export const COOKIE_KEYS = {
 };
 
 export const URL_SEARCH_PARAMS = { redirect: 'redir_uri' };
+
+export const HowItWorksSteps: THowItWorksCardProps[] = [
+	{
+		subtitle: 'Create a free account and showcase your skills and experience.',
+		Icon: `${BASE_ASSET_URL}/others/how-step-1.png`,
+		title: 'Create your profile',
+	},
+	{
+		subtitle: 'Search jobs and submit your application easily and efficiently.',
+		title: 'Apply for a job',
+		Icon: `${BASE_ASSET_URL}/others/how-step-2.png`,
+	},
+
+	{
+		subtitle: 'Track your application status and see shortlisted candidates.',
+		title: 'Track your progress',
+		Icon: `${BASE_ASSET_URL}/others/how-step-3.png`,
+	},
+];

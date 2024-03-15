@@ -4,7 +4,12 @@
 
 @layer base {
 	:root {
+		--commentCardTextColor: #717171;
+		--boxBorder-color: #e9e9e9;
 		--bodyText: #4b5563;
+		--brown-border: #906b4c;
+		--brown-text: #4e3928;
+		--tag-color: #e7f5ed80;
 		--bodyBg: #fbfbfb;
 		--mainGreen: #0c5221;
 		--text-title: #192434;

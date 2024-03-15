@@ -90,3 +90,26 @@ export type TComponentBasicProps = {
 	applyToSvgEl?: boolean;
 	className?: string;
 };
+
+export type TDashboardTypes = {
+	suburls?: TDashboardTypes[];
+	IconForOpened?: (props: TComponentBasicProps) => React.JSX.Element;
+	EndIcon?: (props: TComponentBasicProps) => React.JSX.Element;
+	Icon?: (props: TComponentBasicProps) => React.JSX.Element;
+	onClick?: () => void;
+	name: string;
+	url: string;
+};
+
+export type TDepartmentCardProps = { title: string; subtitle: string } & Pick<
+	TDashboardTypes,
+	'Icon'
+>;
+
+export type THowItWorksCardProps = Pick<
+	TDepartmentCardProps,
+	'subtitle' | 'title'
+> & {
+	step?: number;
+	Icon: string;
+};
