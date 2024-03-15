@@ -1,9 +1,10 @@
 'use client';
 
-import { NavUrls } from '@/constants';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+
+import { NavUrls } from '@/constants';
 
 export const Header = () => {
 	const router = useRouter();
@@ -69,7 +70,7 @@ export const Header = () => {
 						priority
 					/>
 				</div>
-				<div className='flex w-[98px] h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen'>
+				<div className='flex w-[98px] h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
 					<p className='text-mainGreen font-bold text-[16px] leading-[20px]'>
 						Contact Us
 					</p>

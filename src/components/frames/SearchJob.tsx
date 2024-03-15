@@ -17,7 +17,7 @@ export const SearchJob = ({
 					{...{
 						// styles
 						svgElementClassName:
-							'stroke-[#9CA3AF] fill-transparent w-[20px] h-[20px]',
+							'stroke-search-iconColor fill-transparent w-[20px] h-[20px]',
 						applyToSvgEl: true,
 					}}
 				/>
