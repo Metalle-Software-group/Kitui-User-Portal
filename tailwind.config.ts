@@ -20,8 +20,11 @@ const config = {
 		extend: {
 			colors: {
 				'commentCardTextColor': 'var(--commentCardTextColor)',
+				'settingsClearBarColor': 'var(--settingsClearBarColor)',
+				'settingsIconColor': 'var(--settingsIconColor)',
 				'boxBorder-color': 'var(--boxBorder-color)',
 				'search-iconColor': 'var(--search-iconColor)',
+				'settingsClearColor': 'var(--settingsClearColor)',
 				'brown-border': 'var(--brown-border)',
 				'brown-text': 'var(--brown-text)',
 				'mainGreen': 'var(--mainGreen)',

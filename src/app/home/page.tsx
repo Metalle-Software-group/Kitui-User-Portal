@@ -41,9 +41,9 @@ export default function () {
 
 					<ArrowRightIcon
 						{...{
-							svgElementClassName:
-								'fill-main-Green stroke-main-Green w-[20px] h-[20px]',
+							svgElementClassName: 'fill-main-Green stroke-main-Green',
 							applyToSvgEl: true,
+							className: 'w-[20px] h-[20px]',
 						}}
 					/>
 				</div>

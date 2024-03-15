@@ -13,34 +13,36 @@ export const Slogan = ({
 	return (
 		<div
 			className={`flex flex-col w-full bg-light-Purple h-[400px] items-center justify-center`}>
-			{middleText && (
-				<div className='w-full flex space-x-2 justify-center'>
+			<div className='w-fit flex flex-col gap-[24px]'>
+				{middleText && (
+					<div className='flex space-x-2 justify-center'>
+						<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
+							{beginningText}
+						</p>
+						<p
+							className={`text-main-Green font-extrabold text-[48px] leading-[65.47px]`}>
+							{middleText}
+						</p>
+						<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
+							{endingText}
+						</p>
+					</div>
+				)}
+				{!middleText && (
 					<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
-						{beginningText}
+						{title}
 					</p>
-					<p
-						className={`text-main-Green font-extrabold text-[48px] leading-[65.47px]`}>
-						{middleText}
-					</p>
-					<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
-						{endingText}
-					</p>
-				</div>
-			)}
-			{!middleText && (
-				<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
-					{title}
+				)}
+				<p className='font-normal leading-[24px] text-[16px] text-center text-bodyText'>
+					{slogan}
 				</p>
-			)}
-			<p className='font-normal leading-[24px] text-[16px] text-center text-bodyText'>
-				{slogan}
-			</p>
-			<SearchJob
-				placeholder={'Job title or keyword'}
-				searchText={'Search Job'}
-				onChange={() => {}}
-				width='400px'
-			/>
+				<SearchJob
+					placeholder={'Job title or keyword'}
+					searchText={'Search Job'}
+					onChange={() => {}}
+					width='100%'
+				/>
+			</div>
 		</div>
 	);
 };
