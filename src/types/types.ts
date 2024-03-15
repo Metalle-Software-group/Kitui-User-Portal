@@ -114,3 +114,18 @@ export type THowItWorksCardProps = Pick<
 	step?: number;
 	Icon: string;
 };
+
+export enum JobTypes {
+	attachment,
+	contract,
+}
+
+export enum AddRemoveEnum {
+	Add,
+	Remove,
+}
+
+export type TFilterTypes = {
+	jobType: JobTypes[];
+	department: string[];
+};

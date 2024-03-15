@@ -1,11 +1,13 @@
 import { ApplicantsIcon, ClockIcon, CommentsIcon, DeleteIcon } from '../icons';
 import {
+	FilterJobsTypes,
 	TComponentBasicProps,
 	TDepartmentCardProps,
 	THowItWorksCardProps,
 } from '@/types/types';
 import { ArrowRightIcon } from 'lucide-react';
 import Image from 'next/image';
+import { Checkbox } from '../ui/checkbox';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -287,6 +289,23 @@ export const HowItWorksCard = ({
 					{subtitle}
 				</p>
 			</div>
+		</div>
+	);
+};
+
+export const FilterCheckbox = ({ label, id, onChange }: FilterJobsTypes) => {
+	return (
+		<div className='flex items-center gap-[8px] selection:bg-inherit'>
+			<Checkbox
+				className={`bg-purple-600 bg-checkboxColor`}
+				id={`filter-${label}${id}`}
+				onCheckedChange={(checked) => (checked ? {} : {})}
+			/>
+			<label
+				htmlFor={`filter-${label}${id}`}
+				className='leading-[24px] text-[14px] font-normal text-bodyText'>
+				{label}
+			</label>
 		</div>
 	);
 };

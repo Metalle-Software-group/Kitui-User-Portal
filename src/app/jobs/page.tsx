@@ -1,12 +1,28 @@
 'use client';
 import { Alert } from '@/components/cards/Alert';
 import { Departments, EmploymentType, Featured } from '@/constants';
-import { FilterJobs } from '@/components/static/FilterJobs';
 import { FindJobsCard } from '@/components/cards/FindJobsCard';
 import { Slogan } from '@/components/reusables/Slogan';
 import { SettingsIcon } from '@/components/icons';
+import { FilterCheckbox } from '@/components/reusables/Others';
+import { useReducer } from 'react';
+import { AddRemoveEnum, TFilterTypes } from '@/types/types';
 
 export default function () {
+	const [filters, setFilters] = useReducer(
+		(
+			state: TFilterTypes,
+			data: { type: AddRemoveEnum } & Partial<TFilterTypes>
+		) => ({
+			...state,
+			...(data.type === AddRemoveEnum.Add ? {} : {}),
+		}),
+		{
+			department: [],
+			jobType: [],
+		}
+	);
+
 	return (
 		<main className='w-full h-dvh space-y-10'>
 			<div className='w-full'>
@@ -49,10 +65,10 @@ export default function () {
 							<p className='selection:bg-inherit'>Departments</p>
 
 							{Departments.map((department) => (
-								<FilterJobs
+								<FilterCheckbox
 									key={department.name}
 									label={department.name}
-									onChange={() => {}}
+									onChange={(data) => {}}
 								/>
 							))}
 						</div>
@@ -60,7 +76,7 @@ export default function () {
 						<div className='flex flex-col space-y-5'>
 							<p>Employment Types</p>
 							{EmploymentType.map((employment) => (
-								<FilterJobs
+								<FilterCheckbox
 									key={employment.name}
 									label={employment.name}
 									onChange={() => {}}
