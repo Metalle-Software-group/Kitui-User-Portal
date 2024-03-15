@@ -2,6 +2,7 @@ import React from 'react';
 
 export type NavUrlType = {
 	name: string;
+	url: string;
 };
 
 export type ExplorationCardsTypes = {

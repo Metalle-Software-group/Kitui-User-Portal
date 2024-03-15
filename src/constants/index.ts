@@ -19,18 +19,23 @@ import {
 export const NavUrls: NavUrlType[] = [
 	{
 		name: 'Home',
+		url: '/',
 	},
 	{
 		name: 'Find Jobs',
+		url: '/find-job',
 	},
 	{
 		name: 'Departments',
+		url: '/department',
 	},
 	{
 		name: 'Register Details',
+		url: '/auth',
 	},
 	{
 		name: 'Kitui County',
+		url: 'kitui-county',
 	},
 ];
 
