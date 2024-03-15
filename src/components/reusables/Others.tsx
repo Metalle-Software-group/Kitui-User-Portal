@@ -131,42 +131,39 @@ export const DepartmentCard = ({
 	subtitle,
 	Icon,
 	title,
-}: TDepartmentCardProps) => {
-	console.log(Icon);
-	return (
-		<div className='w-[325px] h-[240px] rounded-[20px] p-[20px] border border-gray-300 flex flex-col items-center justify-between'>
-			<div className=''>
-				{Icon ? (
-					<Icon
-						{...{
-							styles: {
-								width: '61px',
-								height: '60px',
-							},
-							svgElementClassName: 'fill-main-Green',
-						}}
-					/>
-				) : null}
-			</div>
-			<div className='flex flex-col gap-[6px]'>
-				<p className='font-bold text-center leading-[28px] text-[20px] text-title-text-color'>
-					{title}
-				</p>
-				<p className='font-normal leading-[24px] text-gray-body-text text-center text-[16px]'>
-					{subtitle}
-				</p>
-			</div>
-			<div className='flex justify-center w-[60%]'>
-				{/* <button className='w-[53px] h-[36px] rounded-[8px] border-[1px] px-[14px] py-[8px] gap-[8px] border-border-color-btn flex justify-center items-center hover:text-foundation-dark-orange hover:bg-hover-bg-color-btn'>
+}: TDepartmentCardProps) => (
+	<div className='w-[325px] h-[240px] rounded-[20px] p-[20px] border border-gray-300 flex flex-col items-center justify-between'>
+		<div className=''>
+			{Icon ? (
+				<Icon
+					{...{
+						styles: {
+							width: '61px',
+							height: '60px',
+						},
+						svgElementClassName: 'fill-main-Green',
+					}}
+				/>
+			) : null}
+		</div>
+		<div className='flex flex-col gap-[6px]'>
+			<p className='font-bold text-center leading-[28px] text-[20px] text-title-text-color'>
+				{title}
+			</p>
+			<p className='font-normal leading-[24px] text-gray-body-text text-center text-[16px]'>
+				{subtitle}
+			</p>
+		</div>
+		<div className='flex justify-center w-[60%]'>
+			{/* <button className='w-[53px] h-[36px] rounded-[8px] border-[1px] px-[14px] py-[8px] gap-[8px] border-border-color-btn flex justify-center items-center hover:text-foundation-dark-orange hover:bg-hover-bg-color-btn'>
 					Edit
 				</button> */}
-				<button className='w-[53px] h-[36px] rounded-[8px] border-[1px] px-[14px] py-[8px] gap-[8px] border-border-color-btn flex justify-center items-center hover:text-foundation-dark-orange hover:bg-hover-bg-color-btn'>
-					Jobs
-				</button>
-			</div>
+			<button className='w-[53px] h-[36px] rounded-[8px] border-[1px] px-[14px] py-[8px] gap-[8px] border-border-color-btn flex justify-center items-center hover:text-foundation-dark-orange hover:bg-hover-bg-color-btn'>
+				Jobs
+			</button>
 		</div>
-	);
-};
+	</div>
+);
 
 export const Comment = () => {
 	return (
