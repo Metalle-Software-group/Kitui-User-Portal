@@ -4,6 +4,7 @@ import {
 	CloseIcon,
 	CommentsIcon,
 	DeleteIcon,
+	DocumentsIcon,
 } from '../icons';
 import {
 	EmpTypes,
@@ -12,7 +13,7 @@ import {
 	TDepartmentCardProps,
 	THowItWorksCardProps,
 } from '@/types/types';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, DownloadIcon, EyeIcon } from 'lucide-react';
 import Image from 'next/image';
 import { Checkbox } from '../ui/checkbox';
 
@@ -30,7 +31,13 @@ export const JobType = ({
 	);
 };
 
-export const TimeLimitLabel = () => (
+export const TimeLimitLabel = ({
+	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
+	name = '2 days ago',
+}: {
+	className?: string;
+	name?: string;
+}) => (
 	<div className='flex gap-[4px] items-center justify-center'>
 		<ClockIcon
 			{...{
@@ -41,7 +48,7 @@ export const TimeLimitLabel = () => (
 				svgElementClassName: 'stroke-gray-body-text',
 			}}
 		/>
-		<p className='text-time-color'>2 days ago</p>
+		<p className='text-time-color'>{name}</p>
 	</div>
 );
 
@@ -57,7 +64,7 @@ export const JobMinistryTag = ({
 	dotClass?: string;
 }) => (
 	<div
-		className={`rounded-[40px] gap-[4px] px-[12px] py-[4px] flex  min-h[24px] items-center ${className}`}>
+		className={`rounded-[40px] gap-[4px] px-[12px] py-[4px] flex  min-h-[24px] items-center ${className}`}>
 		<p className={`w-[6px] h-[6px] rounded-full ${dotClass}`} />
 		<p className={`font-bold leading-[16.37px] text-[12px] ${textClassName}`}>
 			{ministry_name}
@@ -98,7 +105,13 @@ export const LocationIcon = ({
 	</div>
 );
 
-export const LocationLabel = () => (
+export const LocationLabel = ({
+	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
+	name = 'Mwingi',
+}: {
+	className?: string;
+	name?: string;
+}) => (
 	<div className='flex gap-[4px] items-center justify-center'>
 		<LocationIcon
 			{...{
@@ -109,7 +122,7 @@ export const LocationLabel = () => (
 				svgElementClassName: 'stroke-gray-body-text',
 			}}
 		/>
-		<p>Mwingi</p>
+		<p>{name}</p>
 	</div>
 );
 
@@ -364,5 +377,36 @@ export const Avatar = ({
 			{fname.at(0)?.toUpperCase()}
 			{lname.at(0)?.toUpperCase()}
 		</p>
+	);
+};
+
+export const UploadedDocument = () => {
+	return (
+		<div className='w-full flex justify-between items-center gap-[10px] border border-downloadBtnColor px-[6px] py-[8px] rounded-[6px] cursor-pointer selection:bg-inherit'>
+			<div className='flex-[.4]'>
+				<DocumentsIcon
+					{...{
+						svgElementClassName: 'stroke-dev-accent',
+						applyToSvgEl: false,
+						styles: {
+							width: '24px',
+							height: '24px',
+						},
+					}}
+				/>
+			</div>
+
+			<div className='leading-[24px] text-[16px] font-normal text-gray-body-text flex-[10] w-full'>
+				Job description
+			</div>
+			<div className='flex-[5] flex gap-[16px] items-center justify-end'>
+				<div className='w-fit'>
+					<EyeIcon className='text-mainGreen leading-[20px] text-[14px] font-semibold w-[22px] h-[22px]' />
+				</div>
+				<div className='cursor-pointer selection:bg-inherit'>
+					<DownloadIcon className='text-mainGreen leading-[20px] text-[14px] font-semibold w-[22px] h-[22px]' />
+				</div>
+			</div>
+		</div>
 	);
 };

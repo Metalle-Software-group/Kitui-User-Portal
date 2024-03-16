@@ -10,7 +10,7 @@ export const Header = () => {
 	const router = useRouter();
 
 	return (
-		<nav className='shadow-headerShadow px-[100px] bg-white sticky top-0 left-0'>
+		<nav className='shadow-headerShadow px-[100px] bg-white sticky top-0 left-0 z-[100]'>
 			<div className='flex justify-between py-[12px] items-center'>
 				<div
 					className='flex justify-between py-[12px]'

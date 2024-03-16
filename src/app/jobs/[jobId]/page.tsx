@@ -7,6 +7,7 @@ import { SloganWithCategory } from '@/components/reusables/Slogan';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
 import { JobDetails } from '@/components/cards/JobDetails';
 import { CommentForm } from '@/components/reusables/CommentForm';
+import { ArrowRightIcon } from '@/components/icons';
 
 export default function () {
 	return (
@@ -26,7 +27,7 @@ export default function () {
 			</section>
 
 			<section className='px-[100px] pb-[100px] space-y-10'>
-				<section className='flex w-full'>
+				<section className='flex w-full gap-[10px]'>
 					<section className='w-[70%] space-y-10'>
 						<JobDetails
 							about={
@@ -88,6 +89,7 @@ export default function () {
 								height={20}
 								priority
 							/>
+							<ArrowRightIcon />
 						</button>
 					</div>
 					<div className='grid grid-cols-2 gap-[16px]'>

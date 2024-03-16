@@ -24,7 +24,7 @@ export const NavUrls: NavUrlType[] = [
 	},
 	{
 		name: 'Find Jobs',
-		url: '/find-job',
+		url: '/jobs',
 	},
 	{
 		name: 'Departments',
