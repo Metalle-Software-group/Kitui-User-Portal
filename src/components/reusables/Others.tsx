@@ -141,7 +141,7 @@ export const DepartmentCard = ({
 	Icon,
 	title,
 }: TDepartmentCardProps) => (
-	<div className='w-[265px] h-[202px] gap-[24px] rounded-[20px] p-[20px] border border-gray-300 flex flex-col items-center justify-around'>
+	<div className='md:w-[265px] md:h-[202px] gap-[24px] rounded-[20px] md:p-[20px] border border-gray-300 flex flex-col items-center justify-around'>
 		<div className=''>
 			{Icon ? (
 				<Icon
@@ -156,7 +156,7 @@ export const DepartmentCard = ({
 			) : null}
 		</div>
 		<div className='flex flex-col gap-[6px]'>
-			<p className='font-bold text-center leading-[28px] text-[20px] text-title-text-color'>
+			<p className='font-bold text-center leading-[15px] md:leading-[28px] md:text-[20px] text-title-text-color'>
 				{title}
 			</p>
 			<p className='font-normal leading-[24px] text-gray-body-text text-center text-[16px]'>
@@ -211,7 +211,7 @@ export const Comment = () => {
 
 export const CommentCard = () => {
 	return (
-		<div className='w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'>
+		<div className='md:w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'>
 			<div className='flex gap-[16px] justify-between'>
 				<p className='font-bold text-[18px] leading-[24.55px] text-title-text-color'>
 					Public Health Officer
@@ -283,7 +283,7 @@ export const HowItWorksCard = ({
 	step,
 }: THowItWorksCardProps) => {
 	return (
-		<div className='flex flex-col gap-[16px] p-[12px] rounded-[20px] w-[330px] items-center justify-center'>
+		<div className='flex flex-col gap-[16px] p-[12px] rounded-[20px] md:w-[330px] items-center justify-center'>
 			<div className=''>
 				<Image src={Icon} width={200} height={200} alt={title} />
 			</div>

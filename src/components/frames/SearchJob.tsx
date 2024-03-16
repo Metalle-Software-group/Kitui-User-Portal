@@ -9,7 +9,7 @@ export const SearchJob = ({
 }: SearchTypes) => {
 	return (
 		<div
-			className={`flex ${
+			className={`hidden md:flex ${
 				width ? `w-[${width}]` : 'w-fit'
 			} rounded-[12px] p-[12px] justify-between relative`}>
 			<div className='flex mr-2 items-center absolute top-[calc(calc(100%-20px)/2)] left-[24px]'>
