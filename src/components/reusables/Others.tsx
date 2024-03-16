@@ -9,6 +9,7 @@ import {
 import {
 	EmpTypes,
 	FilterJobsTypes,
+	JobDescriptionTypes,
 	TComponentBasicProps,
 	TDepartmentCardProps,
 	THowItWorksCardProps,
@@ -407,6 +408,57 @@ export const UploadedDocument = () => {
 					<DownloadIcon className='text-mainGreen leading-[20px] text-[14px] font-semibold w-[22px] h-[22px]' />
 				</div>
 			</div>
+		</div>
+	);
+};
+
+export const Comments = ({
+	comments,
+}: Pick<JobDescriptionTypes, 'comments'>) => {
+	return (
+		<div className='flex flex-col gap-[6px]'>
+			<p className='font-semibold text-[20px] leading-[28px] tracking-[.5%] text-textTitle'>
+				Comments
+			</p>
+			{comments.map(({ name, comment, timeline, replies }) => (
+				<div key={name} className='flex flex-col gap-[6px]'>
+					<div className='flex gap-[6px] item-center'>
+						<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+							{name}
+						</p>
+						<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+							says
+						</p>
+					</div>
+					<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+						{comment}
+					</p>
+					<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+						{timeline}
+					</p>
+
+					<div className='px-[32px]'>
+						{replies?.map(({ comment, name, timeline }) => (
+							<div key={name} className='flex flex-col gap-[6px]'>
+								<div className='flex gap-[6px] items-center'>
+									<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+										{name}
+									</p>
+									<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+										responded
+									</p>
+								</div>
+								<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+									{comment}
+								</p>
+								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+									{timeline}
+								</p>
+							</div>
+						))}
+					</div>
+				</div>
+			))}
 		</div>
 	);
 };

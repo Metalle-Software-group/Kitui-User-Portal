@@ -1,6 +1,5 @@
 'use client';
 import { Alert } from '@/components/cards/Alert';
-import Image from 'next/image';
 import { Featured } from '@/constants';
 import { FindJobsCard } from '@/components/cards/FindJobsCard';
 import { SloganWithCategory } from '@/components/reusables/Slogan';
@@ -60,7 +59,15 @@ export default function () {
 								{
 									name: 'Tom Brady',
 									comment: 'Seems good',
-									timeline: 'a min ago',
+									timeline: '2 days ago',
+									replies: [
+										{
+											name: 'Youth Department',
+											timeline: '1 day ago',
+											comment:
+												'Hello Tom, shortlisted candidates shall be notified once screening is completed.. All the best.',
+										},
+									],
 								},
 							]}
 							remark={
@@ -75,21 +82,21 @@ export default function () {
 				</section>
 				<section className='space-y-5'>
 					<div className='flex w-full justify-between'>
-						<p className='font-[700] text-[30px] leading-[36px]'>
+						<p className='font-bold text-[30px] leading-[36px] tracking-[.75%] text-textTitle'>
 							You May Also Be Interested In
 						</p>
-						<button className='flex space-x-2 items-center'>
+						<button className='flex space-x-2 items-center cursor-pointer'>
 							<p className='font-[600] text-[14px] leading-[20px] text-mainGreen'>
 								See All Jobs
 							</p>
-							<Image
-								src='/icons/arrowRight.svg'
-								alt='arrow'
-								width={20}
-								height={20}
-								priority
+
+							<ArrowRightIcon
+								{...{
+									svgElementClassName: 'fill-main-Green stroke-main-Green',
+									applyToSvgEl: true,
+									className: 'w-[24px] h-[24px]',
+								}}
 							/>
-							<ArrowRightIcon />
 						</button>
 					</div>
 					<div className='grid grid-cols-2 gap-[16px]'>

@@ -7,6 +7,7 @@ import {
 	LocationLabel,
 	TimeLimitLabel,
 } from '../reusables/Others';
+import { ArrowRightIcon } from '../icons';
 
 export const FindJobsCard = ({
 	name,
@@ -54,7 +55,7 @@ export const FindJobsCard = ({
 				</div>
 			</div>
 
-			<p className='font-[600] text-[14px] leading-[24px] text-[#717171]'>
+			<p className='font-[600] text-[14px] leading-[24px] text-commentCardTextColor'>
 				{description}
 			</p>
 
@@ -63,11 +64,13 @@ export const FindJobsCard = ({
 					<p className='font-[600]  text-[14px] leading-[20px] text-foundationGreen2 px-[8px] py-[14px]'>
 						Apply Now
 					</p>
-					<Image
-						src='/icons/arrowRight.svg'
-						alt='arrow right'
-						width={18}
-						height={18}
+
+					<ArrowRightIcon
+						{...{
+							svgElementClassName: 'fill-main-Green stroke-main-Green',
+							applyToSvgEl: true,
+							className: 'w-[24px] h-[24px]',
+						}}
 					/>
 				</button>
 				<button className='flex w-[38px] justify-between items-center'>

@@ -73,18 +73,19 @@ export type SloganWithCategoryType = {
 };
 
 export type JobDescriptionTypes = {
-	about: string;
+	comments: commentType[];
 	responsibility: string[];
 	qualifications: string[];
 	benefits: string[];
-	comments: commentType[];
 	remark: string;
+	about: string;
 };
 
 export type commentType = {
-	name: string;
+	replies?: commentType[];
 	comment: string;
 	timeline: string;
+	name: string;
 };
 
 export type TNodes = {

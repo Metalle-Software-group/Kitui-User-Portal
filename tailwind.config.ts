@@ -25,6 +25,7 @@ const config = {
 				'boxBorder-color': 'var(--boxBorder-color)',
 				'search-iconColor': 'var(--search-iconColor)',
 				'settingsClearColor': 'var(--settingsClearColor)',
+				'commentsColor': 'var(--commentsColor)',
 				'brown-border': 'var(--brown-border)',
 				'brown-text': 'var(--brown-text)',
 				'mainGreen': 'var(--mainGreen)',

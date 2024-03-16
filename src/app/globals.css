@@ -5,6 +5,7 @@
 @layer base {
 	:root {
 		--commentCardTextColor: #717171;
+		--commentsColor: #333333;
 		--boxBorder-color: #e9e9e9;
 		--bodyText: #4b5563;
 		--downloadBtnColor: #b5e0c7;
