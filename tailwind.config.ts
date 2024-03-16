@@ -42,7 +42,7 @@ const config = {
 				'filter-stroke-color': 'var(--filter-stroke-color)',
 				'dev-accent': 'var(--accent-color)',
 				'title-text-color': 'var(--title-text-color)',
-				"checkboxColor": "var(--checkboxColor)",
+				'checkboxColor': 'var(--checkboxColor)',
 				'gray-body-text': 'var(--gray-body-text)',
 				'footer-color': 'var(--footer-color)',
 				'border': 'hsl(var(--border))',
@@ -84,7 +84,11 @@ const config = {
 					'0px 2px 4px -1px #1A38601A,0px 3px 12px -1px var(--checkboxColor)',
 				btnBoxShadow: '0px 1px 2px 0px #1018280D',
 				headerShadow:
-					'0px 3px 18px -2px #1A38601A,0px 12px 48px -6px var(--checkboxColor)',
+					'0px 3px 18px -2px #1A38601A,0px 12px 48px -6px #1C375A29',
+			},
+			backgroundImage: {
+				'radial-gradient':
+					'radial-gradient(37.81% 40.57% at 77.99% 41.39%, rgba(249, 249, 249, 0.8) 0%, rgba(251, 251, 251, 0.8) 100%)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -10,7 +10,7 @@ import { CommentForm } from '@/components/reusables/CommentForm';
 
 export default function () {
 	return (
-		<main className='w-full h-[100dvh] space-y-10'>
+		<main className='w-full space-y-10'>
 			<section>
 				<SloganWithCategory
 					title={'Public Health Officer'}

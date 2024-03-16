@@ -1,27 +1,25 @@
-'use client';
-import { Nunito } from 'next/font/google';
+import { Footer } from '@/components/frames/Footer';
+import { Header } from '@/components/frames/Header';
+import { PLATFORM_PREFIX_NAME, PLATFORM_SUFFIX_NAME } from '@/constants';
+import { Metadata } from 'next/types';
 
-// assets
 import './globals.css';
 
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { TNodes } from '@/types/types';
+export const metadata: Metadata = {
+	title: `${PLATFORM_PREFIX_NAME} | Dashboard`,
+	description: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME} Dashboard`,
+};
 
-const entireFont = Nunito({
-	weight: ['200', '300', '400', '700', '900'],
-	subsets: ['latin'],
-});
-
-export default function DashboardLayout({ children }: TNodes) {
-	const queryClient = new QueryClient();
-
+export default function RootLayout({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) {
 	return (
-		<html lang='en' suppressHydrationWarning={true}>
-			<body className={entireFont.className}>
-				<QueryClientProvider client={queryClient}>
-					{children}
-				</QueryClientProvider>
-			</body>
-		</html>
+		<main className='bg-bodyBg'>
+			<Header />
+			<div className='w-full mb-[120px] px-[60px]'>{children}</div>
+			<Footer />
+		</main>
 	);
 }

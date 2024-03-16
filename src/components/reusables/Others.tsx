@@ -1,5 +1,12 @@
-import { ApplicantsIcon, ClockIcon, CommentsIcon, DeleteIcon } from '../icons';
 import {
+	ApplicantsIcon,
+	ClockIcon,
+	CloseIcon,
+	CommentsIcon,
+	DeleteIcon,
+} from '../icons';
+import {
+	EmpTypes,
 	FilterJobsTypes,
 	TComponentBasicProps,
 	TDepartmentCardProps,
@@ -293,13 +300,26 @@ export const HowItWorksCard = ({
 	);
 };
 
-export const FilterCheckbox = ({ label, id, onChange }: FilterJobsTypes) => {
+export const FilterCheckbox = ({
+	dataType,
+	onChange,
+	checked,
+	label,
+	id,
+}: FilterJobsTypes) => {
+	console.log(checked);
 	return (
 		<div className='flex items-center gap-[8px] selection:bg-inherit'>
 			<Checkbox
-				className={`bg-purple-600 bg-checkboxColor`}
-				id={`filter-${label}${id}`}
-				onCheckedChange={(checked) => (checked ? {} : {})}
+				{...{
+					onCheckedChange: (checked) => {
+						console.log('Morphing');
+						checked ? onChange((prev) => prev) : onChange((prev) => prev);
+					},
+					className: `bg-purple-600 bg-checkboxColor`,
+					id: `filter-${label}${id}`,
+					checked,
+				}}
 			/>
 			<label
 				htmlFor={`filter-${label}${id}`}
@@ -307,5 +327,42 @@ export const FilterCheckbox = ({ label, id, onChange }: FilterJobsTypes) => {
 				{label}
 			</label>
 		</div>
+	);
+};
+
+export const FilterTag = ({ name = 'Contract' }: EmpTypes) => {
+	return (
+		<div className='bg-purple-200 border-purple-200 border gap-[10px] px-[16px] py-[8px] rounded-[20px] flex items-center justify-center selection:bg-inherit'>
+			<p className='text-purple-800 leading-[24px] text-[14px] font-normal'>
+				{name}
+			</p>
+			<div className='cursor-pointer selection:bg-inherit'>
+				<CloseIcon
+					{...{
+						svgElementClassName: 'fill-stroke-purple-800 stroke-purple-800',
+						className: 'w-[20px] h-[20px]',
+						applyToSvgEl: true,
+					}}
+				/>
+			</div>
+		</div>
+	);
+};
+
+export const Avatar = ({
+	classNames = 'w-[32px] h-[32px]',
+	name,
+}: {
+	classNames?: string;
+	name: string;
+}) => {
+	const [fname, lname] = name.split(' ');
+
+	return (
+		<p
+			className={`${classNames} rounded-[200px] bg-light-purple text-deep-purple flex justify-center items-center content-center`}>
+			{fname.at(0)?.toUpperCase()}
+			{lname.at(0)?.toUpperCase()}
+		</p>
 	);
 };

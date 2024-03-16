@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 export type NavUrlType = {
 	name: string;
@@ -42,11 +42,17 @@ export type FeatureCategoriesTypes = {
 	onChange?: () => void;
 };
 
-export type FilterJobsTypes = {
-	id?: string;
-	label: string;
-	onChange: (props: any) => void;
+export type TFilterTypes = {
+	jobType: JobTypes[];
+	department: string[];
 };
+
+export type FilterJobsTypes = {
+	onChange: Dispatch<SetStateAction<TFilterTypes>>;
+	checked: boolean;
+	label: string;
+	id?: string;
+} & { dataType: keyof TFilterTypes };
 
 export type SloganType = {
 	title?: string;
@@ -116,16 +122,13 @@ export type THowItWorksCardProps = Pick<
 };
 
 export enum JobTypes {
-	attachment,
-	contract,
+	attachmen = 'attachment',
+	contract = 'contract',
 }
 
 export enum AddRemoveEnum {
-	Add,
-	Remove,
+	Remove = 'Remove',
+	Add = 'Add',
 }
 
-export type TFilterTypes = {
-	jobType: JobTypes[];
-	department: string[];
-};
+export type EmpTypes = { name: string };

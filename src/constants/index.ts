@@ -9,6 +9,7 @@ import {
 	YSportIcon,
 } from '@/components/icons';
 import {
+	EmpTypes,
 	FeatureCategoriesTypes,
 	FeaturedJobsTypes,
 	NavUrlType,
@@ -170,35 +171,35 @@ export const Departments = [
 	},
 
 	{
-		name: 'Youth & Culture',
+		name: 'Psyche & Culture',
 	},
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
 
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
 ];
 
-export const EmploymentType = [
+export const EmploymentType: EmpTypes[] = [
 	{
 		name: 'Attachment',
 	},
 	{
-		name: 'Contract Based',
+		name: 'Contract',
 	},
 ];
 

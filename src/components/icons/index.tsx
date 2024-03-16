@@ -726,3 +726,27 @@ export const SettingsIcon = ({
 		</svg>
 	</div>
 );
+
+export const CloseIcon = ({
+	svgElementClassName,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M5.1875 15.6875L4.3125 14.8125L9.125 10L4.3125 5.1875L5.1875 4.3125L10 9.125L14.8125 4.3125L15.6875 5.1875L10.875 10L15.6875 14.8125L14.8125 15.6875L10 10.875L5.1875 15.6875Z'
+				strokeWidth='1.5'
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				{...{
+					className: svgElementClassName,
+				}}
+			/>
+		</svg>
+	</div>
+);
