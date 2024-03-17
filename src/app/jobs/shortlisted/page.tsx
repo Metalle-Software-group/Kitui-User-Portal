@@ -63,23 +63,6 @@ const ShortListedCandidatesPage = () => {
 					{/* table */}
 					<section className='gap-y-[32px] md:gap-y-0 md:col-span-3 h-fit overflow-auto w-[86%] shadow-tableBoxShadow border border-white rounded-[12px]'>
 						<div className='md:col-span-6 py-[60px]'>
-							{/* {dataIsLoading ? (
-								<div className='w-full h-[500px] bg-sidebar-bg-light dark:bg-small-card-bg'>
-									<Loader
-										{...{
-											title: 'Loading data...',
-										}}
-									/>
-								</div>
-							) : dataIsError ? (
-								<div className='w-full h-[500px] bg-sidebar-bg-light dark:bg-small-card-bg'>
-									<Loader
-										{...{
-											title: 'Loading data...',
-										}}
-									/>
-								</div>
-							) : ( */}
 							<TableReusableComponent
 								{...{
 									title: (

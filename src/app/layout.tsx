@@ -1,10 +1,12 @@
 'use client';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import { Footer } from '@/components/frames/Footer';
 import { Header } from '@/components/frames/Header';
 
-import './globals.css';
 import { Nunito } from 'next/font/google';
-import { QueryClient, QueryClientProvider } from 'react-query';
+
+import './globals.css';
 
 // export const metadata: Metadata = {
 // 	title: `${PLATFORM_PREFIX_NAME} | Dashboard`,
@@ -28,8 +30,10 @@ export default function RootLayout({
 			<body className={entireFont.className}>
 				<QueryClientProvider client={queryClient}>
 					<main className='bg-bodyBg relative'>
-						<Header />
-						<div className='w-full mb-[120px]'>{children}</div>
+						<div className='hidden md:block'>
+							<Header />
+						</div>
+						<div className='w-full mb-[150px] md:mb-[120px]'>{children}</div>
 						<Footer />
 					</main>
 				</QueryClientProvider>

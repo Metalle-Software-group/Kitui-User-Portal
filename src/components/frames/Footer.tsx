@@ -8,11 +8,10 @@ import {
 	quickLinks,
 } from '@/constants';
 import Image from 'next/image';
-import { FBIcon, InstagramIcon, XIcon } from '../icons';
 
 export const Footer = () => {
 	return (
-		<div className='relative h-[600px] pt-[50px]'>
+		<div className='relative h-[600px] md:pt-[50px]'>
 			<div className='absolute top-0 left-0 w-full overflow-hidden transform rotate-[180deg] z-[1] bg-footer-btnColor'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
@@ -28,30 +27,30 @@ export const Footer = () => {
 			</div>
 
 			<div className='text-white'>
-				<div className='flex w-full h-fit justify-center bg-footer-btnColor'>
-					<div className='flex flex-col absolute  h-[216px] rounded-[25px] p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
-						<p className='font-bold text-[30px] leading-[36px] tracking-[.75%]'>
+				<div className='flex w-full h-fit justify-center bg-footer-btnColor px-5 md:px-0'>
+					<div className='flex flex-col absolute  md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-130px] bg-footer-color gap-[10px] z-[2]'>
+						<p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
 							County news & updates
 						</p>
 
-						<p className='leading-[24px] text-[16px] font-normal text-bodyBg'>
+						<p className='md:leading-[24px] md:text-[16px] font-normal text-bodyBg'>
 							Get the latest county news,articles, and resources sent directly
 							to your email every month.
 						</p>
 
-						<div className='flex gap-[8px] w-[400px] justify-center'>
+						<div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
 							<input
 								placeholder='Your Email'
 								onChange={() => {}}
-								className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor'
+								className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px]'
 							/>
-							<button className='flex gap-[8px] px-[16px] py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
+							<button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
 								Subscribe
 							</button>
 						</div>
 					</div>
-					<div className='flex flex-col w-full space-y-10 pt-[200px] px-[100px]'>
-						<div className='w-full h-[500px] grid grid-cols-6 border-b-2 border-white text-white '>
+					<div className='flex flex-col w-full space-y-10 md:pt-[200px] md:px-[100px]'>
+						<div className='w-full space-y-5 md:h-[500px] md:grid md:grid-cols-6 border-b-2 border-white text-white '>
 							<div className=''>
 								<img
 									src={`${BASE_ASSET_URL}/logo/logo.png`}
@@ -61,7 +60,7 @@ export const Footer = () => {
 							</div>
 
 							<div className='space-y-5'>
-								<p className='font-[700] text-[20px] leading-[27px] text-[#F5F5F5]'>
+								<p className='font-[700] md:text-[20px] md:leading-[27px] text-[#F5F5F5]'>
 									Kitui
 								</p>
 								<div className='space-y-5'>
@@ -75,13 +74,13 @@ export const Footer = () => {
 								</div>
 							</div>
 							<div className='space-y-5'>
-								<p className='font-[700] text-[20px] leading-[27px] text-[#F5F5F5]'>
+								<p className='font-[700] md:text-[20px] md:leading-[27px] text-[#F5F5F5]'>
 									Partners
 								</p>
 								<div className='space-y-5'>
 									{Partners.map((e) => (
 										<p
-											className='font-[400] text-[16px] leading-[24px]'
+											className='font-[400] md:text-[16px] md:leading-[24px]'
 											key={e}>
 											{e}
 										</p>
@@ -89,13 +88,13 @@ export const Footer = () => {
 								</div>
 							</div>
 							<div className='space-y-5'>
-								<p className='font-[700] text-[20px] leading-[27px] text-[#F5F5F5]'>
+								<p className='font-[700] md:text-[20px] md:leading-[27px] text-[#F5F5F5]'>
 									Quick Links
 								</p>
 								<div className='space-y-5'>
 									{quickLinks.map((e) => (
 										<p
-											className='font-[400] text-[16px] leading-[24px]'
+											className='font-[400] md:text-[16px] md:leading-[24px]'
 											key={e}>
 											{e}
 										</p>
@@ -103,13 +102,13 @@ export const Footer = () => {
 								</div>
 							</div>
 							<div className='space-y-5'>
-								<p className='font-[700] text-[20px] leading-[27px] text-[#F5F5F5]'>
+								<p className='font-[700] md:text-[20px] md:leading-[27px] text-[#F5F5F5]'>
 									Government
 								</p>
 								<div className='space-y-5'>
 									{Government.map((e) => (
 										<p
-											className='font-[400] text-[16px] leading-[24px]'
+											className='font-[400] md:text-[16px] md:leading-[24px]'
 											key={e}>
 											{e}
 										</p>
@@ -117,12 +116,12 @@ export const Footer = () => {
 								</div>
 							</div>
 							<div className='space-y-5'>
-								<p className='font-[700] text-[20px] leading-[27px] text-[#F5F5F5]'>
+								<p className='font-[700] md:text-[20px] md:leading-[27px] text-[#F5F5F5]'>
 									Contact Us
 								</p>
 								<div className='space-y-5'>
 									<div className='flex flex-col'>
-										<p className='font-[400] text-[16px] leading-[24px]'>
+										<p className='font-[400] md:text-[16px] md:leading-[24px]'>
 											Opening Hours
 										</p>
 										<p>Mon- Fri 8:00 AM - 5:00 PM</p>
@@ -170,36 +169,32 @@ export const Footer = () => {
 								</div>
 							</div>
 						</div>
-						<div className='flex w-full justify-between'>
+						<div className='flex flex-col md:flex-row w-full items-center space-y-5  md:space-y-0 md:justify-between '>
 							<div className='flex space-x-5'>
-								<XIcon
-									{...{
-										svgElementClassName:
-											'stroke-white fill-[#00000000] w-[40px] h-[40px]',
-										className: 'w-[44px] h-[44px]',
-										applyToSvgEl: true,
-									}}
+								<Image
+									src='/twitterxWhite.svg'
+									alt='download'
+									width={40}
+									height={40}
+									priority
 								/>
-								<FBIcon
-									{...{
-										svgElementClassName:
-											'stroke-white fill-[#00000000] w-[40px] h-[40px]',
-										className: 'w-[40px] h-[40px]',
-										applyToSvgEl: true,
-									}}
+								<Image
+									src='/fbWhite.svg'
+									alt='download'
+									width={40}
+									height={40}
+									priority
 								/>
-								<InstagramIcon
-									{...{
-										svgElementClassName:
-											'stroke-white fill-[#00000000] w-[40px] h-[40px]',
-										className: 'w-[40px] h-[40px]',
-										applyToSvgEl: true,
-									}}
+								<Image
+									src='/igWhite.svg'
+									alt='download'
+									width={40}
+									height={40}
+									priority
 								/>
 							</div>
-							<p className='text-white'>
-								@ 2024 County Government Of Kitui. All rights preserved.
-							</p>
+							<p className='text-white'>@ 2024 County Government Of Kitui.</p>
+							<p className='text-white'>All rights preserved.</p>
 						</div>
 					</div>
 				</div>

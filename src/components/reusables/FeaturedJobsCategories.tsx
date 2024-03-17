@@ -11,7 +11,7 @@ export const FeaturedJobsCategories = ({
 		<button
 			className={`flex justify-between w-fit px-[18px] selection:bg-inherit py-[10px] ${
 				selected ? 'bg-purple-800' : 'bg-white'
-			} border border-purple-300 rounded-[40px] justify-between items-center gap-[4px]`}
+			} md:border md:border-purple-300 md:rounded-[40px] justify-between items-center gap-[4px]`}
 			onClick={() => {
 				setSelected(!selected);
 				onChange;
