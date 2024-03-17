@@ -1,5 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
+import { ColumnDef } from '@tanstack/react-table';
+import { StrapiRequestParams, StrapiResponse } from 'strapi-sdk-js';
+
 export type NavUrlType = {
 	name: string;
 	url: string;
@@ -133,3 +136,108 @@ export enum AddRemoveEnum {
 }
 
 export type EmpTypes = { name: string };
+
+export type THeaderBtn = {
+	action?: (args: any) => any;
+	present: boolean;
+	text?: string;
+	Icon?: any;
+};
+
+export type TTableReusableComponent = {
+	title: string | React.ReactNode;
+	columns: ColumnDef<any, any>[];
+	headerBtn?: THeaderBtn;
+	titleFilterInline?: boolean;
+	showPagination?: boolean;
+	isSearchAtEnd?: boolean;
+	searchColumn?: string;
+	sort?: boolean;
+	data: any[];
+};
+
+export type TSearchProps = {
+	onChangeHandler?: (props: any) => void;
+	value?: string;
+	title?: string;
+};
+
+export type TComponentsType = {
+	components: React.ReactNode;
+};
+
+export interface DropdownData<LabelType = string> {
+	onChangeHandler: (value: string) => any;
+	id?: string | number;
+	label: LabelType;
+}
+
+export type TDropdownCustomComponent = {
+	onChangeHandler: (value: any) => any;
+	currPageSize?: string | number;
+	data: DropdownData[];
+	width?: number;
+} & TNodes;
+
+export type TColumnStaffDefinition = {
+	accessorKey?: string;
+	header?: string;
+	id?: string;
+	enableHiding?: boolean;
+	cell?: any;
+};
+export interface StrapiAuthenticationData {
+	identifier: string;
+	password: string;
+}
+
+export interface Role {
+	description: string;
+	createdAt: string;
+	updatedAt: string;
+	name: string;
+	type: string;
+	id: number;
+}
+
+export type TUSER = {
+	firstName: string | null;
+	lastName: string | null;
+	createdAt: string;
+	updatedAt: string;
+	username: string;
+	confirmed: true;
+	provider: string;
+	blocked: false;
+	email: string;
+	id: number;
+	role: Role;
+};
+
+export type TAuthUser = TUSER;
+
+export type Details = {};
+
+export type SERVER_ERR = {
+	status: number;
+	name: string;
+	message: string;
+	details: Details;
+};
+
+export type SERVER_ERROR = {
+	error: SERVER_ERR;
+	data: any;
+};
+
+export type TqueryKey = [
+	string,
+	{
+		options: StrapiRequestParams;
+		url: string;
+		qFunc: <dataTypeExpected>(params: {
+			options: StrapiRequestParams;
+			url: string;
+		}) => Promise<StrapiResponse<dataTypeExpected>>;
+	}
+];

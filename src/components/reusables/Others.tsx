@@ -1,22 +1,50 @@
+import { ArrowRightIcon, DownloadIcon, EyeIcon, PlusIcon } from 'lucide-react';
+import { Fragment, useState } from 'react';
+import Image from 'next/image';
+
 import {
 	ApplicantsIcon,
+	DocumentsIcon,
+	CommentsIcon,
 	ClockIcon,
 	CloseIcon,
-	CommentsIcon,
 	DeleteIcon,
-	DocumentsIcon,
+	FunnelIcon,
+	SearchIcon,
 } from '../icons';
+
 import {
-	EmpTypes,
-	FilterJobsTypes,
-	JobDescriptionTypes,
+	TTableReusableComponent,
+	TDropdownCustomComponent,
+	THowItWorksCardProps,
 	TComponentBasicProps,
 	TDepartmentCardProps,
-	THowItWorksCardProps,
+	JobDescriptionTypes,
+	TComponentsType,
+	FilterJobsTypes,
+	TSearchProps,
+	THeaderBtn,
+	TNodes,
+	EmpTypes,
 } from '@/types/types';
-import { ArrowRightIcon, DownloadIcon, EyeIcon } from 'lucide-react';
-import Image from 'next/image';
 import { Checkbox } from '../ui/checkbox';
+import { FieldsToExcludeInFilter } from '@/constants';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { DataTable } from '../table/Data-table';
+import {
+	ColumnFiltersState,
+	VisibilityState,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getPaginationRowModel,
+	useReactTable,
+} from '@tanstack/react-table';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -374,7 +402,7 @@ export const Avatar = ({
 
 	return (
 		<p
-			className={`${classNames} rounded-[200px] bg-light-purple text-deep-purple flex justify-center items-center content-center`}>
+			className={`rounded-[200px] bg-applicant-colorbg text-deep-purple flex justify-center items-center content-center ${classNames}`}>
 			{fname.at(0)?.toUpperCase()}
 			{lname.at(0)?.toUpperCase()}
 		</p>
@@ -460,5 +488,298 @@ export const Comments = ({
 				</div>
 			))}
 		</div>
+	);
+};
+
+export const DropDownWrapperCustomComponent = ({
+	components,
+	children,
+}: TNodes & TComponentsType) => {
+	return (
+		<DropdownMenu>
+			{components}
+			{children}
+		</DropdownMenu>
+	);
+};
+
+export const DropdownCustomComponent = ({
+	onChangeHandler,
+	currPageSize,
+	width,
+	data,
+}: TDropdownCustomComponent) => (
+	<DropdownMenuContent
+		className={`dark:text-white w-fit md:w-[60px] bg-sidebar-bg-light text-body py-[10px] dark:bg-small-card-bg ${
+			width ? `w-[${width}px]` : 'w-fit'
+		}`}>
+		<DropdownMenuRadioGroup
+			{...{
+				className: `${width ? `w-[${width}px]` : ''}`,
+
+				onValueChange: (value) => {
+					const foundTargetObject = data.find(({ label }) => label === value);
+					onChangeHandler(foundTargetObject);
+				},
+				value: `${currPageSize!}`,
+			}}>
+			{data.map(({ label: network }, index) => (
+				<DropdownMenuRadioItem
+					key={`dropdown-${index}`}
+					className='cursor-pointer'
+					{...{
+						value: network,
+					}}>
+					{network}
+				</DropdownMenuRadioItem>
+			))}
+		</DropdownMenuRadioGroup>
+	</DropdownMenuContent>
+);
+
+export const Search = ({
+	onChangeHandler,
+	title = "I'm looking for...",
+	value,
+}: TSearchProps) => {
+	return (
+		<div
+			{...{
+				className: `relative w-[400px] mx-[6px] cursor-pointer`,
+			}}>
+			<div className='absolute top-[calc(calc(100%-24px)/2)] left-[4px]'>
+				<SearchIcon
+					{...{
+						styles: {
+							width: '24px',
+							height: '24px',
+						},
+						svgElementClassName: 'stroke-[1.67px] stroke-search-icon-color',
+					}}
+				/>
+			</div>
+			<input
+				className='rounded-[8px] border px-[14px] py-[10px] pl-[26px] text-[#c3c3c3] w-full focus:border-[1px] focus:border-dev-accent h-[44px] outline-none shadow-btnBoxShadow'
+				{...{
+					onChange: onChangeHandler,
+					placeholder: title,
+					type: 'text',
+					value,
+				}}
+			/>
+		</div>
+	);
+};
+
+export default function AddJobsBtn({
+	Icon = PlusIcon,
+	text,
+	present,
+	action,
+}: THeaderBtn) {
+	return (
+		<div
+			className='w-fit flex items-center cursor-pointer gap-[4px] rounded-[8px] bg-dev-accent border-border-color selection:bg-inherit shadow-btnBoxShadow px-[16px] py-[10px] border'
+			onClick={action!}
+			role='button'>
+			<div className=' text-body-bg dark:text-white'>
+				{
+					<Icon
+						width={20}
+						height={20}
+						color='white'
+						{...{
+							styles: {
+								width: '24px',
+								height: '24px',
+							},
+							svgElementClassName: 'stroke-white',
+						}}
+					/>
+				}
+			</div>
+			<h2 className='text-white font-semibold text-[14px] leading-[20px]'>
+				{text}
+			</h2>
+		</div>
+	);
+}
+
+export function FilterIconComponent() {
+	return (
+		<DropdownMenuTrigger asChild>
+			<div className='flex px-[16px] py-[10px] border border-border-color rounded-[8px] gap-[8px] shadow-btnBoxShadow items-center justify-center selection:bg-inherit cursor-pointer'>
+				<FunnelIcon
+					{...{
+						styles: {
+							width: '20px',
+							height: '20px',
+						},
+						svgElementClassName: 'stroke-filter-stroke-color',
+					}}
+				/>
+
+				<p className='text-center font-normal text-filter-stroke-color text-[14px] leading-[24px]'>
+					Filters
+				</p>
+			</div>
+		</DropdownMenuTrigger>
+	);
+}
+
+export const TableComponentHeadings = ({ children }: TNodes) => {
+	return (
+		<div className='flex justify-between items-center w-full gap-[24px] flex-wrap h-[83px] px-[24px] py-[20px]'>
+			{children}
+		</div>
+	);
+};
+
+export const TableReusableComponent = ({
+	headerBtn = {
+		present: false,
+	},
+	showPagination = false,
+	searchColumn = 'name',
+	isSearchAtEnd = false,
+	isLoadingMainContrib,
+	isErrorMainContrib,
+	columns,
+	title,
+	data,
+}: TTableReusableComponent & {
+	isLoadingMainContrib?: boolean;
+	isErrorMainContrib?: boolean;
+}) => {
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+		['networkBgColor']: false,
+	});
+
+	const [currentFilter, setCurrentFilter] = useState<string>('');
+
+	const table = useReactTable({
+		getPaginationRowModel: getPaginationRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
+		onColumnVisibilityChange: setColumnVisibility,
+		onColumnFiltersChange: setColumnFilters,
+		getCoreRowModel: getCoreRowModel(),
+		columns,
+		data,
+
+		state: {
+			columnVisibility,
+			columnFilters,
+		},
+	});
+
+	const processedColumnNames = table
+		.getAllColumns()
+		.filter(({ id }) => !FieldsToExcludeInFilter.includes(id))
+		.map(({ id }) => `${id.at(0)?.toUpperCase()}${id.slice(1, id.length)}`);
+
+	return (
+		<Fragment>
+			<div className='md:col-span-6 rounded-[12px] bg-white shadow-sidebarShadow'>
+				<TableComponentHeadings>
+					<div className='w-fit'>
+						{typeof title === 'string' ? (
+							<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
+								{title}
+							</p>
+						) : (
+							<Fragment>{title}</Fragment>
+						)}
+					</div>
+
+					{!isSearchAtEnd ? (
+						<div
+							className={`flex items-center justify-center gap-[12px] flex-[2]`}>
+							<div className='md:flex items-center justify-center w-full'>
+								<Search
+									{...{
+										title: `Search`,
+										onChangeHandler: (event) =>
+											table
+												.getColumn(searchColumn)
+												?.setFilterValue(event.target.value),
+										value:
+											(table
+												.getColumn(searchColumn)
+												?.getFilterValue() as string) ?? '',
+									}}
+								/>
+							</div>
+						</div>
+					) : null}
+
+					<div className='flex gap-[12px] items-center'>
+						<div className='md:flex items-center justify-end gap-[12px]'>
+							{isSearchAtEnd ? (
+								<div
+									className={`flex items-center justify-center gap-[12px] flex-[2]`}>
+									<div className='md:flex items-center justify-center w-full'>
+										<Search
+											{...{
+												title: `Search`,
+												onChangeHandler: (event) =>
+													table
+														.getColumn(searchColumn)
+														?.setFilterValue(event.target.value),
+												value:
+													(table
+														.getColumn(searchColumn)
+														?.getFilterValue() as string) ?? '',
+											}}
+										/>
+									</div>
+								</div>
+							) : null}
+							<DropDownWrapperCustomComponent
+								{...{
+									components: <FilterIconComponent />,
+								}}>
+								<DropdownCustomComponent
+									{...{
+										onChangeHandler: (value) => setCurrentFilter(value),
+										currPageSize: currentFilter,
+										data: processedColumnNames.map((item) => ({
+											label: item,
+											onChangeHandler: console.log,
+										})),
+									}}
+								/>
+							</DropDownWrapperCustomComponent>
+						</div>
+						{headerBtn.present ? <AddJobsBtn {...headerBtn} /> : null}
+					</div>
+				</TableComponentHeadings>
+
+				{isLoadingMainContrib ? (
+					<div className='w-full flex justify-center items-center h-[480px] dark:text-sidebar-bg-light text-body bg-sidebar-bg-light dark:bg-small-card-bg dark:border-fwd-darker px-[12px] py-[16px] dark:hover:bg-fwd-darker hover:bg-foundation data-[state=selected]:bg-fwd-darker shadow-cardBoxShadow dark:shadow-cardBoxShadowDark'>
+						<Loader
+							{...{
+								title: 'Loading data...',
+							}}
+						/>
+					</div>
+				) : isErrorMainContrib ? (
+					<div className='h-[480px] w-full flex justify-center items-center text-body bg-small-card-bg-light dark:text-sidebar-bg-light dark:bg-border-color dark:border-fwd-darker px-[12px] py-[16px] dark:hover:bg-fwd-darker hover:bg-foundation data-[state=selected]:bg-fwd-darker shadow-cardBoxShadow dark:shadow-cardBoxShadowDark'>
+						<Loader
+							{...{
+								title: 'Error loading data',
+							}}
+						/>
+					</div>
+				) : (
+					<DataTable
+						{...{
+							pagination: showPagination,
+							table,
+						}}
+					/>
+				)}
+			</div>
+		</Fragment>
 	);
 };

@@ -237,7 +237,7 @@ export const Government = [
 
 export const BASE_ASSET_URL = '/images';
 
-export const BASE_URL = '/dashboard';
+export const BASE_URL = '/';
 
 // export const NAV_URLS: TDashboardTypes[] = [
 // 	{

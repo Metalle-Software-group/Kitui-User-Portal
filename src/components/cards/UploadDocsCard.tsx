@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { UploadedDocument } from '../reusables/Others';
 import { FBIcon, InstagramIcon, LinkIcon, XIcon } from '../icons';
 
@@ -90,33 +89,37 @@ export const ViewShortListedCandidatesCard = () => {
 						</p>
 					</div>
 					<div className='flex space-x-3'>
-						<Image
-							src='/link.svg'
-							alt='download'
-							width={40}
-							height={40}
-							priority
+						<LinkIcon
+							{...{
+								svgElementClassName:
+									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+								applyToSvgEl: true,
+								// className: '',
+							}}
 						/>
-						<Image
-							src='/twitterx.svg'
-							alt='download'
-							width={40}
-							height={40}
-							priority
+						<XIcon
+							{...{
+								svgElementClassName:
+									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+								applyToSvgEl: true,
+								// className: '',
+							}}
 						/>
-						<Image
-							src='/facebook.svg'
-							alt='download'
-							width={40}
-							height={40}
-							priority
+						<FBIcon
+							{...{
+								svgElementClassName:
+									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+								applyToSvgEl: true,
+								// className: '',
+							}}
 						/>
-						<Image
-							src='/instagram.svg'
-							alt='download'
-							width={40}
-							height={40}
-							priority
+						<InstagramIcon
+							{...{
+								svgElementClassName:
+									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+								applyToSvgEl: true,
+								// className: '',
+							}}
 						/>
 					</div>
 				</div>

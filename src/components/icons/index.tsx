@@ -1001,39 +1001,33 @@ export const FBIcon = ({
 				: {
 						className: 'fill-none',
 				  })}
-			viewBox='0 0 39 38'
+			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
 				x='1.41821'
 				y='0.440913'
-				width='37.1182'
-				height='37.1182'
+				{...{
+					className: svgElementClassName,
+				}}
 				rx='18.5591'
-				stroke='#4B5563'
-				stroke-width='0.881826'
+				strokeWidth='0.881826'
 			/>
-			<g clip-path='url(#clip0_748_14856)'>
-				<path
-					strokeWidth='.5'
-					strokeLinecap='round'
-					strokeLinejoin='round'
+			<path
+				strokeWidth='.5'
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				{...{
+					className: svgElementClassName,
+				}}
+				d='M25.0229 9H22.0229C20.6969 9 19.4251 9.52678 18.4874 10.4645C17.5497 11.4021 17.0229 12.6739 17.0229 14V17H14.0229V21H17.0229V29H21.0229V21H24.0229L25.0229 17H21.0229V14C21.0229 13.7348 21.1283 13.4804 21.3158 13.2929C21.5034 13.1054 21.7577 13 22.0229 13H25.0229V9Z'
+			/>
+			<defs>
+				<rect
+					transform='translate(9.47729 8.5)'
 					{...{
 						className: svgElementClassName,
 					}}
-					d='M25.0229 9H22.0229C20.6969 9 19.4251 9.52678 18.4874 10.4645C17.5497 11.4021 17.0229 12.6739 17.0229 14V17H14.0229V21H17.0229V29H21.0229V21H24.0229L25.0229 17H21.0229V14C21.0229 13.7348 21.1283 13.4804 21.3158 13.2929C21.5034 13.1054 21.7577 13 22.0229 13H25.0229V9Z'
 				/>
-			</g>
-			<defs>
-				<clipPath id='clip0_748_14856'>
-					<rect
-						transform='translate(9.47729 8.5)'
-						width='21'
-						height='21'
-						{...{
-							className: svgElementClassName,
-						}}
-					/>
-				</clipPath>
 			</defs>
 		</svg>
 	</div>
@@ -1058,18 +1052,18 @@ export const XIcon = ({
 				: {
 						className: 'fill-none',
 				  })}
-			viewBox='0 0 39 38'
+			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
 				x='1.41821'
 				y='0.440913'
-				width='37.1182'
-				height='37.1182'
 				rx='18.5591'
-				stroke='#4B5563'
-				stroke-width='0.881826'
+				{...{
+					className: svgElementClassName,
+				}}
+				strokeWidth='0.881826'
 			/>
-			<g clip-path='url(#clip0_748_14856)'>
+			<g clipPath='url(#clip0_748_14856)'>
 				<path
 					strokeWidth='.5'
 					strokeLinecap='round'
@@ -1081,16 +1075,14 @@ export const XIcon = ({
 				/>
 			</g>
 			<defs>
-				<clipPath id='clip0_748_14856'>
-					<rect
-						transform='translate(9.47729 8.5)'
-						width='21'
-						height='21'
-						{...{
-							className: svgElementClassName,
-						}}
-					/>
-				</clipPath>
+				<rect
+					transform='translate(9.47729 8.5)'
+					width='21'
+					height='21'
+					{...{
+						className: svgElementClassName,
+					}}
+				/>
 			</defs>
 		</svg>
 	</div>
@@ -1115,7 +1107,7 @@ export const LinkIcon = ({
 				: {
 						className: 'fill-none',
 				  })}
-			viewBox='0 0 39 38'
+			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
 				x='1.41821'
@@ -1124,7 +1116,7 @@ export const LinkIcon = ({
 				height='37.1182'
 				rx='18.5591'
 				stroke='#4B5563'
-				stroke-width='0.881826'
+				strokeWidth='0.881826'
 			/>
 
 			<path
@@ -1161,8 +1153,6 @@ export const LinkIcon = ({
 				<clipPath id='clip0_748_14856'>
 					<rect
 						transform='translate(9.47729 8.5)'
-						width='21'
-						height='21'
 						{...{
 							className: svgElementClassName,
 						}}
@@ -1192,16 +1182,14 @@ export const InstagramIcon = ({
 				: {
 						className: 'fill-none',
 				  })}
-			viewBox='0 0 39 38'
+			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
+				{...{ className: svgElementClassName }}
 				x='1.41821'
 				y='0.440913'
-				width='37.1182'
-				height='37.1182'
 				rx='18.5591'
-				stroke='#4B5563'
-				stroke-width='0.881826'
+				strokeWidth='0.881826'
 			/>
 			<path
 				strokeWidth='.5'
@@ -1236,12 +1224,85 @@ export const InstagramIcon = ({
 				<clipPath id='clip0_748_14856'>
 					<rect
 						transform='translate(9.47729 8.5)'
-						width='21'
-						height='21'
 						{...{
 							className: svgElementClassName,
 						}}
 					/>
+				</clipPath>
+			</defs>
+		</svg>
+	</div>
+);
+
+export const FunnelIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			viewBox='0 0 20 20'
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M5 10H15M2.5 5H17.5M7.5 15H12.5'
+				{...{
+					className: svgElementClassName,
+				}}
+				strokeLinejoin='round'
+				strokeLinecap='round'
+				strokeWidth='1.67'
+			/>
+		</svg>
+	</div>
+);
+
+export const HelpIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			viewBox='0 0 16 16'
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			xmlns='http://www.w3.org/2000/svg'>
+			<g clipPath='url(#clip0_748_19144)'>
+				<path
+					d='M6.05998 5.99967C6.21672 5.55412 6.52608 5.17841 6.93328 4.9391C7.34048 4.69978 7.81924 4.6123 8.28476 4.69215C8.75028 4.772 9.17252 5.01402 9.4767 5.37536C9.78087 5.7367 9.94735 6.19402 9.94665 6.66634C9.94665 7.99967 7.94665 8.66634 7.94665 8.66634M7.99998 11.333H8.00665M14.6666 7.99967C14.6666 11.6816 11.6819 14.6663 7.99998 14.6663C4.31808 14.6663 1.33331 11.6816 1.33331 7.99967C1.33331 4.31778 4.31808 1.33301 7.99998 1.33301C11.6819 1.33301 14.6666 4.31778 14.6666 7.99967Z'
+					strokeWidth='2'
+					strokeLinecap='round'
+					strokeLinejoin='round'
+					{...{
+						className: svgElementClassName,
+					}}
+				/>
+			</g>
+			<defs>
+				<clipPath id='clip0_748_19144'>
+					<rect width='16' height='16' fill='white' />
 				</clipPath>
 			</defs>
 		</svg>

@@ -8,6 +8,7 @@ import {
 	quickLinks,
 } from '@/constants';
 import Image from 'next/image';
+import { FBIcon, InstagramIcon, XIcon } from '../icons';
 
 export const Footer = () => {
 	return (
@@ -169,28 +170,31 @@ export const Footer = () => {
 								</div>
 							</div>
 						</div>
-						<div className='flex w-full justify-between '>
+						<div className='flex w-full justify-between'>
 							<div className='flex space-x-5'>
-								<Image
-									src='/twitterxWhite.svg'
-									alt='download'
-									width={40}
-									height={40}
-									priority
+								<XIcon
+									{...{
+										svgElementClassName:
+											'stroke-white fill-[#00000000] w-[40px] h-[40px]',
+										className: 'w-[44px] h-[44px]',
+										applyToSvgEl: true,
+									}}
 								/>
-								<Image
-									src='/fbWhite.svg'
-									alt='download'
-									width={40}
-									height={40}
-									priority
+								<FBIcon
+									{...{
+										svgElementClassName:
+											'stroke-white fill-[#00000000] w-[40px] h-[40px]',
+										className: 'w-[40px] h-[40px]',
+										applyToSvgEl: true,
+									}}
 								/>
-								<Image
-									src='/igWhite.svg'
-									alt='download'
-									width={40}
-									height={40}
-									priority
+								<InstagramIcon
+									{...{
+										svgElementClassName:
+											'stroke-white fill-[#00000000] w-[40px] h-[40px]',
+										className: 'w-[40px] h-[40px]',
+										applyToSvgEl: true,
+									}}
 								/>
 							</div>
 							<p className='text-white'>
