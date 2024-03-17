@@ -392,7 +392,7 @@ export const FilterTag = ({ name = 'Contract' }: EmpTypes) => {
 };
 
 export const Avatar = ({
-	classNames = 'w-[32px] h-[32px]',
+	classNames = 'w-[32px] h-[32px] bg-applicant-colorbg',
 	name,
 }: {
 	classNames?: string;
@@ -402,7 +402,7 @@ export const Avatar = ({
 
 	return (
 		<p
-			className={`rounded-[200px] bg-applicant-colorbg text-deep-purple flex justify-center items-center content-center ${classNames}`}>
+			className={`rounded-[200px] text-deep-purple flex justify-center items-center content-center ${classNames}`}>
 			{fname.at(0)?.toUpperCase()}
 			{lname.at(0)?.toUpperCase()}
 		</p>
