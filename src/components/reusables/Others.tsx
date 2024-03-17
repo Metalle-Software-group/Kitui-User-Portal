@@ -13,6 +13,8 @@ import {
 	DeleteIcon,
 	FunnelIcon,
 	SearchIcon,
+	CheckMarkIcon,
+	CrossMarkIcon,
 } from '../icons';
 
 import {
@@ -28,6 +30,7 @@ import {
 	THeaderBtn,
 	TNodes,
 	EmpTypes,
+	ProfilePropsTypes,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import { FieldsToExcludeInFilter } from '@/constants';
@@ -47,6 +50,17 @@ import {
 	getPaginationRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { Button } from '../ui/button';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -512,7 +526,7 @@ export const DropdownCustomComponent = ({
 	data,
 }: TDropdownCustomComponent) => (
 	<DropdownMenuContent
-		className={`dark:text-white w-fit md:w-[60px] bg-sidebar-bg-light text-body py-[10px] dark:bg-small-card-bg ${
+		className={`dark:text-white w-fit md:w-[60px] bg-white text-body py-[10px] ${
 			width ? `w-[${width}px]` : 'w-fit'
 		}`}>
 		<DropdownMenuRadioGroup
@@ -553,10 +567,10 @@ export const Search = ({
 				<SearchIcon
 					{...{
 						styles: {
-							width: '24px',
-							height: '24px',
+							width: '20px',
+							height: '20px',
 						},
-						svgElementClassName: 'stroke-[1.67px] stroke-search-icon-color',
+						svgElementClassName: 'stroke-[1.67px] stroke-searchIconColor',
 					}}
 				/>
 			</div>
@@ -783,5 +797,243 @@ export const TableReusableComponent = ({
 				)}
 			</div>
 		</Fragment>
+	);
+};
+
+export const SelectedFileSingleList = () => {
+	return (
+		<div className='flex flex-col gap-[8px]'>
+			<div className='flex gap-[4x] justify-between items-center'>
+				<CheckMarkIcon
+					{...{
+						svgElementClassName: 'stroke-checkMarkColor',
+						className: 'w-[24px] h-[24px]',
+						applyToSvgEl: true,
+					}}
+				/>
+				<div className='flex-[1] px-[6px]'>
+					<p className='font-normal leading-[25.78px] text-[16px] text-bodyText'>
+						Resume.pdf
+					</p>
+				</div>
+
+				<CrossMarkIcon
+					{...{
+						svgElementClassName: 'stroke-crossMarkColor',
+						className: 'w-[24px] h-[24px]',
+						applyToSvgEl: true,
+					}}
+				/>
+			</div>
+		</div>
+	);
+};
+
+export const FileListDivider = () => (
+	<div className='bg-dividerColor h-[1px]'></div>
+);
+
+export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
+	return (
+		<div className='shadow-profileBoxShadow bg-white gap-[4px] p-[28px] rounded-[20px]'>
+			<p className='text-title-text-color tracking-[-.5%] leading-[28px] text-[24px] font-bold'>
+				Profile details
+			</p>
+
+			<div className='w-full h-fit flex gap-[40px] p-[28px] flex-wrap'>
+				<Form {...form} {...{}}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className='w-full space-y-6'>
+						<div className='flex flex-wrap gap-[24px]'>
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name='name'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												Name
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='Name' {...field} className='' />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name='email'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												Email
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='Email address' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+						</div>
+
+						<div className='flex flex-wrap gap-[24px]'>
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name='phone'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												Phone
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='Phone' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name={'nationalId'}
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												ID Number
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+						</div>
+
+						<div className='flex flex-wrap gap-[24px]'>
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name='gender'
+									render={({ field }) => (
+										<FormItem className='space-y-3'>
+											<FormLabel>Gender</FormLabel>
+											<FormControl>
+												<RadioGroup
+													onValueChange={field.onChange}
+													defaultValue={field.value}
+													className='flex flex-col space-y-1'>
+													<FormItem className='flex items-center space-x-3 space-y-0'>
+														<FormControl>
+															<RadioGroupItem value='female' />
+														</FormControl>
+														<FormLabel className='font-normal'>
+															Female
+														</FormLabel>
+													</FormItem>
+
+													<FormItem className='flex items-center space-x-3 space-y-0'>
+														<FormControl>
+															<RadioGroupItem value='male' />
+														</FormControl>
+														<FormLabel className='font-normal'>Male</FormLabel>
+													</FormItem>
+												</RadioGroup>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+						</div>
+
+						<div className='flex flex-wrap gap-[24px] my-[6px]'>
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name={'countyResidence'}
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												County of residence
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+						</div>
+
+						<div className='flex flex-wrap gap-[24px]'>
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name={'subCounty'}
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												Sub county
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='Phone' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name={'location'}
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												Location
+											</FormLabel>
+											<FormControl>
+												<Input placeholder='' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+						</div>
+
+						<div className='w-full justify-center flex my-[8px] gap-[32px]'>
+							<Button
+								role={'button'}
+								type={'button'}
+								onClick={(e) => console.log}
+								className='flex gap-[6px] bg-white hover:bg-white text-black justify-between px-[16px] py-[12px] rounded-[8px] shadow-btnBoxShadow selection:bg-inherit cursor-pointer border border-border-color'>
+								Back
+							</Button>
+
+							<Button
+								className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-fit items-center justify-center'
+								type='submit'>
+								<p className='text-inherit'>Update details</p>
+							</Button>
+						</div>
+					</form>
+				</Form>
+			</div>
+		</div>
 	);
 };

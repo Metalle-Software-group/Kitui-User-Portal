@@ -97,9 +97,6 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
 						0712345678
 					</p>
-					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						joy@gmail.com
-					</p>
 				</div>
 			);
 		},
@@ -110,6 +107,7 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 		header: 'Department',
 
 		cell: ({ row }) => {
+			const department: string = row.getValue('department');
 			return (
 				<div className='w-full flex gap-[6px] justify-center items-center'>
 					<div className='w-fit'>
@@ -117,7 +115,7 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 							{...{
 								textClassName:
 									'text-gray-body-text leading-[16.37px] text-[12px] font-bold bg-gray-200',
-								ministry_name: 'Youth & Culture',
+								ministry_name: department,
 								dotClass: 'bg-gray-body-text',
 								className: 'bg-gray-200',
 							}}

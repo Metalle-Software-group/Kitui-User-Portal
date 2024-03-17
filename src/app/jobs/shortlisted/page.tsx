@@ -9,6 +9,7 @@ import {
 import { shortlistedData } from '@/data/dummy';
 import { useState } from 'react';
 import AlertDialogComponent from '@/components/reusables/AlertDialog';
+import { Alert } from '@/components/cards/Alert';
 
 const ShortListedCandidatesPage = () => {
 	const [action, setAction] = useState<string | null>(null);
@@ -54,7 +55,6 @@ const ShortListedCandidatesPage = () => {
 					}
 					beginningText='Kitui County Jobs'
 					middleText='updates'
-					endingText=''
 				/>
 			</div>
 
@@ -93,11 +93,23 @@ const ShortListedCandidatesPage = () => {
 									filter: true,
 								}}
 							/>
-							{/* )} */}
 						</div>
 					</section>
 				</section>
 			</div>
+			<div className='w-full flex items-center justify-center'>
+				<div className='w-[80%]'>
+					<Alert
+						name={'Never Miss Your Dream Job!'}
+						icon={''}
+						description={
+							'Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!'
+						}
+						buttonText={'Get Job Alerts Now!'}
+					/>
+				</div>
+			</div>
+
 			{action === 'Delete' && (
 				<AlertDialogComponent
 					{...{
