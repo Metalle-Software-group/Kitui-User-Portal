@@ -21,10 +21,15 @@ const config = {
 			colors: {
 				'commentCardTextColor': 'var(--commentCardTextColor)',
 				'settingsClearBarColor': 'var(--settingsClearBarColor)',
+				'applicant-colorText': 'var(--applicant-colorText)',
 				'settingsIconColor': 'var(--settingsIconColor)',
-				'boxBorder-color': 'var(--boxBorder-color)',
-				'search-iconColor': 'var(--search-iconColor)',
+				'dots-color': 'var(--dots-color)',
 				'settingsClearColor': 'var(--settingsClearColor)',
+				'deep-purple': 'var(--deep-purple)',
+				'search-iconColor': 'var(--search-iconColor)',
+				'boxBorder-color': 'var(--boxBorder-color)',
+				'applicant-colorbg': 'var(--applicant-colorbg)',
+				'commentsColor': 'var(--commentsColor)',
 				'brown-border': 'var(--brown-border)',
 				'brown-text': 'var(--brown-text)',
 				'mainGreen': 'var(--mainGreen)',
@@ -37,11 +42,14 @@ const config = {
 				'main-Green': 'var(--main-Green)',
 				'light-Purple': 'var(--light-Purple)',
 				'login-screen-text-color': 'var(--login-screen-text-color)',
-				'footer-btnColor': 'var(--footer-btnColor)',
-				'inputTextColor': 'var(--inputTextColor)',
 				'filter-stroke-color': 'var(--filter-stroke-color)',
+				'downloadBtnColor': 'var(--downloadBtnColor)',
+				'footer-btnColor': 'var(--footer-btnColor)',
+				'socialsColor': 'var(--socialsColor)',
+				'inputTextColor': 'var(--inputTextColor)',
 				'dev-accent': 'var(--accent-color)',
 				'title-text-color': 'var(--title-text-color)',
+				'checkboxColor': 'var(--checkboxColor)',
 				'gray-body-text': 'var(--gray-body-text)',
 				'footer-color': 'var(--footer-color)',
 				'border': 'hsl(var(--border))',
@@ -79,10 +87,16 @@ const config = {
 				},
 			},
 			boxShadow: {
-				searchShadow: '0px 2px 4px -1px #1A38601A,0px 3px 12px -1px #1C375A29',
+				searchShadow:
+					'0px 2px 4px -1px #1A38601A,0px 3px 12px -1px var(--checkboxColor)',
 				btnBoxShadow: '0px 1px 2px 0px #1018280D',
 				headerShadow:
 					'0px 3px 18px -2px #1A38601A,0px 12px 48px -6px #1C375A29',
+				tableBoxShadow: '0px 1px 2px 0px #1018280F,0px 1px 3px 0px #1018281A',
+			},
+			backgroundImage: {
+				'radial-gradient':
+					'radial-gradient(37.81% 40.57% at 77.99% 41.39%, rgba(249, 249, 249, 0.8) 0%, rgba(251, 251, 251, 0.8) 100%)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+
+import { ColumnDef } from '@tanstack/react-table';
+import { StrapiRequestParams, StrapiResponse } from 'strapi-sdk-js';
 
 export type NavUrlType = {
 	name: string;
@@ -42,11 +45,17 @@ export type FeatureCategoriesTypes = {
 	onChange?: () => void;
 };
 
-export type FilterJobsTypes = {
-	id?: string;
-	label: string;
-	onChange: (props: any) => void;
+export type TFilterTypes = {
+	jobType: JobTypes[];
+	department: string[];
 };
+
+export type FilterJobsTypes = {
+	onChange: Dispatch<SetStateAction<TFilterTypes>>;
+	checked: boolean;
+	label: string;
+	id?: string;
+} & { dataType: keyof TFilterTypes };
 
 export type SloganType = {
 	title?: string;
@@ -67,18 +76,19 @@ export type SloganWithCategoryType = {
 };
 
 export type JobDescriptionTypes = {
-	about: string;
+	comments: commentType[];
 	responsibility: string[];
 	qualifications: string[];
 	benefits: string[];
-	comments: commentType[];
 	remark: string;
+	about: string;
 };
 
 export type commentType = {
-	name: string;
+	replies?: commentType[];
 	comment: string;
 	timeline: string;
+	name: string;
 };
 
 export type TNodes = {
@@ -114,3 +124,120 @@ export type THowItWorksCardProps = Pick<
 	step?: number;
 	Icon: string;
 };
+
+export enum JobTypes {
+	attachmen = 'attachment',
+	contract = 'contract',
+}
+
+export enum AddRemoveEnum {
+	Remove = 'Remove',
+	Add = 'Add',
+}
+
+export type EmpTypes = { name: string };
+
+export type THeaderBtn = {
+	action?: (args: any) => any;
+	present: boolean;
+	text?: string;
+	Icon?: any;
+};
+
+export type TTableReusableComponent = {
+	title: string | React.ReactNode;
+	columns: ColumnDef<any, any>[];
+	headerBtn?: THeaderBtn;
+	titleFilterInline?: boolean;
+	showPagination?: boolean;
+	isSearchAtEnd?: boolean;
+	searchColumn?: string;
+	sort?: boolean;
+	data: any[];
+};
+
+export type TSearchProps = {
+	onChangeHandler?: (props: any) => void;
+	value?: string;
+	title?: string;
+};
+
+export type TComponentsType = {
+	components: React.ReactNode;
+};
+
+export interface DropdownData<LabelType = string> {
+	onChangeHandler: (value: string) => any;
+	id?: string | number;
+	label: LabelType;
+}
+
+export type TDropdownCustomComponent = {
+	onChangeHandler: (value: any) => any;
+	currPageSize?: string | number;
+	data: DropdownData[];
+	width?: number;
+} & TNodes;
+
+export type TColumnStaffDefinition = {
+	accessorKey?: string;
+	header?: string;
+	id?: string;
+	enableHiding?: boolean;
+	cell?: any;
+};
+export interface StrapiAuthenticationData {
+	identifier: string;
+	password: string;
+}
+
+export interface Role {
+	description: string;
+	createdAt: string;
+	updatedAt: string;
+	name: string;
+	type: string;
+	id: number;
+}
+
+export type TUSER = {
+	firstName: string | null;
+	lastName: string | null;
+	createdAt: string;
+	updatedAt: string;
+	username: string;
+	confirmed: true;
+	provider: string;
+	blocked: false;
+	email: string;
+	id: number;
+	role: Role;
+};
+
+export type TAuthUser = TUSER;
+
+export type Details = {};
+
+export type SERVER_ERR = {
+	status: number;
+	name: string;
+	message: string;
+	details: Details;
+};
+
+export type SERVER_ERROR = {
+	error: SERVER_ERR;
+	data: any;
+};
+
+export type TqueryKey = [
+	string,
+	{
+		options: StrapiRequestParams;
+		url: string;
+		qFunc: <dataTypeExpected>(params: {
+			options: StrapiRequestParams;
+			url: string;
+		}) => Promise<StrapiResponse<dataTypeExpected>>;
+	}
+];

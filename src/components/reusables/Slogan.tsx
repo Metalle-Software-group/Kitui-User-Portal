@@ -2,6 +2,12 @@
 import { SloganType, SloganWithCategoryType } from '@/types/types';
 import { SearchJob } from '../frames/SearchJob';
 import Image from 'next/image';
+import {
+	JobMinistryTag,
+	JobType,
+	LocationLabel,
+	TimeLimitLabel,
+} from './Others';
 
 export const Slogan = ({
 	title,
@@ -12,24 +18,24 @@ export const Slogan = ({
 }: SloganType) => {
 	return (
 		<div
-			className={`flex flex-col w-full bg-light-Purple h-[400px] items-center justify-center`}>
+			className={`flex flex-col w-full bg-light-Purple h-[200px] md:h-[400px] items-center justify-center`}>
 			<div className='w-fit flex flex-col gap-[24px]'>
 				{middleText && (
 					<div className='flex space-x-2 justify-center'>
-						<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
+						<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
 							{beginningText}
 						</p>
 						<p
-							className={`text-main-Green font-extrabold text-[48px] leading-[65.47px]`}>
+							className={`text-main-Green font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px]`}>
 							{middleText}
 						</p>
-						<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
+						<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
 							{endingText}
 						</p>
 					</div>
 				)}
 				{!middleText && (
-					<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
+					<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
 						{title}
 					</p>
 				)}
@@ -58,36 +64,52 @@ export const SloganWithCategory = ({
 }: SloganWithCategoryType) => {
 	return (
 		<div
-			className={`flex flex-col w-full h-[400px] items-center justify-center bg-[#F3E8FF] space-y-10`}>
+			className={`flex flex-col w-full h-[400px] items-center justify-center bg-light-Purple gap-[24px]`}>
 			<div className='flex w-full justify-center space-x-5 items-center'>
-				<p className='font-[800] text-[48px] leading-[65.47px] text-textTitle'>
+				<p className='font-extrabold text-[48px] leading-[65.47px] text-textTitle'>
 					{title}
 				</p>
-				<div className='flex w-[200px] h-[50px] rounded-[40px]  bg-[#E7F5ED] border items-center justify-center space-x-2'>
-					<div className='rounded-full w-[6px] h-[6px] bg-mainGreen  ml-2'></div>
-					<p className='mr-1'>{category}</p>
-				</div>
-			</div>
-			<p>{slogan}</p>
-			<div className='flex w-[300px] justify-between space-x-3'>
-				<div className='flex border w-[120px] rounded-[10px] bg-[#F1EAE4] items-center justify-center'>
-					{type}
-				</div>
-				<div className='flex items-center'>
-					<Image src='/location.svg' alt='location' width={18} height={18} />
-					<p className='font-[600] text-[12px] leading-[16px] text-[#717171] ml-1'>
-						{location}
-					</p>
-				</div>
-				<div className='flex items-center'>
-					<Image src='/clock.svg' alt='clock' width={30} height={30} />
-					<p className='font-[600] text-[12px] leading-[16px] text-[#717171] ml-1'>
-						{datePosted}
-					</p>
+				<div className='w-fit'>
+					<JobMinistryTag
+						{...{
+							className:
+								'bg-bodyBg px-[16px] py-[6px] rounded-[40px] gap-[8px]',
+							dotClass: 'bg-mainGreen w-[6px] h-[6px]',
+							textClassName:
+								'text-mainGreen text-[14px] leading-[24px] font-normal',
+							ministry_name: 'Youth & Culture',
+						}}
+					/>
 				</div>
 			</div>
 
-			<button className='flex  justify-between items-center space-x-4'>
+			<p className='text-bodyText leading-[24px] text-[16px] font-normal'>
+				{slogan}
+			</p>
+
+			<div className='flex w-fit justify-between gap-[24px]'>
+				<div className='my-[8px] flex gap-[16px] items-center'>
+					<div className='w-fit'>
+						<JobType
+							{...{
+								className:
+									'border border-bodyBg gap-[10px] px-[12px] py-[4px] rounded-[40px] text-brown-text leading-[19.1px] font-bold text-[14px]',
+								name: 'Attachment',
+							}}
+						/>
+					</div>
+
+					<div className='w-fit'>
+						<LocationLabel />
+					</div>
+
+					<div className='w-fit'>
+						<TimeLimitLabel />
+					</div>
+				</div>
+			</div>
+
+			<button className='flex justify-between items-center space-x-4'>
 				<Image src='/message.svg' alt='comments' width={18} height={18} />
 				<p className='font-[600]  text-[14px] leading-[20px] text-[#6B7280]'>
 					{comments} comments

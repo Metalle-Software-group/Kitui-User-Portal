@@ -9,6 +9,7 @@ import {
 	YSportIcon,
 } from '@/components/icons';
 import {
+	EmpTypes,
 	FeatureCategoriesTypes,
 	FeaturedJobsTypes,
 	NavUrlType,
@@ -23,7 +24,7 @@ export const NavUrls: NavUrlType[] = [
 	},
 	{
 		name: 'Find Jobs',
-		url: '/find-job',
+		url: '/jobs',
 	},
 	{
 		name: 'Departments',
@@ -170,35 +171,35 @@ export const Departments = [
 	},
 
 	{
-		name: 'Youth & Culture',
+		name: 'Psyche & Culture',
 	},
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
 
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
-	{
-		name: 'Youth & Culture',
-	},
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
+	// {
+	// 	name: 'Youth & Culture',
+	// },
 ];
 
-export const EmploymentType = [
+export const EmploymentType: EmpTypes[] = [
 	{
 		name: 'Attachment',
 	},
 	{
-		name: 'Contract Based',
+		name: 'Contract',
 	},
 ];
 
@@ -236,7 +237,7 @@ export const Government = [
 
 export const BASE_ASSET_URL = '/images';
 
-export const BASE_URL = '/dashboard';
+export const BASE_URL = '/';
 
 // export const NAV_URLS: TDashboardTypes[] = [
 // 	{
