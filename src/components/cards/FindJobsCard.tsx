@@ -20,8 +20,8 @@ export const FindJobsCard = ({
 }: FeaturedJobsTypes) => {
 	return (
 		<div
-			className={`flex flex-col ${
-				width ? `w-[${width}]` : 'w-[800px]'
+			className={`flex flex-col w-fit ${
+				width ? `md:w-[${width}]` : 'md:w-[800px]'
 			} h-fit rounded-[20px] p-[20px] border-[1px] border-[#E9E9E9] justify-center items-start space-y-3`}>
 			<div className='flex gap-[16px] justify-between'>
 				<p className='font-bold text-[18px] leading-[24.55px] text-title-text-color'>
@@ -40,7 +40,7 @@ export const FindJobsCard = ({
 				</div>
 			</div>
 
-			<div className='my-[8px] flex gap-[16px] items-center'>
+			<div className='my-[8px] flex gap-2 md:gap-[16px] items-center'>
 				<div className='w-fit'>
 					<JobType />
 				</div>

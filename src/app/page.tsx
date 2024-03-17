@@ -18,7 +18,7 @@ import {
 
 export default function () {
 	return (
-    <main className='w-full px-[20px] md:px-[60px] mb-[150px] md:mb-0'>
+    <main className='w-full px-[20px] md:px-[100px]  md:mb-0'>
       <section className='bg-radial-gradient '>
         <HomeHero />
       </section>
@@ -49,7 +49,7 @@ export default function () {
           </div>
         </div>
 
-        <div className='grid grid-cols-2 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
+        <div className='grid grid-cols-1 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
           {ExploreCategoryCards.map((category, index) => (
             <div key={index}>
               <DepartmentCard {...category} />

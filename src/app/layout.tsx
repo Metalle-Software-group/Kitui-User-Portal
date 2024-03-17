@@ -33,7 +33,7 @@ export default function RootLayout({
             <div className='hidden md:flex md:sticky m-0 top-0 left-0 z-10'>
               <Header />
             </div>
-            <div className='w-full md:mb-[120px] md:px-[100px]'>{children}</div>
+            <div className='w-full mb-[150px] md:mb-[120px]'>{children}</div>
             <Footer />
           </main>
         </QueryClientProvider>

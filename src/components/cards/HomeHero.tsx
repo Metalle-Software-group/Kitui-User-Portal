@@ -6,7 +6,7 @@ import { GraphicsIcon } from '../icons';
 export const HomeHero = () => {
 	return (
     <div className='h-fit md:h-[700px] w-full flex gap-[24px] pt-[50px] pb-[50px] md:pt-[100px] md:pb-[100px] justify-between'>
-      <section className='space-y-7 w-[553px]'>
+      <section className='space-y-7  md:w-[553px]'>
         <div className='bg-purple-100 text-center px-[8px] rounded-[4px] gap-[10px] flex items-center justify-center w-fit'>
           <p className='font-semibold text-[16px] leading-[24px] text-center text-purple-800'>
             Kitui County
