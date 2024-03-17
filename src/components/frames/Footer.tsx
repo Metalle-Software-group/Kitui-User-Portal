@@ -22,13 +22,14 @@ export const Footer = () => {
 					className='relative  block w-[calc(100%+1.3px)] h-[50px] transform transform-[180deg]'>
 					<path
 						d='M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z'
-						className='fill-[#fff]'></path>
+						className='fill-[#fff]'
+					/>
 				</svg>
 			</div>
 
 			<div className='text-white'>
 				<div className='flex w-full h-fit justify-center bg-footer-btnColor px-5 md:px-0'>
-					<div className='flex flex-col absolute  md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-130px] bg-footer-color gap-[10px] z-[2]'>
+					<div className='flex flex-col absolute  md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
 						<p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
 							County news & updates
 						</p>
@@ -40,9 +41,9 @@ export const Footer = () => {
 
 						<div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
 							<input
-								placeholder='Your Email'
+								className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px] w-full'
 								onChange={() => {}}
-								className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px]'
+								placeholder='Your Email'
 							/>
 							<button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
 								Subscribe

@@ -77,11 +77,12 @@ const Profile = () => {
 	}
 
 	return (
-		<div className='m-[10px] flex flex-col gap-[40px] px-[16px] py-[24px]'>
+		<div className='mx-[50px] my-[85px] flex flex-col gap-[40px] px-[16px] py-[24px]'>
 			<div className='flex gap-[24px] items-center w-fit'>
 				<Avatar
 					{...{
-						classNames: 'w-[130px] h-[130px] font-extrabold',
+						classNames:
+							'w-[130px] h-[130px] font-bold text-[48px] leading-[36px] bg-purple-100',
 						name: 'Joy Mueni',
 					}}
 				/>
