@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowRightIcon, DownloadIcon, EyeIcon, PlusIcon } from 'lucide-react';
 import { Fragment, useState } from 'react';
 import Image from 'next/image';
