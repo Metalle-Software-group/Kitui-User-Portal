@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowRightIcon, DownloadIcon, EyeIcon, PlusIcon } from 'lucide-react';
-import { Fragment, useState } from 'react';
+import { ChangeEvent, Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import {
@@ -16,6 +16,7 @@ import {
 	CheckMarkIcon,
 	CrossMarkIcon,
 	CameraIcon,
+	DropFileIcon,
 } from '../icons';
 
 import {
@@ -32,6 +33,7 @@ import {
 	TNodes,
 	EmpTypes,
 	ProfilePropsTypes,
+	FileSelectorPropsType,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import { FieldsToExcludeInFilter } from '@/constants';
@@ -64,6 +66,7 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Button } from '../ui/button';
 import { MyApplicantColumns } from '../table/Columns';
 import { shortlistedData } from '@/data/dummy';
+import React from 'react';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -829,7 +832,10 @@ export const TableReusableComponent = ({
 	);
 };
 
-export const SelectedFileSingleList = () => {
+export const SelectedFileSingleList = ({
+	handleDeleteItem,
+	file,
+}: { file: File } & Pick<FileSelectorPropsType, 'handleDeleteItem'>) => {
 	return (
 		<div className='flex flex-col gap-[8px]'>
 			<div className='flex gap-[4x] justify-between items-center'>
@@ -842,17 +848,22 @@ export const SelectedFileSingleList = () => {
 				/>
 				<div className='flex-[1] px-[6px]'>
 					<p className='font-normal leading-[25.78px] text-[16px] text-bodyText'>
-						Resume.pdf
+						{file.name.slice(0, 14)}
 					</p>
 				</div>
 
-				<CrossMarkIcon
-					{...{
-						svgElementClassName: 'stroke-crossMarkColor',
-						className: 'w-[24px] h-[24px]',
-						applyToSvgEl: true,
-					}}
-				/>
+				<div
+					onClick={(e) => handleDeleteItem(file)}
+					className='w-fit'
+					title='Delete file'>
+					<CrossMarkIcon
+						{...{
+							svgElementClassName: 'stroke-crossMarkColor hover:stroke-red-700',
+							className: 'w-[24px] h-[24px]',
+							applyToSvgEl: true,
+						}}
+					/>
+				</div>
 			</div>
 		</div>
 	);
@@ -1133,6 +1144,75 @@ export const Error404 = () => {
 			</div>
 			<div className=''>Image</div>
 			<div className=''>Buttons</div>
+		</div>
+	);
+};
+
+export const UploadFileCard = ({
+	handleDeleteItem,
+	setSelectedFile,
+	selectedFiles,
+}: FileSelectorPropsType) => {
+	const inputFieldRef = useRef<HTMLInputElement | null>(null);
+
+	const triggerFileSelectorDialog = (e: any) => inputFieldRef.current?.click();
+
+	const handleSelectedFile = (e: ChangeEvent<HTMLInputElement>) => {
+		setSelectedFile((prev) =>
+			e.currentTarget?.files
+				? [...prev, ...Array.from(e.currentTarget?.files)]
+				: prev
+		);
+	};
+
+	return (
+		<div className='border rounded-[8px] px-[18px] py-[20px] border-checkboxColor'>
+			<div className='w-full'>
+				<div
+					className='flex gap-[60px] cursor-pointer selection:bg-inherit'
+					onClick={triggerFileSelectorDialog}
+					onDrag={triggerFileSelectorDialog}>
+					<div className='px-[14px] py-[8px] rounded-[4px] bg-chooseFileBgColor'>
+						<p className='leading-[19.36px] text-[16px] font-medium text-checkMarkColor'>
+							Choose file
+						</p>
+					</div>
+					<div className='flex gap-[4px]'>
+						<DropFileIcon
+							{...{
+								svgElementClassName: 'stroke-chooseFileIconBgColor',
+								applyToSvgEl: false,
+								styles: {
+									width: '24px',
+									height: '24px',
+								},
+							}}
+						/>
+						<p className='text-chooseFileTextColor leading-[25.78px] text-[16px] font-normal'>
+							Drop files here
+						</p>
+					</div>
+				</div>
+
+				<input
+					{...{
+						onChange: handleSelectedFile,
+						multiple: true,
+						id: 'picture',
+						type: 'file',
+					}}
+					ref={inputFieldRef}
+					className='hidden'
+				/>
+			</div>
+			<div className='flex flex-col gap-[8px] my-[10px]'>
+				{selectedFiles.map((file, index) => (
+					<React.Fragment key={index}>
+						<SelectedFileSingleList {...{ file, handleDeleteItem }} />
+						{index !== selectedFiles.length - 1 ? <FileListDivider /> : null}
+					</React.Fragment>
+				))}
+			</div>
 		</div>
 	);
 };

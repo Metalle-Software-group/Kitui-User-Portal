@@ -1,14 +1,24 @@
+'use client';
+
 import {
-	FileListDivider,
 	JobMinistryTag,
-	JobType,
-	LocationLabel,
-	SelectedFileSingleList,
 	TimeLimitLabel,
+	LocationLabel,
+	UploadFileCard,
+	JobType,
 } from '@/components/reusables/Others';
-import React from 'react';
+import { useState } from 'react';
 
 const ApplyJob = () => {
+	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
+
+	const handleDeleteItem = (file: File) =>
+		setSelectedFile(
+			selectedFiles.filter((currItem) => {
+				return currItem !== file;
+			})
+		);
+
 	return (
 		<div className='w-full bg-bodyBg my-[60px] flex flex-col justify-center items-center'>
 			<div className='shadow-applicationFormBoxShadow bg-white p-[40px] gap-[32px] rounded-[20px] w-[819px]'>
@@ -88,17 +98,9 @@ const ApplyJob = () => {
 							Upload files *
 						</p>
 
-						<div className='border rounded-[8px] px-[18px] py-[20px] border-checkboxColor'>
-							<input type={'file'} placeholder='Select file' />
-							<div className='flex flex-col gap-[8px] my-[10px]'>
-								{[1, 2, 3].map((item, index) => (
-									<React.Fragment key={index}>
-										<SelectedFileSingleList />
-										{index !== 2 ? <FileListDivider /> : null}
-									</React.Fragment>
-								))}
-							</div>
-						</div>
+						<UploadFileCard
+							{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
+						/>
 					</div>
 
 					<div className='flex gap-[32px]'>
