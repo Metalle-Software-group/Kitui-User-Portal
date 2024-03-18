@@ -19,11 +19,15 @@ const config = {
 		},
 		extend: {
 			colors: {
+				'chooseFileIconBorderColor': 'var(--chooseFileIconBorderColor)',
+				'chooseFileIconBgColor': 'var(--chooseFileIconBgColor)',
 				'commentCardTextColor': 'var(--commentCardTextColor)',
 				'settingsClearBarColor': 'var(--settingsClearBarColor)',
+				'chooseFileTextColor': 'var(--chooseFileTextColor)',
 				'jobTypeBorderColor': 'var(--jobTypeBorderColor)',
 				'applicant-colorText': 'var(--applicant-colorText)',
 				'settingsIconColor': 'var(--settingsIconColor)',
+				'chooseFileBgColor': 'var(--chooseFileBgColor)',
 				'settingsClearColor': 'var(--settingsClearColor)',
 				'checkMarkColor': 'var(--checkMarkColor)',
 				'crossMarkColor': 'var(--crossMarkColor)',
