@@ -135,6 +135,136 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 		},
 	},
 ];
+
+export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
+	{
+		accessorKey: 'id',
+		header: () => (
+			<div className='flex gap-[2px] items-center justify-center w-fit'>
+				<div className='flex items-center gap-[2px]'>
+					<p className='text-gray-body-text font-medium text-[12px] leading-[18px] text-center m-auto'>
+						Position applied
+					</p>
+					<HelpIcon
+						{...{
+							styles: { height: '16px', width: '16px' },
+							svgElementClassName: 'stroke-dots-color',
+						}}
+					/>
+				</div>
+			</div>
+		),
+		cell: ({ row }) => {
+			return (
+				<div className='w-full flex justify-center'>
+					<p className='text-center m-auto'>Product Designer</p>
+				</div>
+			);
+		},
+	},
+
+	{
+		accessorKey: 'department',
+		header: 'Department',
+
+		cell: ({ row }) => {
+			const department: string = row.getValue('department');
+			return (
+				<div className='w-full flex gap-[6px] justify-center items-center'>
+					<div className='w-fit'>
+						<JobMinistryTag
+							{...{
+								textClassName:
+									'text-gray-body-text leading-[16.37px] text-[12px] font-bold bg-gray-200',
+								ministry_name: department,
+								dotClass: 'bg-gray-body-text',
+								className: 'bg-gray-200',
+							}}
+						/>
+					</div>
+					<div className='w-fit'>
+						<JobType
+							{...{
+								className:
+									'border-bg-gray-200 text-gray-body-text px-[12px] py-[4px] rounded-[40px]',
+								name: 'Contract',
+							}}
+						/>
+					</div>
+				</div>
+			);
+		},
+	},
+
+	{
+		accessorKey: 'status',
+		header: 'Status',
+		cell: ({ row }) => {
+			const name = row.getValue('status');
+
+			return (
+				<div
+					className={`h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] justify-center items-center rounded-[16px] font-semibold ${
+						name === 'active'
+							? 'bg-hover-bg-color-btn text-dev-accent'
+							: name === 'awarded'
+							? 'bg-job-awarded-bg-color text-job-awarded-text-color'
+							: 'bg-job-closed-bg-color text-job-closed-text-color'
+					}`}>
+					{name === 'shortlisted'
+						? 'Shortlisted'
+						: name === 'rejected'
+						? 'Rejected'
+						: 'Rejected'}
+				</div>
+			);
+		},
+	},
+
+	{
+		accessorKey: 'phone',
+		header: () => (
+			<div className='flex gap-[2px] items-center justify-center'>
+				<div className='flex items-center gap-[2px]'>
+					<p className='text-gray-body-text font-medium text-[12px] leading-[18px] text-center m-auto'>
+						Admin Comment
+					</p>
+					<HelpIcon
+						{...{
+							styles: { height: '16px', width: '16px' },
+							svgElementClassName: 'stroke-dots-color',
+						}}
+					/>
+				</div>
+			</div>
+		),
+		cell: ({ row }) => {
+			return (
+				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
+					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
+						I'm impressed by Joy's experience in. Their background seems like
+						a...
+					</p>
+				</div>
+			);
+		},
+	},
+
+	{
+		accessorKey: 'phone',
+		header: 'Application Deadline',
+		cell: ({ row }) => {
+			return (
+				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
+					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
+						10 days left
+					</p>
+				</div>
+			);
+		},
+	},
+];
+
 export const actionsColumn: ({
 	ActionsHandlerMapping,
 }: {

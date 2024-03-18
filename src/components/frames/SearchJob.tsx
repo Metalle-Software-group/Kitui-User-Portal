@@ -24,9 +24,9 @@ export const SearchJob = ({
 			</div>
 
 			<input
+				className='outline-none border rounded-[20px] px-[8px] pl-[50px] w-full h-[72px] shadow-searchShadow'
 				placeholder={placeholder}
 				onChange={onChange}
-				className='outline-none border rounded-[20px] px-[8px] pl-[50px] w-full h-[72px] shadow-searchShadow'
 			/>
 			<div
 				role={'search'}

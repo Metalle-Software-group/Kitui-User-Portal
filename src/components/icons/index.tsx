@@ -1376,3 +1376,198 @@ export const CrossMarkIcon = ({
 		</svg>
 	</div>
 );
+
+export const WorkIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			viewBox='0 0 61 60'
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M27.4279 8.79745C25.752 8.79745 24.3263 9.962 23.9261 11.5316H37.3829C36.9827 9.962 35.5569 8.79745 33.8811 8.79745H27.4279ZM41.1848 11.5316H46.1372C51.3899 11.5316 55.667 15.8607 55.667 21.1771C55.667 21.1771 55.5169 23.4278 55.4669 26.5619C55.4619 26.81 55.3418 27.0531 55.1442 27.1999C53.9411 28.0885 52.8406 28.8227 52.7405 28.8733C48.5885 31.6581 43.7635 33.6176 38.6235 34.5923C38.2883 34.6581 37.9581 34.4834 37.7881 34.1847C36.3473 31.6885 33.656 30.0632 30.6545 30.0632C27.673 30.0632 24.9566 31.6708 23.4734 34.1695C23.3008 34.4631 22.9756 34.6328 22.643 34.5695C17.5454 33.5923 12.7205 31.6353 8.59346 28.8986L6.19225 27.2277C5.99215 27.1012 5.86709 26.8733 5.86709 26.6201C5.79205 25.329 5.66699 21.1771 5.66699 21.1771C5.66699 15.8607 9.94413 11.5316 15.1968 11.5316H20.1242C20.5995 7.86074 23.676 5 27.4279 5H33.8811C37.633 5 40.7095 7.86074 41.1848 11.5316ZM54.8166 32.0381L54.7165 32.0887C49.664 35.4811 43.586 37.7343 37.2078 38.671C36.3073 38.7976 35.4069 38.2153 35.1567 37.3039C34.6065 35.2279 32.8306 33.8609 30.7045 33.8609H30.6795H30.6295C28.5034 33.8609 26.7275 35.2279 26.1772 37.3039C25.9271 38.2153 25.0267 38.7976 24.1262 38.671C17.748 37.7343 11.67 35.4811 6.61747 32.0887C6.59245 32.0634 6.34233 31.9115 6.14223 32.0381C5.91712 32.1647 5.91712 32.4685 5.91712 32.4685L6.0922 45.3798C6.0922 50.6962 10.3443 55 15.597 55H45.712C50.9646 55 55.2168 50.6962 55.2168 45.3798L55.4169 32.4685C55.4169 32.4685 55.4169 32.1647 55.1918 32.0381C55.0667 31.9621 54.9166 31.9875 54.8166 32.0381ZM32.5304 42.6456C32.5304 43.7089 31.705 44.5444 30.6545 44.5444C29.629 44.5444 28.7785 43.7089 28.7785 42.6456V39.3798C28.7785 38.3419 29.629 37.4811 30.6545 37.4811C31.705 37.4811 32.5304 38.3419 32.5304 39.3798V42.6456Z'
+				{...{
+					className: svgElementClassName,
+				}}
+				fillRule='evenodd'
+				clipRule='evenodd'
+				strokeWidth='1.5'
+				strokeLinecap='round'
+				strokeLinejoin='round'
+			/>
+		</svg>
+	</div>
+);
+
+export const ProfileIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			viewBox='0 0 24 24'
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			xmlns='http://www.w3.org/2000/svg'>
+			<circle
+				cx='12.0788'
+				cy='7.27803'
+				r='4.77803'
+				{...{
+					className: svgElementClassName,
+				}}
+				fillRule='evenodd'
+				clipRule='evenodd'
+				strokeWidth='1.5'
+				strokeLinecap='round'
+				strokeLinejoin='round'
+			/>
+
+			<path
+				d='M4.50002 18.7014C4.49873 18.3655 4.57385 18.0338 4.7197 17.7312C5.17736 16.8158 6.46798 16.3307 7.53892 16.111C8.31128 15.9462 9.09431 15.8361 9.88217 15.7815C11.3408 15.6534 12.8079 15.6534 14.2666 15.7815C15.0544 15.8367 15.8374 15.9468 16.6099 16.111C17.6808 16.3307 18.9714 16.7701 19.4291 17.7312C19.7224 18.348 19.7224 19.064 19.4291 19.6808C18.9714 20.6419 17.6808 21.0813 16.6099 21.2918C15.8384 21.4635 15.0551 21.5767 14.2666 21.6305C13.0794 21.7311 11.8866 21.7495 10.6968 21.6854C10.4222 21.6854 10.1568 21.6854 9.88217 21.6305C9.09663 21.5773 8.31632 21.4641 7.54807 21.2918C6.46798 21.0813 5.18652 20.6419 4.7197 19.6808C4.5746 19.3747 4.49955 19.0402 4.50002 18.7014Z'
+				{...{
+					className: svgElementClassName,
+				}}
+				fillRule='evenodd'
+				clipRule='evenodd'
+				strokeWidth='1.5'
+				strokeLinecap='round'
+				strokeLinejoin='round'
+			/>
+		</svg>
+	</div>
+);
+
+export const CameraIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			width='52'
+			height='52'
+			viewBox='0 0 52 52'
+			fill='none'
+			xmlns='http://www.w3.org/2000/svg'>
+			<g filter='url(#filter0_dd_1260_23741)'>
+				<rect x='11' y='8' width='30' height='30' rx='4' fill='white' />
+				<path
+					d='M28.2918 15.6666H23.7085L21.4168 18.4166H18.6668C18.1806 18.4166 17.7143 18.6098 17.3705 18.9536C17.0267 19.2974 16.8335 19.7637 16.8335 20.25V28.5C16.8335 28.9862 17.0267 29.4525 17.3705 29.7963C17.7143 30.1401 18.1806 30.3333 18.6668 30.3333H33.3335C33.8197 30.3333 34.286 30.1401 34.6299 29.7963C34.9737 29.4525 35.1668 28.9862 35.1668 28.5V20.25C35.1668 19.7637 34.9737 19.2974 34.6299 18.9536C34.286 18.6098 33.8197 18.4166 33.3335 18.4166H30.5835L28.2918 15.6666Z'
+					{...{
+						className: svgElementClassName,
+					}}
+					fillRule='evenodd'
+					clipRule='evenodd'
+					strokeWidth='1.5'
+					strokeLinecap='round'
+					strokeLinejoin='round'
+				/>
+				<path
+					d='M26 26.6666C27.5188 26.6666 28.75 25.4354 28.75 23.9166C28.75 22.3978 27.5188 21.1666 26 21.1666C24.4812 21.1666 23.25 22.3978 23.25 23.9166C23.25 25.4354 24.4812 26.6666 26 26.6666Z'
+					stroke='#4B5563'
+					stroke-width='2'
+					fillRule='evenodd'
+					clipRule='evenodd'
+					strokeWidth='1.5'
+					strokeLinecap='round'
+					strokeLinejoin='round'
+				/>
+			</g>
+			<defs>
+				<filter
+					id='filter0_dd_1260_23741'
+					x='0'
+					y='0'
+					width='52'
+					height='52'
+					filterUnits='userSpaceOnUse'
+					color-interpolation-filters='sRGB'>
+					<feFlood flood-opacity='0' result='BackgroundImageFix' />
+					<feColorMatrix
+						in='SourceAlpha'
+						type='matrix'
+						values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+						result='hardAlpha'
+					/>
+					<feMorphology
+						radius='1'
+						operator='erode'
+						in='SourceAlpha'
+						result='effect1_dropShadow_1260_23741'
+					/>
+					<feOffset dy='2' />
+					<feGaussianBlur stdDeviation='2' />
+					<feColorMatrix
+						type='matrix'
+						values='0 0 0 0 0.101961 0 0 0 0 0.219608 0 0 0 0 0.376471 0 0 0 0.1 0'
+					/>
+					<feBlend
+						mode='normal'
+						in2='BackgroundImageFix'
+						result='effect1_dropShadow_1260_23741'
+					/>
+					<feColorMatrix
+						in='SourceAlpha'
+						type='matrix'
+						values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+						result='hardAlpha'
+					/>
+					<feMorphology
+						radius='1'
+						operator='erode'
+						in='SourceAlpha'
+						result='effect2_dropShadow_1260_23741'
+					/>
+					<feOffset dy='3' />
+					<feGaussianBlur stdDeviation='6' />
+					<feColorMatrix
+						type='matrix'
+						values='0 0 0 0 0.109804 0 0 0 0 0.215686 0 0 0 0 0.352941 0 0 0 0.16 0'
+					/>
+					<feBlend
+						mode='normal'
+						in2='effect1_dropShadow_1260_23741'
+						result='effect2_dropShadow_1260_23741'
+					/>
+					<feBlend
+						mode='normal'
+						in='SourceGraphic'
+						in2='effect2_dropShadow_1260_23741'
+						result='shape'
+					/>
+				</filter>
+			</defs>
+		</svg>
+	</div>
+);
