@@ -73,20 +73,21 @@ export const JobType = ({
 	name?: string;
 }) => {
 	return (
-		<p className={`border h-fit font-bold selection:bg-inherit ${className}`}>
+		<p className={`border font-bold selection:bg-inherit ${className}`}>
 			{name}
 		</p>
 	);
 };
 
 export const TimeLimitLabel = ({
-	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
+	className = '',
 	name = '2 days ago',
 }: {
 	className?: string;
 	name?: string;
 }) => (
-	<div className='flex gap-[4px] items-center justify-center'>
+	<div
+		className={`flex h-fit gap-[4px] items-center justify-center ${className}`}>
 		<ClockIcon
 			{...{
 				styles: {
@@ -130,7 +131,7 @@ export const LocationIcon = ({
 			className,
 			style: styles,
 		}}>
-		<svg viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
 			<path
 				d='M20 9.75C20 16.5 12.5 21.75 12.5 21.75C12.5 21.75 5 16.5 5 9.75C5 7.76088 5.79018 5.85322 7.1967 4.4467C8.60322 3.04018 10.5109 2.25 12.5 2.25C14.4891 2.25 16.3968 3.04018 17.8033 4.4467C19.2098 5.85322 20 7.76088 20 9.75Z'
 				{...{
@@ -160,12 +161,12 @@ export const LocationLabel = ({
 	className?: string;
 	name?: string;
 }) => (
-	<div className='flex gap-[4px] items-center justify-center'>
+	<div className={`flex gap-[4px] items-center justify-center ${className}`}>
 		<LocationIcon
 			{...{
 				styles: {
-					width: '20px',
-					height: '20px',
+					width: '18px',
+					height: '18px',
 				},
 				svgElementClassName: 'stroke-gray-body-text',
 			}}
@@ -292,11 +293,21 @@ export const CommentCard = () => {
 
 			<div className='my-[8px] flex gap-[16px] items-center'>
 				<div className='w-fit'>
-					<JobType />
+					<JobType
+						{...{
+							className:
+								'flex items-center justify-center border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px] leading-[16.37px] font-bold text-[12px] h-fit',
+						}}
+					/>
 				</div>
 
 				<div className='w-fit'>
-					<LocationLabel />
+					<LocationLabel
+						{...{
+							className:
+								'flex gap-[2px] text-[12px] leading-[16.37px] font-semibold text-commentCardTextColor',
+						}}
+					/>
 				</div>
 
 				<div className='w-fit'>
@@ -1104,6 +1115,24 @@ export const NewsCard = () => {
 					Subscribe
 				</button>
 			</div>
+		</div>
+	);
+};
+
+export const Error404 = () => {
+	return (
+		<div className='shadow-page404Shadow bg-white gap-[32px] p-[40px] rounded-[20px] fex flex-col'>
+			<div className='flex flex-col  gap-[14px]'>
+				<p className=' tracking-[.75%] leading-[36px] text-[30px] font-bold text-textTitle'>
+					Sorry! We're having a technical hiccup on our end.
+				</p>
+				<p className='text-bodyText leading-[24px] text-[16px] font-normal'>
+					Sometimes, a fresh start is all it takes. Head back to the homepage
+					and explore from there.
+				</p>
+			</div>
+			<div className=''>Image</div>
+			<div className=''>Buttons</div>
 		</div>
 	);
 };
