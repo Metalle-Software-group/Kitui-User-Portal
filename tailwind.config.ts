@@ -96,6 +96,8 @@ const config = {
 				searchShadow:
 					'0px 2px 4px -1px var(--dividerColor),0px 3px 12px -1px var(--checkboxColor)',
 				btnBoxShadow: '0px 1px 2px 0px #1018280D',
+				page404Shadow:
+					'0px 2px 6px -1px var(--checkboxColor),0px 8px 24px -4px var(--checkboxColor)',
 				headerShadow:
 					'0px 3px 18px -2px var(--dividerColor),0px 12px 48px -6px var(--checkboxColor)',
 				tableBoxShadow: '0px 1px 2px 0px #1018280F,0px 1px 3px 0px #1018281A',

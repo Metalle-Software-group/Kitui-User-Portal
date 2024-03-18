@@ -178,7 +178,6 @@ export const Footer = () => {
 							<p className='text-white'>@ 2024 County Government Of Kitui.</p>
 							<p className='text-white'>All rights preserved.</p>
 						</div>
-						N
 					</div>
 				</div>
 			</div>

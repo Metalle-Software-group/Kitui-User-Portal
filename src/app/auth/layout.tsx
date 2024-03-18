@@ -17,7 +17,6 @@ export default function DashboardLayout({ children }: TNodes) {
 			<body className={entireFont.className}>
 				<QueryClientProvider client={queryClient}>
 					{children}
-					Morph
 				</QueryClientProvider>
 			</body>
 		</html>

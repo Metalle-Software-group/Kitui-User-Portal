@@ -28,7 +28,7 @@ export const NavUrls: NavUrlType[] = [
 	},
 	{
 		name: 'Departments',
-		url: '/department',
+		url: '/departments',
 	},
 	{
 		name: 'Register Details',
