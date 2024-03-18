@@ -107,6 +107,7 @@ const config = {
 			backgroundImage: {
 				'radial-gradient':
 					'radial-gradient(37.81% 40.57% at 77.99% 41.39%, rgba(249, 249, 249, 0.8) 0%, rgba(251, 251, 251, 0.8) 100%)',
+				'newsCardBgImage': `url('/images/others/news-bg.svg')`,
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

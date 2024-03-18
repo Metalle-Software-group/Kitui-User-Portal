@@ -1,15 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+
 import { ApplicantsColumns, actionsColumn } from '@/components/table/Columns';
+import AlertDialogComponent from '@/components/reusables/AlertDialog';
 import { Slogan } from '@/components/reusables/Slogan';
+import { Alert } from '@/components/cards/Alert';
+import { shortlistedData } from '@/data/dummy';
 import {
 	TableReusableComponent,
 	JobMinistryTag,
 } from '@/components/reusables/Others';
-import { shortlistedData } from '@/data/dummy';
-import { useState } from 'react';
-import AlertDialogComponent from '@/components/reusables/AlertDialog';
-import { Alert } from '@/components/cards/Alert';
 
 const ShortListedCandidatesPage = () => {
 	const [action, setAction] = useState<string | null>(null);
@@ -87,7 +88,6 @@ const ShortListedCandidatesPage = () => {
 										actionsColumn({ ActionsHandlerMapping }),
 									],
 									data: shortlistedData,
-									titleFilterInline: true,
 									showPagination: true,
 									isSearchAtEnd: true,
 									filter: true,

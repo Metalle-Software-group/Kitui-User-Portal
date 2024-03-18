@@ -15,6 +15,7 @@ import {
 	SearchIcon,
 	CheckMarkIcon,
 	CrossMarkIcon,
+	CameraIcon,
 } from '../icons';
 
 import {
@@ -61,6 +62,8 @@ import {
 import { Input } from '../ui/input';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Button } from '../ui/button';
+import { MyApplicantColumns } from '../table/Columns';
+import { shortlistedData } from '@/data/dummy';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -417,11 +420,26 @@ export const Avatar = ({
 	const [fname, lname] = name.split(' ');
 
 	return (
-		<p
-			className={`rounded-[200px] text-deep-purple flex justify-center items-center content-center ${classNames}`}>
-			{fname.at(0)?.toUpperCase()}
-			{lname.at(0)?.toUpperCase()}
-		</p>
+		<div className='relative'>
+			<p
+				className={`rounded-[200px] text-deep-purple flex justify-center items-center content-center ${classNames}`}>
+				{fname.at(0)?.toUpperCase()}
+				{lname.at(0)?.toUpperCase()}
+			</p>
+
+			<div className='w-fit absolute bottom-[10px] right-[24px]'>
+				<CameraIcon
+					{...{
+						svgElementClassName: 'stroke-bodyText',
+						applyToSvgEl: true,
+						styles: {
+							width: '30px',
+							height: '30px',
+						},
+					}}
+				/>
+			</div>
+		</div>
 	);
 };
 
@@ -1033,6 +1051,58 @@ export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 						</div>
 					</form>
 				</Form>
+			</div>
+		</div>
+	);
+};
+
+export const MyApplications = () => {
+	return (
+		<div className='gap-y-[32px] md:gap-y-0 md:col-span-3 h-fit overflow-auto shadow-tableBoxShadow bg-white border border-white rounded-[12px] p-[10px]'>
+			<div className='md:col-span-6'>
+				<TableReusableComponent
+					{...{
+						title: (
+							<div className='flex items-center gap-[8px]'>
+								<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
+									MyApplications
+								</p>
+							</div>
+						),
+						columns: MyApplicantColumns,
+						data: shortlistedData,
+						titleFilterInline: false,
+						showPagination: true,
+						isSearchAtEnd: false,
+						filter: true,
+					}}
+				/>
+			</div>
+		</div>
+	);
+};
+
+export const NewsCard = () => {
+	return (
+		<div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
+			<p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
+				County news & updates
+			</p>
+
+			<p className='md:leading-[24px] md:text-[16px] font-normal text-bodyBg'>
+				Get the latest county news,articles, and resources sent directly to your
+				email every month.
+			</p>
+
+			<div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
+				<input
+					className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px] w-full'
+					onChange={() => {}}
+					placeholder='Your Email'
+				/>
+				<button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
+					Subscribe
+				</button>
 			</div>
 		</div>
 	);

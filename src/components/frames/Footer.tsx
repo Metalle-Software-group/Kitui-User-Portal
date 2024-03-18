@@ -8,6 +8,7 @@ import {
 	quickLinks,
 } from '@/constants';
 import Image from 'next/image';
+import { NewsCard } from '../reusables/Others';
 
 export const Footer = () => {
 	return (
@@ -29,27 +30,7 @@ export const Footer = () => {
 
 			<div className='text-white'>
 				<div className='flex w-full h-fit justify-center bg-footer-btnColor px-5 md:px-0'>
-					<div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
-						<p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
-							County news & updates
-						</p>
-
-						<p className='md:leading-[24px] md:text-[16px] font-normal text-bodyBg'>
-							Get the latest county news,articles, and resources sent directly
-							to your email every month.
-						</p>
-
-						<div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
-							<input
-								className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px] w-full'
-								onChange={() => {}}
-								placeholder='Your Email'
-							/>
-							<button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
-								Subscribe
-							</button>
-						</div>
-					</div>
+					<NewsCard />
 					<div className='flex flex-col w-full space-y-10 md:pt-[200px] md:px-[100px]'>
 						<div className='w-full space-y-5 md:h-[500px] md:grid md:grid-cols-6 border-b-2 border-white text-white '>
 							<div className=''>
@@ -197,6 +178,7 @@ export const Footer = () => {
 							<p className='text-white'>@ 2024 County Government Of Kitui.</p>
 							<p className='text-white'>All rights preserved.</p>
 						</div>
+						N
 					</div>
 				</div>
 			</div>

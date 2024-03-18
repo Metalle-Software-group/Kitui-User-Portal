@@ -5,7 +5,9 @@ import { z } from 'zod';
 
 import { toast } from '@/components/ui/use-toast';
 import { useForm } from 'react-hook-form';
-import { Avatar, Profile } from '@/components/reusables/Others';
+import { Avatar, MyApplications, Profile } from '@/components/reusables/Others';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ProfileIcon, WorkIcon } from '@/components/icons';
 
 const ProfilePage = () => {
 	const FormSchema = z.object({
@@ -92,8 +94,56 @@ const ProfilePage = () => {
 					</p>
 				</div>
 			</div>
-			<div className=''>
-				<Profile {...{ form, onSubmit }} />
+
+			<div className='p-[20px] py-[16px] mx-auto shadow-applicantBoxDetailsShadow rounded-[8px] w-full'>
+				<Tabs defaultValue='my_applications' className='w-full'>
+					<TabsList className='border-b-[1px] px-[8px] h-[52px] w-full justify-start gap-[10px]'>
+						<TabsTrigger
+							value='my_applications'
+							className='flex flex-col gap-[4px]'>
+							<WorkIcon
+								{...{
+									svgElementClassName:
+										'stroke-inherit fill-inherit stroke-inherit',
+									applyToSvgEl: true,
+									styles: {
+										width: '24px',
+										height: '24px',
+									},
+								}}
+							/>
+							<p className='text-inherit font-medium text-[16px] leading-[22px] text-center'>
+								My Applications
+							</p>
+						</TabsTrigger>
+
+						<TabsTrigger
+							value='profile_info'
+							className='flex flex-col gap-[4px]'>
+							<ProfileIcon
+								{...{
+									svgElementClassName: 'stroke-inherit fill-inherit',
+									applyToSvgEl: true,
+									styles: {
+										width: '24px',
+										height: '24px',
+									},
+								}}
+							/>
+							<p className='text-inherit font-medium text-[16px] leading-[22px] text-center'>
+								Profile
+							</p>
+						</TabsTrigger>
+					</TabsList>
+
+					<TabsContent value='my_applications'>
+						<MyApplications />
+					</TabsContent>
+
+					<TabsContent value='profile_info'>
+						<Profile {...{ form, onSubmit }} />
+					</TabsContent>
+				</Tabs>
 			</div>
 		</div>
 	);

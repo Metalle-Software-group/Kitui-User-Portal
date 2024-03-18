@@ -148,7 +148,6 @@ export type TTableReusableComponent = {
 	title: string | React.ReactNode;
 	columns: ColumnDef<any, any>[];
 	headerBtn?: THeaderBtn;
-	titleFilterInline?: boolean;
 	showPagination?: boolean;
 	isSearchAtEnd?: boolean;
 	searchColumn?: string;
