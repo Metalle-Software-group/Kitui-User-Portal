@@ -18,7 +18,12 @@
 		--mainGreen: #0c5221;
 		--footer-color: #0c7b3a;
 		--footer-btnColor: #212121;
+		--jobTypeBorderColor: #f1eae4;
+		--jobApplicationBtnColor: #d0d5dd;
+		--checkMarkColor: #005fdb;
+		--crossMarkColor: #1c2e4599;
 		--inputTextColor: #1c304a85;
+		--dividerColor: #1a38601a;
 		--dots-color: #98a2b3;
 		--text-title: #192434;
 		--foundation-green: #dbf0e4;
@@ -26,6 +31,7 @@
 		--applicant-colorbg: #f9f5ff;
 		--deep-purple: #7f56d9;
 		--applicant-colorText: #6941c6;
+		--searchIconColor: #667085;
 		--main-Green: #0f9a49;
 		--light-Purple: #f3e8ff;
 		--settingsIconColor: #262828;

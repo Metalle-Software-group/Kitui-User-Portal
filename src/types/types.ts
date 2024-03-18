@@ -241,3 +241,8 @@ export type TqueryKey = [
 		}) => Promise<StrapiResponse<dataTypeExpected>>;
 	}
 ];
+
+export type ProfilePropsTypes = {
+	onSubmit: any;
+	form: any;
+};

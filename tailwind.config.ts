@@ -21,10 +21,14 @@ const config = {
 			colors: {
 				'commentCardTextColor': 'var(--commentCardTextColor)',
 				'settingsClearBarColor': 'var(--settingsClearBarColor)',
+				'jobTypeBorderColor': 'var(--jobTypeBorderColor)',
 				'applicant-colorText': 'var(--applicant-colorText)',
 				'settingsIconColor': 'var(--settingsIconColor)',
-				'dots-color': 'var(--dots-color)',
 				'settingsClearColor': 'var(--settingsClearColor)',
+				'checkMarkColor': 'var(--checkMarkColor)',
+				'crossMarkColor': 'var(--crossMarkColor)',
+				'dividerColor': 'var(--dividerColor)',
+				'dots-color': 'var(--dots-color)',
 				'deep-purple': 'var(--deep-purple)',
 				'search-iconColor': 'var(--search-iconColor)',
 				'boxBorder-color': 'var(--boxBorder-color)',
@@ -41,6 +45,8 @@ const config = {
 				'tag-color': 'var(--tag-color)',
 				'main-Green': 'var(--main-Green)',
 				'light-Purple': 'var(--light-Purple)',
+				'jobApplicationBtnColor': 'var(--jobApplicationBtnColor)',
+				'searchIconColor': 'var(--searchIconColor)',
 				'login-screen-text-color': 'var(--login-screen-text-color)',
 				'filter-stroke-color': 'var(--filter-stroke-color)',
 				'downloadBtnColor': 'var(--downloadBtnColor)',
@@ -88,11 +94,15 @@ const config = {
 			},
 			boxShadow: {
 				searchShadow:
-					'0px 2px 4px -1px #1A38601A,0px 3px 12px -1px var(--checkboxColor)',
+					'0px 2px 4px -1px var(--dividerColor),0px 3px 12px -1px var(--checkboxColor)',
 				btnBoxShadow: '0px 1px 2px 0px #1018280D',
 				headerShadow:
-					'0px 3px 18px -2px #1A38601A,0px 12px 48px -6px #1C375A29',
+					'0px 3px 18px -2px var(--dividerColor),0px 12px 48px -6px var(--checkboxColor)',
 				tableBoxShadow: '0px 1px 2px 0px #1018280F,0px 1px 3px 0px #1018281A',
+				applicationFormBoxShadow:
+					'0px 2px 6px -1px var(--dividerColor),0px 8px 24px -4px var(--checkboxColor)',
+				profileBoxShadow:
+					'0px 2px 6px -1px var(--dividerColor),0px 8px 24px -4px var(--checkboxColor)',
 			},
 			backgroundImage: {
 				'radial-gradient':

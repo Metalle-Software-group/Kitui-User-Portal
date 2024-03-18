@@ -93,8 +93,8 @@ export default function () {
 							<ArrowRightIcon
 								{...{
 									svgElementClassName: 'fill-main-Green stroke-main-Green',
-									applyToSvgEl: true,
 									className: 'w-[24px] h-[24px]',
+									applyToSvgEl: true,
 								}}
 							/>
 						</button>

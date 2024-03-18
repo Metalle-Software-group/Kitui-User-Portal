@@ -1308,3 +1308,71 @@ export const HelpIcon = ({
 		</svg>
 	</div>
 );
+
+export const CheckMarkIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			viewBox='0 0 24 24'
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M7.5364 11.73C7.18492 11.3785 6.61508 11.3785 6.2636 11.73C5.91213 12.0814 5.91213 12.6513 6.2636 13.0027L9.53043 16.2696C9.8819 16.621 10.4517 16.621 10.8032 16.2696L18.5364 8.5364C18.8879 8.18492 18.8879 7.61508 18.5364 7.2636C18.1849 6.91213 17.6151 6.91213 17.2636 7.2636L10.1668 14.3604L7.5364 11.73Z'
+				{...{
+					className: svgElementClassName,
+				}}
+				strokeLinejoin='round'
+				strokeLinecap='round'
+				strokeWidth='1.67'
+			/>
+		</svg>
+	</div>
+);
+
+export const CrossMarkIcon = ({
+	svgElementClassName,
+	applyToSvgEl = false,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			viewBox='0 0 24 24'
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M10.6712 12L7.27521 8.60406C6.90826 8.23711 6.90826 7.64216 7.27521 7.27521C7.64216 6.90826 8.23711 6.90826 8.60406 7.27521L12 10.6712L15.3959 7.27521C15.7629 6.90826 16.3578 6.90826 16.7248 7.27521C17.0917 7.64216 17.0917 8.23711 16.7248 8.60406L13.3288 12L16.7248 15.3959C17.0917 15.7629 17.0917 16.3578 16.7248 16.7248C16.3578 17.0917 15.7629 17.0917 15.3959 16.7248L12 13.3288L8.60406 16.7248C8.23711 17.0917 7.64216 17.0917 7.27521 16.7248C6.90826 16.3578 6.90826 15.7629 7.27521 15.3959L10.6712 12Z'
+				{...{
+					className: svgElementClassName,
+				}}
+				strokeLinejoin='round'
+				strokeLinecap='round'
+				strokeWidth='1.67'
+			/>
+		</svg>
+	</div>
+);
