@@ -1,6 +1,12 @@
 'use client';
 
-import { ArrowRightIcon, DownloadIcon, EyeIcon, PlusIcon } from 'lucide-react';
+import {
+	ArrowRightIcon as ArrowRightIconLucid,
+	DownloadIcon,
+	EyeIcon,
+	PlusIcon,
+} from 'lucide-react';
+
 import { ChangeEvent, Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
 
@@ -17,6 +23,7 @@ import {
 	CrossMarkIcon,
 	CameraIcon,
 	DropFileIcon,
+	ArrowRightIcon,
 } from '../icons';
 
 import {
@@ -331,7 +338,15 @@ export const CommentCard = () => {
 					<p className='text-dev-accent w-fit font-semibold text-[14px] leading-[20px]'>
 						View Job
 					</p>
-					<ArrowRightIcon width={24} height={24} color='#0B7437' />
+
+					<ArrowRightIcon
+						{...{
+							svgElementClassName:
+								'fill-foundationGreen2 stroke-foundationGreen2',
+							applyToSvgEl: true,
+							className: 'w-[24px] h-[24px]',
+						}}
+					/>
 				</div>
 
 				<div className='flex gap-[4px] items-center justify-center selection:bg-inherit cursor-pointer'>
@@ -1216,3 +1231,46 @@ export const UploadFileCard = ({
 		</div>
 	);
 };
+
+export const SeeAllCategories = () => (
+	<Fragment>
+		<p className='font-semibold md:text-[14px] md:leading-[20px] text-main-Green'>
+			See all categories
+		</p>
+
+		<ArrowRightIcon
+			{...{
+				svgElementClassName: 'fill-main-Green stroke-main-Green',
+				applyToSvgEl: true,
+				className: 'w-[20px] h-[20px]',
+			}}
+		/>
+	</Fragment>
+);
+
+export const SeeAllJobs = () => (
+	<Fragment>
+		<p className='font-semibold text-[16px] leading-[24px] text-main-Green'>
+			See all jobs
+		</p>
+
+		<ArrowRightIcon
+			{...{
+				svgElementClassName:
+					'fill-main-Green stroke-main-Green w-[20px] h-[20px]',
+				applyToSvgEl: true,
+			}}
+		/>
+	</Fragment>
+);
+
+export const MoreJobsComponent = () => (
+	<div
+		className='bg-main-Green w-fit h-fit flex gap-[2px] rounded-[8px] px-[18px] py-[10px] items-center justify-center selection:bg-inherit'
+		role='button'>
+		<p className='text-white w-fit font-semibold text-[14px] leading-[20px]'>
+			More Jobs
+		</p>
+		<ArrowRightIconLucid width={24} height={24} color='white' />
+	</div>
+);
