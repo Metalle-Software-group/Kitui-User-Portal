@@ -68,85 +68,87 @@ const ProfilePage = () => {
 	}
 
 	return (
-		<div className='mx-[50px] my-[85px] flex flex-col gap-[40px] px-[16px] py-[24px]'>
-			<div className=''>
-				<p className='text-textTitle leading-[36px] font-bold text-[30px] tracking-[.75%]'>
-					Welcome Joy,
-				</p>
-				<p className='text-bodyText leading-[24px] text-[14px] font-normal'>
-					Access your past applications and profile from here
-				</p>
-			</div>
-			<div className='flex gap-[24px] items-center w-fit'>
-				<Avatar
-					{...{
-						classNames:
-							'w-[130px] h-[130px] font-bold text-[48px] leading-[36px] bg-purple-100',
-						name: 'Joy Mueni',
-					}}
-				/>
-				<div className='flex gap-[10px] flex-col'>
-					<p className='text-center tracking-[-.5%] leading-[30.01px] text-[22px] font-bold text-title-text-color'>
-						Joy Mueni
-					</p>
-					<p className='text-gray-body-text text-center leading-[24px] text-[16px] font-normal'>
-						job@gmail.com
-					</p>
-				</div>
-			</div>
+    <div className='md:mx-[50px] md:my-[85px] flex flex-col gap-[40px] md:px-[16px] md:py-[24px] px-[20px] pt-[20px] pb-[20px]'>
+      <div className=''>
+        <p className='text-textTitle leading-[36px] font-bold text-[30px] tracking-[.75%]'>
+          Welcome Joy,
+        </p>
+        <p className='text-bodyText leading-[24px] text-[14px] font-normal'>
+          Access your past applications and profile from here
+        </p>
+      </div>
+      <div className='flex gap-[24px] items-center w-fit'>
+        <Avatar
+          {...{
+            classNames:
+              'w-[130px] h-[130px] font-bold text-[48px] leading-[36px] bg-purple-100',
+            name: 'Joy Mueni',
+          }}
+        />
+        <div className='flex gap-[10px] flex-col'>
+          <p className='text-center tracking-[-.5%] leading-[30.01px] text-[22px] font-bold text-title-text-color'>
+            Joy Mueni
+          </p>
+          <p className='text-gray-body-text text-center leading-[24px] text-[16px] font-normal'>
+            job@gmail.com
+          </p>
+        </div>
+      </div>
 
-			<div className='p-[20px] py-[16px] mx-auto shadow-applicantBoxDetailsShadow rounded-[8px] w-full'>
-				<Tabs defaultValue='my_applications' className='w-full'>
-					<TabsList className='border-b-[1px] px-[8px] h-[52px] w-full justify-start gap-[10px]'>
-						<TabsTrigger
-							value='my_applications'
-							className='flex flex-col gap-[4px]'>
-							<WorkIcon
-								{...{
-									svgElementClassName:
-										'stroke-inherit fill-inherit stroke-inherit',
-									applyToSvgEl: true,
-									styles: {
-										width: '24px',
-										height: '24px',
-									},
-								}}
-							/>
-							<p className='text-inherit font-medium text-[16px] leading-[22px] text-center'>
-								My Applications
-							</p>
-						</TabsTrigger>
+      <div className='md:p-[20px] md:py-[16px] mx-auto shadow-applicantBoxDetailsShadow rounded-[8px] w-full'>
+        <Tabs
+          defaultValue='my_applications'
+          className='w-full'>
+          <TabsList className='border-b-[1px] md:px-[8px] h-[52px] w-full justify-start gap-[10px]'>
+            <TabsTrigger
+              value='my_applications'
+              className='flex flex-col gap-[4px]'>
+              <WorkIcon
+                {...{
+                  svgElementClassName:
+                    'stroke-inherit fill-inherit stroke-inherit',
+                  applyToSvgEl: true,
+                  styles: {
+                    width: '24px',
+                    height: '24px',
+                  },
+                }}
+              />
+              <p className='text-inherit font-medium text-[16px] md:leading-[22px] text-center'>
+                My Applications
+              </p>
+            </TabsTrigger>
 
-						<TabsTrigger
-							value='profile_info'
-							className='flex flex-col gap-[4px]'>
-							<ProfileIcon
-								{...{
-									svgElementClassName: 'stroke-inherit fill-inherit',
-									applyToSvgEl: true,
-									styles: {
-										width: '24px',
-										height: '24px',
-									},
-								}}
-							/>
-							<p className='text-inherit font-medium text-[16px] leading-[22px] text-center'>
-								Profile
-							</p>
-						</TabsTrigger>
-					</TabsList>
+            <TabsTrigger
+              value='profile_info'
+              className='flex flex-col gap-[4px]'>
+              <ProfileIcon
+                {...{
+                  svgElementClassName: 'stroke-inherit fill-inherit',
+                  applyToSvgEl: true,
+                  styles: {
+                    width: '24px',
+                    height: '24px',
+                  },
+                }}
+              />
+              <p className='text-inherit font-medium text-[16px] md:leading-[22px] text-center'>
+                Profile
+              </p>
+            </TabsTrigger>
+          </TabsList>
 
-					<TabsContent value='my_applications'>
-						<MyApplications />
-					</TabsContent>
+          <TabsContent value='my_applications'>
+            <MyApplications />
+          </TabsContent>
 
-					<TabsContent value='profile_info'>
-						<Profile {...{ form, onSubmit }} />
-					</TabsContent>
-				</Tabs>
-			</div>
-		</div>
-	);
+          <TabsContent value='profile_info'>
+            <Profile {...{ form, onSubmit }} />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
 };
 
 export default ProfilePage;

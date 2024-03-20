@@ -875,12 +875,12 @@ export const FileListDivider = () => (
 
 export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 	return (
-		<div className='shadow-profileBoxShadow bg-white gap-[4px] p-[28px] rounded-[20px]'>
-			<p className='text-title-text-color tracking-[-.5%] leading-[28px] text-[24px] font-bold'>
+		<div className='shadow-profileBoxShadow bg-white gap-[4px] md:p-[28px] p-3 rounded-[20px]'>
+			<p className='text-title-text-color tracking-[-.5%] md:leading-[28px] md:text-[24px] font-bold'>
 				Profile details
 			</p>
 
-			<div className='w-full h-fit flex gap-[40px] p-[28px] flex-wrap'>
+			<div className='w-full h-fit flex gap-[40px] md:p-[28px] flex-wrap'>
 				<Form {...form} {...{}}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
