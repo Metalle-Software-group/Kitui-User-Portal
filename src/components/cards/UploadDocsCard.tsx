@@ -1,7 +1,10 @@
 import { UploadedDocument } from '../reusables/Others';
 import { FBIcon, InstagramIcon, LinkIcon, XIcon } from '../icons';
+import { useRouter } from 'next/navigation';
+import { TUploadDocsCardProps } from '@/types/types';
 
-export const UploadDocsCard = () => {
+export const UploadDocsCard = ({ applyUrl }: TUploadDocsCardProps) => {
+	const router = useRouter();
 	return (
 		<div className='flex flex-col justify-center items-center ] md:w-[400px]'>
 			<div className='flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10 w-full'>
@@ -20,7 +23,8 @@ export const UploadDocsCard = () => {
 					<button
 						className='flex w-fit h-fit bg-main-Green rounded-[8px] border items-center justify-center px-[20px] py-[12px] gap-[8px] shadow-btnBoxShadow text-white'
 						aria-label={'button'}
-						role={'button'}>
+						role={'button'}
+						onClick={(e) => router.push(applyUrl)}>
 						Apply Now
 					</button>
 				</div>
@@ -34,7 +38,7 @@ export const UploadDocsCard = () => {
 						<LinkIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -43,7 +47,7 @@ export const UploadDocsCard = () => {
 						<XIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -52,7 +56,7 @@ export const UploadDocsCard = () => {
 						<FBIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -61,7 +65,7 @@ export const UploadDocsCard = () => {
 						<InstagramIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -92,7 +96,7 @@ export const ViewShortListedCandidatesCard = () => {
 						<LinkIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -100,7 +104,7 @@ export const ViewShortListedCandidatesCard = () => {
 						<XIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -108,7 +112,7 @@ export const ViewShortListedCandidatesCard = () => {
 						<FBIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}
@@ -116,7 +120,7 @@ export const ViewShortListedCandidatesCard = () => {
 						<InstagramIcon
 							{...{
 								svgElementClassName:
-									'stroke-black fill-[#00000000] w-[50px] h-[50px]',
+									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
 								// className: '',
 							}}

@@ -8,7 +8,7 @@ export const CommentForm = () => {
 				<p className='font-semibold text-[20px] leading-[28px] text-textTitle'>
 					Leave a comment
 				</p>
-				<p className='font-[700] text-[16px] leading-[24px] text-[#333333]'>
+				<p className='font-[700] text-[16px] leading-[24px] text-commentsColor'>
 					Your email address will not be published. Required fields are marked *
 				</p>
 			</div>
@@ -20,7 +20,7 @@ export const CommentForm = () => {
 					</label>
 					<textarea
 						placeholder='Your comment here'
-						className='h-[100px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-[#FBFBFB]'
+						className='h-[100px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
 						onChange={() => {}}
 						required
 					/>
@@ -34,7 +34,7 @@ export const CommentForm = () => {
 							placeholder='e.g James Musyoka'
 							required
 							type='text'
-							className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-[#FBFBFB]'
+							className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
 							onChange={() => {}}
 						/>
 					</div>
@@ -46,7 +46,7 @@ export const CommentForm = () => {
 							placeholder='e.g jamesmusyoka@gmail.com'
 							required
 							type='email'
-							className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-[#FBFBFB]'
+							className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
 							onChange={() => {}}
 						/>
 					</div>
@@ -59,7 +59,7 @@ export const CommentForm = () => {
 						placeholder=''
 						required
 						type='text'
-						className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-[#FBFBFB]'
+						className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
 						onChange={() => {}}
 					/>
 				</div>
@@ -69,9 +69,7 @@ export const CommentForm = () => {
 						id='remember-me'
 						type='checkbox'
 						required
-						onChange={() => {
-							setChecked(!checked);
-						}}
+						onChange={() => setChecked(!checked)}
 					/>
 					<label
 						className='font-[400] text-[14px] leading-[24px] text-textTitle cursor-pointer selection:bg-inherit'

@@ -1,6 +1,6 @@
 export const RegistrationForm = () => {
 	return (
-		<form className='flex flex-col w-[820px] h-[900px] rounded-[20px] p-[40px] py-[200px] px-[300px] shadow-xl shadow-[#1A3860] space-y-[32px] justify-center items-center'>
+		<form className='flex flex-col w-[820px] h-[900px] rounded-[20px] p-[40px] py-[200px] px-[300px] shadow-xl shadow-dividerColor space-y-[32px] justify-center items-center'>
 			<p className='font-[700] text-[30px] leading-[36px] text-textTitle'>
 				Create an account
 			</p>

@@ -24,7 +24,7 @@ export const Footer = () => {
 					className='relative  block w-[calc(100%+1.3px)] h-[50px] transform transform-[180deg]'>
 					<path
 						d='M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z'
-						className='fill-[#fff]'
+						className='fill-white'
 					/>
 				</svg>
 			</div>
@@ -157,7 +157,7 @@ export const Footer = () => {
 								<XIcon
 									{...{
 										svgElementClassName:
-											'stroke-white fill-[#00000000] w-[50px] h-[50px]',
+											'stroke-white fill-transparent w-[50px] h-[50px]',
 										roundRingClassnames: 'stroke-white',
 										applyToSvgEl: true,
 										// className: '',
@@ -166,7 +166,7 @@ export const Footer = () => {
 								<FBIcon
 									{...{
 										svgElementClassName:
-											'stroke-white fill-[#00000000] w-[50px] h-[50px]',
+											'stroke-white fill-transparent w-[50px] h-[50px]',
 										roundRingClassnames: 'stroke-white',
 										applyToSvgEl: true,
 										// className: '',
@@ -176,7 +176,7 @@ export const Footer = () => {
 								<InstagramIcon
 									{...{
 										svgElementClassName:
-											'stroke-white fill-[#00000000] w-[50px] h-[50px]',
+											'stroke-white fill-transparent w-[50px] h-[50px]',
 										roundRingClassnames: 'stroke-white',
 										applyToSvgEl: true,
 										// className: '',
