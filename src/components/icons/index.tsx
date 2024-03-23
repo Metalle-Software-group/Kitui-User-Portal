@@ -983,7 +983,7 @@ export const DocumentsIcon = ({
 );
 
 export const FBIcon = ({
-	roundRingClassnames = 'stroke-[#4B5563]',
+	roundRingClassnames = 'stroke-bodyText',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1005,12 +1005,12 @@ export const FBIcon = ({
 			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
+				strokeWidth='0.881826'
 				x='1.41821'
 				y='0.440913'
 				rx='18.5591'
-				width='37.1182'
-				height='37.1182'
-				strokeWidth='0.881826'
+				width='36'
+				height='36'
 				{...{ className: roundRingClassnames }}
 			/>
 			<path
@@ -1035,7 +1035,7 @@ export const FBIcon = ({
 );
 
 export const XIcon = ({
-	roundRingClassnames = 'stroke-[#4B5563]',
+	roundRingClassnames = 'stroke-bodyText',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1079,8 +1079,8 @@ export const XIcon = ({
 
 			<rect
 				strokeWidth='0.881826'
-				height='37.1182'
-				width='37.1182'
+				width='36'
+				height='36'
 				y='0.440913'
 				rx='18.5591'
 				x='1.41821'
@@ -1091,7 +1091,7 @@ export const XIcon = ({
 );
 
 export const LinkIcon = ({
-	roundRingClassnames = 'stroke-[#4B5563]',
+	roundRingClassnames = 'stroke-bodyText',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1118,8 +1118,8 @@ export const LinkIcon = ({
 				x='1.41821'
 				y='0.440913'
 				rx='18.5591'
-				width='37.1182'
-				height='37.1182'
+				width='36'
+				height='36'
 				strokeWidth='0.881826'
 			/>
 
@@ -1168,7 +1168,7 @@ export const LinkIcon = ({
 );
 
 export const InstagramIcon = ({
-	roundRingClassnames = 'stroke-[#4B5563]',
+	roundRingClassnames = 'stroke-bodyText',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1195,8 +1195,8 @@ export const InstagramIcon = ({
 				x='1.41821'
 				y='0.440913'
 				rx='18.5591'
-				width='37.1182'
-				height='37.1182'
+				width='36'
+				height='36'
 				strokeWidth='0.881826'
 			/>
 			<path
@@ -1621,6 +1621,48 @@ export const DropFileIcon = ({
 				strokeWidth='1.5'
 				strokeLinecap='round'
 				strokeLinejoin='round'
+			/>
+		</svg>
+	</div>
+);
+
+export const MessageIcon = ({
+	svgElementClassName,
+	applyToSvgEl,
+	className,
+	styles,
+}: TComponentBasicProps) => (
+	<div
+		{...{
+			style: styles,
+			className,
+		}}>
+		<svg
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			{...(applyToSvgEl
+				? {
+						className: svgElementClassName,
+				  }
+				: {
+						className: 'fill-none',
+				  })}
+			viewBox='0 0 20 20'
+			xmlns='http://www.w3.org/2000/svg'>
+			<path
+				d='M18.75 0.5H2.25003C1.8522 0.5 1.47067 0.658035 1.18937 0.93934C0.908061 1.22064 0.750026 1.60218 0.750026 2V17C0.748331 17.2859 0.829157 17.5662 0.982808 17.8074C1.13646 18.0485 1.35641 18.2401 1.61628 18.3594C1.81486 18.4516 2.03109 18.4996 2.25003 18.5C2.60215 18.4992 2.9426 18.3736 3.21096 18.1456C3.21544 18.1427 3.21953 18.1392 3.22315 18.1353L6.2344 15.5H18.75C19.1479 15.5 19.5294 15.342 19.8107 15.0607C20.092 14.7794 20.25 14.3978 20.25 14V2C20.25 1.60218 20.092 1.22064 19.8107 0.93934C19.5294 0.658035 19.1479 0.5 18.75 0.5ZM18.75 14H6.2344C5.88117 13.9998 5.53922 14.1243 5.26878 14.3516L5.25753 14.3619L2.25003 17V2H18.75V14ZM6.75003 6.5C6.75003 6.30109 6.82904 6.11032 6.9697 5.96967C7.11035 5.82902 7.30111 5.75 7.50003 5.75H13.5C13.6989 5.75 13.8897 5.82902 14.0304 5.96967C14.171 6.11032 14.25 6.30109 14.25 6.5C14.25 6.69891 14.171 6.88968 14.0304 7.03033C13.8897 7.17098 13.6989 7.25 13.5 7.25H7.50003C7.30111 7.25 7.11035 7.17098 6.9697 7.03033C6.82904 6.88968 6.75003 6.69891 6.75003 6.5ZM6.75003 9.5C6.75003 9.30109 6.82904 9.11032 6.9697 8.96967C7.11035 8.82902 7.30111 8.75 7.50003 8.75H13.5C13.6989 8.75 13.8897 8.82902 14.0304 8.96967C14.171 9.11032 14.25 9.30109 14.25 9.5C14.25 9.69891 14.171 9.88968 14.0304 10.0303C13.8897 10.171 13.6989 10.25 13.5 10.25H7.50003C7.30111 10.25 7.11035 10.171 6.9697 10.0303C6.82904 9.88968 6.75003 9.69891 6.75003 9.5Z'
+				{...{
+					className: svgElementClassName,
+				}}
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				clipRule='evenodd'
+				fillRule='evenodd'
 			/>
 		</svg>
 	</div>

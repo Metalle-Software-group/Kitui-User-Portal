@@ -10,27 +10,29 @@ export const Header = () => {
 	const router = useRouter();
 
 	return (
-		<nav className='shadow-headerShadow px-[100px] bg-white sticky top-0 left-0 z-[100]'>
-			<div className='flex justify-between py-[12px] items-center'>
+		<nav className='shadow-headerShadow px-[100px] bg-white sticky top-0 left-0 z-[100] h-[108px]'>
+			<div className='flex justify-between items-center'>
 				<div
 					className='flex justify-between py-[12px]'
 					onClick={(e) => router.push('/')}>
 					<Image
+						className='dark:invert ml-[24px] mr-[24px]'
 						src='/images/logo/logo.png'
 						alt='KCG Logo'
-						className='dark:invert ml-[24px] mr-[24px]'
 						width={84}
 						height={84}
 						priority
 					/>
 				</div>
-				<div className='w-3/6 ml-[50px] mr-[50px]'>
-					<div className='flex w-full justify-between text-bodyText font-extrabold text-[16px] leading-[24px]'>
+
+				<div className='w-fit'>
+					<div className='flex gap-[50px] w-full justify-between text-bodyText font-extrabold text-[16px] leading-[24px]'>
 						{NavUrls.map(({ url, name }, index) => (
 							<Link
 								key={index}
 								{...{
-									className: '',
+									className:
+										'gap-[2px] flex py-[10px] leading-[24px] text-[16px] text-bodyText font-bold',
 									href: url,
 								}}>
 								{name}

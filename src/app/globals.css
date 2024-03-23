@@ -4,7 +4,7 @@
 
 @layer base {
 	:root {
-		--chooseFileIconBorderColor: #1c375a29;
+		--commentOutlinerColor: #6b7280;
 		--chooseFileIconBgColor: #1b2b41b0;
 		--commentCardTextColor: #717171;
 		--chooseFileTextColor: #1b2b41b0;

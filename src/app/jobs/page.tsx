@@ -156,6 +156,8 @@ export default function () {
 							</div>
 						</div>
 					</section>
+
+					{/* job listing */}
 					<section className='w-[70%] mb-[100px] flex flex-col gap-[24px]'>
 						{Featured.map((job, index) => (
 							<FindJobsCard

@@ -261,3 +261,7 @@ export type FileSelectorPropsType = {
 	handleDeleteItem: (file: File) => void;
 	selectedFiles: File[];
 };
+
+export type TUploadDocsCardProps = {
+	applyUrl: string;
+};

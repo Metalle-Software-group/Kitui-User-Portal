@@ -1,13 +1,13 @@
 'use client';
 import { FeaturedJobsTypes } from '@/types/types';
-import Image from 'next/image';
 import {
 	JobMinistryTag,
 	JobType,
 	LocationLabel,
 	TimeLimitLabel,
 } from '../reusables/Others';
-import { ArrowRightIcon } from '../icons';
+import { ArrowRightIcon, MessageIcon } from '../icons';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const FindJobsCard = ({
 	name,
@@ -19,11 +19,18 @@ export const FindJobsCard = ({
 	comments,
 	width,
 }: FeaturedJobsTypes) => {
+	const pathname = usePathname();
+	const router = useRouter();
+
 	return (
 		<div
 			className={`flex flex-col w-fit ${
 				width ? `md:w-[${width}]` : 'md:w-[800px]'
-			} h-fit rounded-[20px] p-[20px] border-[1px] border-[#E9E9E9] justify-center items-start space-y-3`}>
+			} h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
+			{...{
+				onClick: (e) => router.push(`${pathname}/id`),
+				title: 'Open this job',
+			}}>
 			<div className='flex gap-[16px] justify-between'>
 				<p className='font-bold text-[18px] leading-[24.55px] text-title-text-color'>
 					Public Health Officer
@@ -74,8 +81,14 @@ export const FindJobsCard = ({
 					/>
 				</button>
 				<button className='flex w-[38px] justify-between items-center'>
-					<Image src='/message.svg' alt='comments' width={18} height={18} />
-					<p className='font-[600]  text-[14px] leading-[20px] text-[#6B7280]'>
+					<MessageIcon
+						{...{
+							svgElementClassName: 'fill-commentOutlinerColor',
+							className: 'w-[19px] h-[18px]',
+							applyToSvgEl: true,
+						}}
+					/>
+					<p className='font-[600]  text-[14px] leading-[20px] text-commentOutlinerColor'>
 						{comments}
 					</p>
 				</button>

@@ -19,8 +19,8 @@ const config = {
 		},
 		extend: {
 			colors: {
-				'chooseFileIconBorderColor': 'var(--chooseFileIconBorderColor)',
 				'commentCardTextColor': 'var(--commentCardTextColor)',
+				'commentOutlinerColor': 'var(--commentOutlinerColor)',
 				'chooseFileIconBgColor': 'var(--chooseFileIconBgColor)',
 				'settingsClearBarColor': 'var(--settingsClearBarColor)',
 				'chooseFileTextColor': 'var(--chooseFileTextColor)',

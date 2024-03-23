@@ -1187,6 +1187,7 @@ export const UploadFileCard = ({
 				? [...prev, ...Array.from(e.currentTarget?.files)]
 				: prev
 		);
+		if (inputFieldRef.current) inputFieldRef.current.value = '';
 	};
 
 	return (

@@ -1,5 +1,7 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+
 import { CommentForm } from '@/components/reusables/CommentForm';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
 import { SloganWithCategory } from '@/components/reusables/Slogan';
@@ -10,6 +12,8 @@ import { Alert } from '@/components/cards/Alert';
 import { Featured } from '@/constants';
 
 export default function () {
+	const pathname = usePathname();
+
 	return (
 		<main className='w-full space-y-10'>
 			<section>
@@ -20,7 +24,7 @@ export default function () {
 						datePosted: '2 days ago',
 						type: 'Attachment',
 						location: 'Mwingi',
-						comments: 0,
+						comments: 3,
 						slogan:
 							'Make a real difference in your community by joining a vibrant team dedicated to serving the public good.',
 					}}
@@ -79,7 +83,7 @@ export default function () {
 						<CommentForm />
 					</section>
 					<section className='md:w-[30%] space-y-10'>
-						<UploadDocsCard />
+						<UploadDocsCard {...{ applyUrl: `${pathname}/apply` }} />
 					</section>
 				</section>
 				<section className='space-y-5'>

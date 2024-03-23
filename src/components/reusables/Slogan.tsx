@@ -1,13 +1,13 @@
 'use client';
 import { SloganType, SloganWithCategoryType } from '@/types/types';
 import { SearchJob } from '../frames/SearchJob';
-import Image from 'next/image';
 import {
 	JobMinistryTag,
 	JobType,
 	LocationLabel,
 	TimeLimitLabel,
 } from './Others';
+import { MessageIcon } from '../icons';
 
 export const Slogan = ({
 	title,
@@ -54,74 +54,75 @@ export const Slogan = ({
 };
 
 export const SloganWithCategory = ({
-	title,
-	category,
-	slogan,
 	datePosted,
-	type,
+	category,
 	comments,
 	location,
+	slogan,
+	type,
+	title,
 }: SloganWithCategoryType) => {
 	return (
-    <div
-      className={`flex flex-col w-full h-[400px] items-center justify-center bg-light-Purple gap-[24px] p-5 md:p-0`}>
-      <div className='flex w-full justify-center space-x-5 items-center'>
-        <p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
-          {title}
-        </p>
-        <div className='w-fit'>
-          <JobMinistryTag
-            {...{
-              className:
-                'bg-bodyBg md:px-[16px] md:py-[6px] rounded-[40px] gap-[8px]',
-              dotClass: 'bg-mainGreen w-[6px] h-[6px]',
-              textClassName:
-                'text-mainGreen text-[14px] leading-[24px] font-normal',
-              ministry_name: 'Youth & Culture',
-            }}
-          />
-        </div>
-      </div>
+		<div
+			className={`flex flex-col w-full h-[400px] items-center justify-center bg-light-Purple gap-[24px] p-5 md:p-0`}>
+			<div className='flex w-full justify-center space-x-5 items-center'>
+				<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
+					{title}
+				</p>
+				<div className='w-fit'>
+					<JobMinistryTag
+						{...{
+							className:
+								'bg-bodyBg md:px-[16px] md:py-[6px] rounded-[40px] gap-[8px]',
+							dotClass: 'bg-mainGreen w-[6px] h-[6px]',
+							textClassName:
+								'text-mainGreen text-[14px] leading-[24px] font-normal',
+							ministry_name: 'Youth & Culture',
+						}}
+					/>
+				</div>
+			</div>
 
-      <p className='text-bodyText leading-[24px] text-[16px] font-normal'>
-        {slogan}
-      </p>
+			<p className='text-bodyText leading-[24px] text-[16px] font-normal'>
+				{slogan}
+			</p>
 
-      <div className='flex w-fit justify-between gap-[24px]'>
-        <div className='my-[8px] flex gap-[16px] items-center'>
-          <div className='w-fit'>
-            <JobType
-              {...{
-                className:
-                  'border border-bodyBg gap-[10px] px-[12px] py-[4px] rounded-[40px] text-brown-text leading-[19.1px] font-bold text-[14px]',
-                name: 'Attachment',
-              }}
-            />
-          </div>
+			<div className='flex w-fit justify-between gap-[24px]'>
+				<div className='my-[8px] flex gap-[16px] items-center'>
+					<div className='w-fit'>
+						<JobType
+							{...{
+								className:
+									'border border-bodyBg gap-[10px] px-[12px] py-[4px] rounded-[40px] text-brown-text leading-[19.1px] font-bold text-[14px]',
+								name: 'Attachment',
+							}}
+						/>
+					</div>
 
-          <div className='w-fit'>
-            <LocationLabel />
-          </div>
+					<div className='w-fit'>
+						<LocationLabel />
+					</div>
 
-          <div className='w-fit'>
-            <TimeLimitLabel />
-          </div>
-        </div>
-      </div>
+					<div className='w-fit'>
+						<TimeLimitLabel />
+					</div>
+				</div>
+			</div>
 
-      <button className='flex justify-between items-center space-x-4'>
-        <Image
-          src='/message.svg'
-          alt='comments'
-          width={18}
-          height={18}
-        />
-        <p className='font-[600]  text-[14px] leading-[20px] text-[#6B7280]'>
-          {comments} comments
-        </p>
-      </button>
-    </div>
-  );
+			<button className='flex justify-between items-center gap-[4px]'>
+				<MessageIcon
+					{...{
+						svgElementClassName: 'fill-commentOutlinerColor',
+						className: 'w-[19px] h-[18px]',
+						applyToSvgEl: true,
+					}}
+				/>
+				<p className='font-[600]  text-[14px] leading-[20px] text-commentOutlinerColor'>
+					{comments} comments
+				</p>
+			</button>
+		</div>
+	);
 };
 
 export const SloganUpdates = ({
@@ -133,7 +134,7 @@ export const SloganUpdates = ({
 }: SloganType) => {
 	return (
 		<div
-			className={`flex flex-col w-full bg-[#F3E8FF] h-[400px] items-center justify-center`}>
+			className={`flex flex-col w-full bg-light-Purple h-[400px] items-center justify-center`}>
 			{endingText && (
 				<div className='w-full flex space-x-2 justify-center'>
 					<p className='font-[800] text-[48px] leading-[65.47px] text-textTitle'>
