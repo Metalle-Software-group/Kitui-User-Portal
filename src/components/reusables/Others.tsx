@@ -1,6 +1,12 @@
 'use client';
 
-import { ArrowRightIcon, DownloadIcon, EyeIcon, PlusIcon } from 'lucide-react';
+import {
+	ArrowRightIcon as ArrowRightIconLucid,
+	DownloadIcon,
+	EyeIcon,
+	PlusIcon,
+} from 'lucide-react';
+
 import { ChangeEvent, Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
 
@@ -17,6 +23,7 @@ import {
 	CrossMarkIcon,
 	CameraIcon,
 	DropFileIcon,
+	ArrowRightIcon,
 } from '../icons';
 
 import {
@@ -34,6 +41,7 @@ import {
 	EmpTypes,
 	ProfilePropsTypes,
 	FileSelectorPropsType,
+	AddRemoveEnum,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import { FieldsToExcludeInFilter } from '@/constants';
@@ -331,7 +339,15 @@ export const CommentCard = () => {
 					<p className='text-dev-accent w-fit font-semibold text-[14px] leading-[20px]'>
 						View Job
 					</p>
-					<ArrowRightIcon width={24} height={24} color='#0B7437' />
+
+					<ArrowRightIcon
+						{...{
+							svgElementClassName:
+								'fill-foundationGreen2 stroke-foundationGreen2',
+							applyToSvgEl: true,
+							className: 'w-[24px] h-[24px]',
+						}}
+					/>
 				</div>
 
 				<div className='flex gap-[4px] items-center justify-center selection:bg-inherit cursor-pointer'>
@@ -376,46 +392,54 @@ export const HowItWorksCard = ({
 };
 
 export const FilterCheckbox = ({
-	dataType,
 	onChange,
 	checked,
+	type,
 	label,
 	id,
-}: FilterJobsTypes) => {
-	console.log(checked);
-	return (
-		<div className='flex items-center gap-[8px] selection:bg-inherit'>
-			<Checkbox
-				{...{
-					onCheckedChange: (checked) => {
-						console.log('Morphing');
-						checked ? onChange((prev) => prev) : onChange((prev) => prev);
-					},
-					className: `bg-purple-600 bg-checkboxColor`,
-					id: `filter-${label}${id}`,
-					checked,
-				}}
-			/>
-			<label
-				htmlFor={`filter-${label}${id}`}
-				className='leading-[24px] text-[14px] font-normal text-bodyText'>
-				{label}
-			</label>
-		</div>
-	);
-};
+}: FilterJobsTypes) => (
+	<div className='flex items-center gap-[8px] selection:bg-inherit'>
+		<Checkbox
+			{...{
+				onCheckedChange: (checked) =>
+					checked
+						? onChange({ type, action: AddRemoveEnum.Add, data: label })
+						: onChange({ type, action: AddRemoveEnum.Remove, data: label }),
+				className: `bg-checkboxColor data-[state=checked]:bg-checkboxColor1`,
+				id: `filter-${label}${id}`,
+				checked,
+			}}
+		/>
+		<label
+			htmlFor={`filter-${label}${id}`}
+			className='leading-[24px] text-[14px] font-normal text-bodyText'>
+			{label}
+		</label>
+	</div>
+);
 
-export const FilterTag = ({ name = 'Contract' }: EmpTypes) => {
+export const FilterTag = ({
+	name = 'Contract',
+	onChange,
+	type,
+}: EmpTypes & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
 	return (
 		<div className='bg-purple-200 border-purple-200 border gap-[10px] px-[16px] py-[8px] rounded-[20px] flex items-center justify-center selection:bg-inherit'>
-			<p className='text-purple-800 leading-[24px] text-[14px] font-normal'>
+			<p className='text-filtertTagColor leading-[24px] text-[14px] font-normal'>
 				{name}
 			</p>
-			<div className='cursor-pointer selection:bg-inherit'>
+			<div
+				className='cursor-pointer selection:bg-inherit'
+				{...{
+					title: 'Remove filter',
+					onClick: (e) =>
+						onChange({ type, action: AddRemoveEnum.Remove, data: name }),
+				}}>
 				<CloseIcon
 					{...{
-						svgElementClassName: 'fill-stroke-purple-800 stroke-purple-800',
-						className: 'w-[20px] h-[20px]',
+						svgElementClassName:
+							'fill-stroke-filtertTagColor stroke-filtertTagColor',
+						className: 'w-[12px] h-[12px]',
 						applyToSvgEl: true,
 					}}
 				/>
@@ -847,8 +871,8 @@ export const SelectedFileSingleList = ({
 					}}
 				/>
 				<div className='flex-[1] px-[6px]'>
-					<p className='font-normal leading-[25.78px] text-[16px] text-bodyText'>
-						{file.name.slice(0, 14)}
+					<p className='font-normal leading-[25.78px] text-[16px] text-bodyText overflow-x-hidden'>
+						{file.name}
 					</p>
 				</div>
 
@@ -875,12 +899,12 @@ export const FileListDivider = () => (
 
 export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 	return (
-		<div className='shadow-profileBoxShadow bg-white gap-[4px] p-[28px] rounded-[20px]'>
-			<p className='text-title-text-color tracking-[-.5%] leading-[28px] text-[24px] font-bold'>
+		<div className='shadow-profileBoxShadow bg-white gap-[4px] md:p-[28px] p-3 rounded-[20px]'>
+			<p className='text-title-text-color tracking-[-.5%] md:leading-[28px] md:text-[24px] font-bold'>
 				Profile details
 			</p>
 
-			<div className='w-full h-fit flex gap-[40px] p-[28px] flex-wrap'>
+			<div className='w-full h-fit flex gap-[40px] md:p-[28px] flex-wrap'>
 				<Form {...form} {...{}}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
@@ -1167,7 +1191,7 @@ export const UploadFileCard = ({
 
 	return (
 		<div className='border rounded-[8px] px-[18px] py-[20px] border-checkboxColor'>
-			<div className='w-full'>
+			<div className='w-full' title='Select file or drag and drop here'>
 				<div
 					className='flex gap-[60px] cursor-pointer selection:bg-inherit'
 					onClick={triggerFileSelectorDialog}
@@ -1189,7 +1213,7 @@ export const UploadFileCard = ({
 							}}
 						/>
 						<p className='text-chooseFileTextColor leading-[25.78px] text-[16px] font-normal'>
-							Drop files here
+							Drop your documents here
 						</p>
 					</div>
 				</div>
@@ -1197,6 +1221,7 @@ export const UploadFileCard = ({
 				<input
 					{...{
 						onChange: handleSelectedFile,
+						accept: '.pdf, .doc, .docx',
 						multiple: true,
 						id: 'picture',
 						type: 'file',
@@ -1216,3 +1241,46 @@ export const UploadFileCard = ({
 		</div>
 	);
 };
+
+export const SeeAllCategories = () => (
+	<Fragment>
+		<p className='font-semibold md:text-[14px] md:leading-[20px] text-main-Green'>
+			See all categories
+		</p>
+
+		<ArrowRightIcon
+			{...{
+				svgElementClassName: 'fill-main-Green stroke-main-Green',
+				applyToSvgEl: true,
+				className: 'w-[20px] h-[20px]',
+			}}
+		/>
+	</Fragment>
+);
+
+export const SeeAllJobs = () => (
+	<Fragment>
+		<p className='font-semibold text-[16px] leading-[24px] text-main-Green'>
+			See all jobs
+		</p>
+
+		<ArrowRightIcon
+			{...{
+				svgElementClassName:
+					'fill-main-Green stroke-main-Green w-[20px] h-[20px]',
+				applyToSvgEl: true,
+			}}
+		/>
+	</Fragment>
+);
+
+export const MoreJobsComponent = () => (
+	<div
+		className='bg-main-Green w-fit h-fit flex gap-[2px] rounded-[8px] px-[18px] py-[10px] items-center justify-center selection:bg-inherit'
+		role='button'>
+		<p className='text-white w-fit font-semibold text-[14px] leading-[20px]'>
+			More Jobs
+		</p>
+		<ArrowRightIconLucid width={24} height={24} color='white' />
+	</div>
+);

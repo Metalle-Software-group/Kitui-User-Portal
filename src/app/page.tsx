@@ -1,20 +1,24 @@
 'use client';
 
-import { Alert } from '@/components/cards/Alert';
-import { HomeHero } from '@/components/cards/HomeHero';
-import { ArrowRightIcon } from '@/components/icons';
-import { ArrowRightIcon as ArrowRightIconLucid } from 'lucide-react';
 import { FeaturedJobsCategories } from '@/components/reusables/FeaturedJobsCategories';
+import { HomeHero } from '@/components/cards/HomeHero';
+import { Alert } from '@/components/cards/Alert';
 import {
-	CommentCard,
-	DepartmentCard,
 	HowItWorksCard,
+	SeeAllCategories,
+	DepartmentCard,
+	CommentCard,
+	SeeAllJobs,
+	MoreJobsComponent,
 } from '@/components/reusables/Others';
+
 import {
 	ExploreCategoryCards,
 	FeaturedCategories,
 	HowItWorksSteps,
 } from '@/constants';
+
+// export const metadata: Metadata = { title: 'Home' };
 
 export default function () {
 	return (
@@ -22,10 +26,12 @@ export default function () {
 			<section className='bg-radial-gradient '>
 				<HomeHero />
 			</section>
+
+			{/* category  */}
 			<div className='space-y-10 '>
 				<div className='flex justify-between items-center'>
 					<div className='flex flex-col gap-[12px] selection:bg-inherit'>
-						<p className='f font-extrabold text-[20px] md:text-[36px] leading-[18px] md:leading-[36px] md:tracking-[-.75%] text-textTitle'>
+						<p className='font-extrabold text-[20px] md:text-[36px] leading-[18px] md:leading-[36px] md:tracking-[-.75%] text-textTitle'>
 							Explore By Category
 						</p>
 
@@ -35,17 +41,7 @@ export default function () {
 					</div>
 
 					<div className='flex  md:gap-[8px] cursor-pointer selection:bg-inherit'>
-						<p className='font-semibold md:text-[14px] md:leading-[20px] text-main-Green'>
-							See all categories
-						</p>
-
-						<ArrowRightIcon
-							{...{
-								svgElementClassName: 'fill-main-Green stroke-main-Green',
-								applyToSvgEl: true,
-								className: 'w-[20px] h-[20px]',
-							}}
-						/>
+						<SeeAllCategories />
 					</div>
 				</div>
 
@@ -57,6 +53,7 @@ export default function () {
 					))}
 				</div>
 
+				{/* how it works  */}
 				<div className='bg-purple-100 gap-[24px] px-[100px] py-[40px] flex flex-col'>
 					<div className='flex gap-[12px] flex-col'>
 						<p className='text-textTitle leading-[36px] text-[36px] tracking-[.75%] text-center font-extrabold'>
@@ -76,6 +73,7 @@ export default function () {
 					</div>
 				</div>
 
+				{/* featured jobs  */}
 				<div className='flex justify-between items-center selection:bg-inherit'>
 					<div className='flex flex-col gap-y-[12px]'>
 						<p className='font-extrabold text-[20px] md:text-[36px] leading-[18px] md:leading-[36px] tracking-[-.75%] text-textTitle'>
@@ -88,20 +86,11 @@ export default function () {
 					</div>
 
 					<div className='flex gap-[8px] cursor-pointer'>
-						<p className='font-semibold text-[16px] leading-[24px] text-main-Green'>
-							See all jobs
-						</p>
-
-						<ArrowRightIcon
-							{...{
-								svgElementClassName:
-									'fill-main-Green stroke-main-Green w-[20px] h-[20px]',
-								applyToSvgEl: true,
-							}}
-						/>
+						<SeeAllJobs />
 					</div>
 				</div>
 
+				{/* featured jobs category list  */}
 				<div className='flex w-full justify-center space-x-3 mb-5 overflow-x-auto'>
 					{FeaturedCategories.map((category) => (
 						<FeaturedJobsCategories
@@ -112,6 +101,7 @@ export default function () {
 					))}
 				</div>
 
+				{/* featured jobs card  */}
 				<div className='w-full'>
 					<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
 						{[0, 0, 0, 0, 0, 0].map((_, index) => (
@@ -120,14 +110,7 @@ export default function () {
 					</div>
 
 					<div className='flex items-center justify-center my-[20px]'>
-						<div
-							className='bg-main-Green w-fit h-fit flex gap-[2px] rounded-[8px] px-[18px] py-[10px] items-center justify-center selection:bg-inherit'
-							role='button'>
-							<p className='text-white w-fit font-semibold text-[14px] leading-[20px]'>
-								More Jobs
-							</p>
-							<ArrowRightIconLucid width={24} height={24} color='white' />
-						</div>
+						<MoreJobsComponent />
 					</div>
 				</div>
 

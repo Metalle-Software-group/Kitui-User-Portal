@@ -1,19 +1,21 @@
-'use client';
-import { QueryClient, QueryClientProvider } from 'react-query';
+// 'use client';
 
-import { Footer } from '@/components/frames/Footer';
-import { Header } from '@/components/frames/Header';
+import { Nunito_Sans } from 'next/font/google';
+import { Metadata } from 'next';
 
-import { Nunito } from 'next/font/google';
-
+import { PLATFORM_PREFIX_NAME, PLATFORM_SUFFIX_NAME } from '@/constants';
+import LayoutWrappers from '@/components/layout-wrappers';
 import './globals.css';
 
-// export const metadata: Metadata = {
-// 	title: `${PLATFORM_PREFIX_NAME} | Dashboard`,
-// 	description: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME} Dashboard`,
-// };
+export const metadata: Metadata = {
+	title: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME}`,
+	authors: [
+		{ name: 'Metalle Software Group', url: 'metallesoftwaregroup.com' },
+	],
+	description: 'Kitui county Job portal',
+};
 
-const entireFont = Nunito({
+const entireFont = Nunito_Sans({
 	weight: ['200', '300', '400', '700', '900'],
 	subsets: ['latin'],
 });
@@ -23,20 +25,10 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const queryClient = new QueryClient();
-
 	return (
 		<html lang='en' suppressHydrationWarning={true}>
 			<body className={entireFont.className}>
-				<QueryClientProvider client={queryClient}>
-					<main className='bg-bodyBg relative'>
-						<div className='hidden md:block'>
-							<Header />
-						</div>
-						<div className='w-full mb-[150px] md:mb-[120px]'>{children}</div>
-						<Footer />
-					</main>
-				</QueryClientProvider>
+				<LayoutWrappers>{children}</LayoutWrappers>
 			</body>
 		</html>
 	);

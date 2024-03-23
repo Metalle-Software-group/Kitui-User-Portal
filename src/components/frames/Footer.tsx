@@ -9,6 +9,7 @@ import {
 } from '@/constants';
 import Image from 'next/image';
 import { NewsCard } from '../reusables/Others';
+import { FBIcon, InstagramIcon, XIcon } from '../icons';
 
 export const Footer = () => {
 	return (
@@ -153,26 +154,33 @@ export const Footer = () => {
 						</div>
 						<div className='flex flex-col md:flex-row w-full items-center space-y-5  md:space-y-0 md:justify-between '>
 							<div className='flex space-x-5'>
-								<Image
-									src='/twitterxWhite.svg'
-									alt='download'
-									width={40}
-									height={40}
-									priority
+								<XIcon
+									{...{
+										svgElementClassName:
+											'stroke-white fill-[#00000000] w-[50px] h-[50px]',
+										roundRingClassnames: 'stroke-white',
+										applyToSvgEl: true,
+										// className: '',
+									}}
 								/>
-								<Image
-									src='/fbWhite.svg'
-									alt='download'
-									width={40}
-									height={40}
-									priority
+								<FBIcon
+									{...{
+										svgElementClassName:
+											'stroke-white fill-[#00000000] w-[50px] h-[50px]',
+										roundRingClassnames: 'stroke-white',
+										applyToSvgEl: true,
+										// className: '',
+									}}
 								/>
-								<Image
-									src='/igWhite.svg'
-									alt='download'
-									width={40}
-									height={40}
-									priority
+
+								<InstagramIcon
+									{...{
+										svgElementClassName:
+											'stroke-white fill-[#00000000] w-[50px] h-[50px]',
+										roundRingClassnames: 'stroke-white',
+										applyToSvgEl: true,
+										// className: '',
+									}}
 								/>
 							</div>
 							<p className='text-white'>@ 2024 County Government Of Kitui.</p>

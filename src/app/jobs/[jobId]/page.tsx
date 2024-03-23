@@ -1,33 +1,35 @@
 'use client';
+
+import { CommentForm } from '@/components/reusables/CommentForm';
+import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
+import { SloganWithCategory } from '@/components/reusables/Slogan';
+import { FindJobsCard } from '@/components/cards/FindJobsCard';
+import { JobDetails } from '@/components/cards/JobDetails';
+import { ArrowRightIcon } from '@/components/icons';
 import { Alert } from '@/components/cards/Alert';
 import { Featured } from '@/constants';
-import { FindJobsCard } from '@/components/cards/FindJobsCard';
-import { SloganWithCategory } from '@/components/reusables/Slogan';
-import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
-import { JobDetails } from '@/components/cards/JobDetails';
-import { CommentForm } from '@/components/reusables/CommentForm';
-import { ArrowRightIcon } from '@/components/icons';
 
 export default function () {
 	return (
 		<main className='w-full space-y-10'>
 			<section>
 				<SloganWithCategory
-					title={'Public Health Officer'}
-					category={'Youth & Culture'}
-					type={'Attachment'}
-					location={'Mwingi'}
-					datePosted={'2 days ago'}
-					comments={0}
-					slogan={
-						'Make a real difference in your community by joining a vibrant team dedicated to serving the public good.'
-					}
+					{...{
+						title: 'Public Health Officer',
+						category: 'Youth & Culture',
+						datePosted: '2 days ago',
+						type: 'Attachment',
+						location: 'Mwingi',
+						comments: 0,
+						slogan:
+							'Make a real difference in your community by joining a vibrant team dedicated to serving the public good.',
+					}}
 				/>
 			</section>
 
-			<section className='px-[100px] pb-[100px] space-y-10'>
-				<section className='flex w-full gap-[10px]'>
-					<section className='w-[70%] space-y-10'>
+			<section className='px-[20px] pb-[20px] md:px-[100px] md:pb-[100px] space-y-10'>
+				<section className='flex flex-col md:flex-row w-full gap-[10px]'>
+					<section className='md:w-[70%] space-y-10'>
 						<JobDetails
 							about={
 								'The County Government is seeking a passionate and dedicated Public Health Educator to join our team and play a vital role in educating the community about critical health issues.'
@@ -76,13 +78,13 @@ export default function () {
 						/>
 						<CommentForm />
 					</section>
-					<section className='w-[30%] space-y-10'>
+					<section className='md:w-[30%] space-y-10'>
 						<UploadDocsCard />
 					</section>
 				</section>
 				<section className='space-y-5'>
 					<div className='flex w-full justify-between'>
-						<p className='font-bold text-[30px] leading-[36px] tracking-[.75%] text-textTitle'>
+						<p className='font-bold text-[20px] md:text-[30px] md:leading-[36px] md:tracking-[.75%] text-textTitle'>
 							You May Also Be Interested In
 						</p>
 						<button className='flex space-x-2 items-center cursor-pointer'>
@@ -99,7 +101,7 @@ export default function () {
 							/>
 						</button>
 					</div>
-					<div className='grid grid-cols-2 gap-[16px]'>
+					<div className='flex md:grid md:grid-cols-2 gap-[16px] overflow-x-auto'>
 						{Featured.slice(0, 2).map((job) => (
 							<FindJobsCard
 								key={job.name}

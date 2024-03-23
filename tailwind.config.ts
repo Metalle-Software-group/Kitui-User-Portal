@@ -20,8 +20,8 @@ const config = {
 		extend: {
 			colors: {
 				'chooseFileIconBorderColor': 'var(--chooseFileIconBorderColor)',
-				'chooseFileIconBgColor': 'var(--chooseFileIconBgColor)',
 				'commentCardTextColor': 'var(--commentCardTextColor)',
+				'chooseFileIconBgColor': 'var(--chooseFileIconBgColor)',
 				'settingsClearBarColor': 'var(--settingsClearBarColor)',
 				'chooseFileTextColor': 'var(--chooseFileTextColor)',
 				'jobTypeBorderColor': 'var(--jobTypeBorderColor)',
@@ -29,6 +29,8 @@ const config = {
 				'settingsIconColor': 'var(--settingsIconColor)',
 				'chooseFileBgColor': 'var(--chooseFileBgColor)',
 				'settingsClearColor': 'var(--settingsClearColor)',
+				'filtertTagColor': 'var(--filtertTagColor)',
+				'checkboxColor1': 'var(--checkboxColor1)',
 				'checkMarkColor': 'var(--checkMarkColor)',
 				'crossMarkColor': 'var(--crossMarkColor)',
 				'dividerColor': 'var(--dividerColor)',
