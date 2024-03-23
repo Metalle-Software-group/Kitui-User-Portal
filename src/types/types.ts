@@ -1,7 +1,7 @@
+import { StrapiRequestParams, StrapiResponse } from 'strapi-sdk-js';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { StrapiRequestParams, StrapiResponse } from 'strapi-sdk-js';
 
 export type NavUrlType = {
 	name: string;
@@ -9,40 +9,40 @@ export type NavUrlType = {
 };
 
 export type ExplorationCardsTypes = {
+	description: string;
+	name: string;
 	url: string;
 	alt: string;
-	name: string;
-	description: string;
 };
 
 export type AlertCardsTypes = {
+	buttonText: string;
+	description: string;
 	name: string;
 	icon: string;
-	description: string;
-	buttonText: string;
 };
 
 export type SearchTypes = {
-	placeholder: string;
-	searchText: string;
 	onChange: (props: any) => void;
+	searchText: string;
+	placeholder: string;
 	width?: string;
 };
 
 export type FeaturedJobsTypes = {
-	name: string;
-	category: string;
-	type: string;
-	location: string;
 	datePosted: string;
-	description: string;
 	comments: number;
+	description: string;
+	category: string;
+	location: string;
 	width?: string;
+	name: string;
+	type: string;
 };
 
 export type FeatureCategoriesTypes = {
-	name: string;
 	onChange?: () => void;
+	name: string;
 };
 
 export type TFilterTypes = {
@@ -50,29 +50,38 @@ export type TFilterTypes = {
 	department: string[];
 };
 
+export type TupdateFilterType = keyof TFilterTypes;
+
+export type TAddRemoveFilter = {
+	type: TupdateFilterType;
+	action: AddRemoveEnum;
+	data: string | JobTypes;
+};
+
 export type FilterJobsTypes = {
-	onChange: Dispatch<SetStateAction<TFilterTypes>>;
+	onChange: ({ type, data, action }: TAddRemoveFilter) => null | void;
+	type: TupdateFilterType;
 	checked: boolean;
 	label: string;
 	id?: string;
-} & { dataType: keyof TFilterTypes };
+};
 
 export type SloganType = {
-	title?: string;
 	beginningText?: string;
 	endingText?: string;
 	middleText?: string;
 	slogan: string;
+	title?: string;
 };
 
 export type SloganWithCategoryType = {
-	title: string;
-	category: string;
-	type: string;
-	location: string;
 	datePosted: string;
 	comments: number;
+	category: string;
+	location: string;
 	slogan: string;
+	type: string;
+	title: string;
 };
 
 export type JobDescriptionTypes = {
@@ -98,15 +107,16 @@ export type TNodes = {
 export type TComponentBasicProps = {
 	styles?: React.CSSProperties;
 	svgElementClassName?: string;
+	roundRingClassnames?: string;
 	applyToSvgEl?: boolean;
 	className?: string;
 };
 
 export type TDashboardTypes = {
-	suburls?: TDashboardTypes[];
 	IconForOpened?: (props: TComponentBasicProps) => React.JSX.Element;
 	EndIcon?: (props: TComponentBasicProps) => React.JSX.Element;
 	Icon?: (props: TComponentBasicProps) => React.JSX.Element;
+	suburls?: TDashboardTypes[];
 	onClick?: () => void;
 	name: string;
 	url: string;
@@ -126,8 +136,8 @@ export type THowItWorksCardProps = Pick<
 };
 
 export enum JobTypes {
-	attachmen = 'attachment',
-	contract = 'contract',
+	attachment = 'Attachment',
+	contract = 'Contract',
 }
 
 export enum AddRemoveEnum {

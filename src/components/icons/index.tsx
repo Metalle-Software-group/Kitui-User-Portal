@@ -983,6 +983,7 @@ export const DocumentsIcon = ({
 );
 
 export const FBIcon = ({
+	roundRingClassnames = 'stroke-[#4B5563]',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1006,11 +1007,11 @@ export const FBIcon = ({
 			<rect
 				x='1.41821'
 				y='0.440913'
-				{...{
-					className: svgElementClassName,
-				}}
 				rx='18.5591'
+				width='37.1182'
+				height='37.1182'
 				strokeWidth='0.881826'
+				{...{ className: roundRingClassnames }}
 			/>
 			<path
 				strokeWidth='.5'
@@ -1034,6 +1035,7 @@ export const FBIcon = ({
 );
 
 export const XIcon = ({
+	roundRingClassnames = 'stroke-[#4B5563]',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1041,6 +1043,7 @@ export const XIcon = ({
 }: TComponentBasicProps) => (
 	<div
 		{...{
+			title: 'Share on X',
 			style: styles,
 			className,
 		}}>
@@ -1054,26 +1057,15 @@ export const XIcon = ({
 				  })}
 			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
-			<rect
-				x='1.41821'
-				y='0.440913'
-				rx='18.5591'
+			<path
+				strokeWidth='.5'
+				strokeLinecap='round'
+				strokeLinejoin='round'
 				{...{
 					className: svgElementClassName,
 				}}
-				strokeWidth='0.881826'
+				d='M23.4296 28.625L18.5738 21.7038L12.4951 28.625H9.92334L17.4329 20.0772L9.92334 9.375H16.526L21.1025 15.8981L26.8366 9.375H29.4084L22.2473 17.5269L30.0323 28.625H23.4296ZM26.2935 26.6738H24.5621L13.6056 11.3263H15.3373L19.7254 17.4715L20.4842 18.5379L26.2935 26.6738Z'
 			/>
-			<g clipPath='url(#clip0_748_14856)'>
-				<path
-					strokeWidth='.5'
-					strokeLinecap='round'
-					strokeLinejoin='round'
-					{...{
-						className: svgElementClassName,
-					}}
-					d='M23.4296 28.625L18.5738 21.7038L12.4951 28.625H9.92334L17.4329 20.0772L9.92334 9.375H16.526L21.1025 15.8981L26.8366 9.375H29.4084L22.2473 17.5269L30.0323 28.625H23.4296ZM26.2935 26.6738H24.5621L13.6056 11.3263H15.3373L19.7254 17.4715L20.4842 18.5379L26.2935 26.6738Z'
-				/>
-			</g>
 			<defs>
 				<rect
 					transform='translate(9.47729 8.5)'
@@ -1084,11 +1076,22 @@ export const XIcon = ({
 					}}
 				/>
 			</defs>
+
+			<rect
+				strokeWidth='0.881826'
+				height='37.1182'
+				width='37.1182'
+				y='0.440913'
+				rx='18.5591'
+				x='1.41821'
+				{...{ className: roundRingClassnames }}
+			/>
 		</svg>
 	</div>
 );
 
 export const LinkIcon = ({
+	roundRingClassnames = 'stroke-[#4B5563]',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1096,6 +1099,7 @@ export const LinkIcon = ({
 }: TComponentBasicProps) => (
 	<div
 		{...{
+			title: 'Copy job link',
 			style: styles,
 			className,
 		}}>
@@ -1110,12 +1114,12 @@ export const LinkIcon = ({
 			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
+				{...{ className: roundRingClassnames }}
 				x='1.41821'
 				y='0.440913'
+				rx='18.5591'
 				width='37.1182'
 				height='37.1182'
-				rx='18.5591'
-				stroke='#4B5563'
 				strokeWidth='0.881826'
 			/>
 
@@ -1164,6 +1168,7 @@ export const LinkIcon = ({
 );
 
 export const InstagramIcon = ({
+	roundRingClassnames = 'stroke-[#4B5563]',
 	svgElementClassName,
 	applyToSvgEl,
 	className,
@@ -1171,6 +1176,7 @@ export const InstagramIcon = ({
 }: TComponentBasicProps) => (
 	<div
 		{...{
+			title: 'Share on Instagram',
 			style: styles,
 			className,
 		}}>
@@ -1185,10 +1191,12 @@ export const InstagramIcon = ({
 			viewBox='0 0 44 44'
 			xmlns='http://www.w3.org/2000/svg'>
 			<rect
-				{...{ className: svgElementClassName }}
+				{...{ className: roundRingClassnames }}
 				x='1.41821'
 				y='0.440913'
 				rx='18.5591'
+				width='37.1182'
+				height='37.1182'
 				strokeWidth='0.881826'
 			/>
 			<path

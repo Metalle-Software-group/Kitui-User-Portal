@@ -14,6 +14,7 @@ import {
 	FeaturedJobsTypes,
 	NavUrlType,
 	TDepartmentCardProps,
+	TFilterTypes,
 	THowItWorksCardProps,
 } from '@/types/types';
 
@@ -169,7 +170,6 @@ export const Departments = [
 	{
 		name: 'Youth & Culture',
 	},
-
 	{
 		name: 'Psyche & Culture',
 	},
@@ -318,13 +318,18 @@ export const HowItWorksSteps: THowItWorksCardProps[] = [
 	},
 	{
 		subtitle: 'Search jobs and submit your application easily and efficiently.',
-		title: 'Apply for a job',
 		Icon: `${BASE_ASSET_URL}/others/how-step-2.png`,
+		title: 'Apply for a job',
 	},
 
 	{
 		subtitle: 'Track your application status and see shortlisted candidates.',
-		title: 'Track your progress',
 		Icon: `${BASE_ASSET_URL}/others/how-step-3.png`,
+		title: 'Track your progress',
 	},
 ];
+
+export const initialFilterState: TFilterTypes = {
+	department: [],
+	jobType: [],
+};
