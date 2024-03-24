@@ -1,5 +1,9 @@
 'use client';
-import { SloganType, SloganWithCategoryType } from '@/types/types';
+import {
+	FilterJobsTypes,
+	SloganType,
+	SloganWithCategoryType,
+} from '@/types/types';
 import { SearchJob } from '../frames/SearchJob';
 import {
 	JobMinistryTag,
@@ -10,12 +14,14 @@ import {
 import { MessageIcon } from '../icons';
 
 export const Slogan = ({
-	title,
-	middleText,
-	slogan,
 	beginningText,
 	endingText,
-}: SloganType) => {
+	middleText,
+	onChange,
+	slogan,
+	type,
+	title,
+}: SloganType & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
 	return (
 		<div
 			className={`flex flex-col w-full bg-light-Purple h-[200px] md:h-[400px] items-center justify-center`}>
@@ -45,8 +51,11 @@ export const Slogan = ({
 				<SearchJob
 					placeholder={'Job title or keyword'}
 					searchText={'Search Job'}
-					onChange={() => {}}
 					width='100%'
+					{...{
+						onChange,
+						type,
+					}}
 				/>
 			</div>
 		</div>
@@ -126,12 +135,14 @@ export const SloganWithCategory = ({
 };
 
 export const SloganUpdates = ({
-	title,
-	middleText,
-	slogan,
 	beginningText,
+	middleText,
 	endingText,
-}: SloganType) => {
+	onChange,
+	type,
+	slogan,
+	title,
+}: SloganType & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
 	return (
 		<div
 			className={`flex flex-col w-full bg-light-Purple h-[400px] items-center justify-center`}>
@@ -150,8 +161,11 @@ export const SloganUpdates = ({
 			<SearchJob
 				placeholder={'Job title or keyword'}
 				searchText={'Search Job'}
-				onChange={() => {}}
 				width='400px'
+				{...{
+					onChange,
+					type,
+				}}
 			/>
 		</div>
 	);

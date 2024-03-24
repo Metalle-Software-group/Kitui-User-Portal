@@ -4,27 +4,40 @@ import { FeaturedJobsCategories } from '@/components/reusables/FeaturedJobsCateg
 import { HomeHero } from '@/components/cards/HomeHero';
 import { Alert } from '@/components/cards/Alert';
 import {
+	MoreJobsComponent,
 	HowItWorksCard,
 	SeeAllCategories,
 	DepartmentCard,
 	CommentCard,
 	SeeAllJobs,
-	MoreJobsComponent,
 } from '@/components/reusables/Others';
 
 import {
 	ExploreCategoryCards,
 	FeaturedCategories,
 	HowItWorksSteps,
+	initialFilterState,
 } from '@/constants';
+import { TFilterTypes } from '@/types/types';
+import { useState } from 'react';
+import { getFilterUpdateFunction } from '@/utils';
 
 // export const metadata: Metadata = { title: 'Home' };
 
 export default function () {
+	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
+
+	const updateFilter = getFilterUpdateFunction({ setFilters });
+
 	return (
 		<main className='w-full px-[20px] md:px-[100px]  md:mb-0'>
 			<section className='bg-radial-gradient '>
-				<HomeHero />
+				<HomeHero
+					{...{
+						onChange: updateFilter,
+						type: 'term',
+					}}
+				/>
 			</section>
 
 			{/* category  */}

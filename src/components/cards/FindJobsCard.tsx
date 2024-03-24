@@ -7,7 +7,7 @@ import {
 	TimeLimitLabel,
 } from '../reusables/Others';
 import { ArrowRightIcon, MessageIcon } from '../icons';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export const FindJobsCard = ({
 	name,
@@ -19,7 +19,6 @@ export const FindJobsCard = ({
 	comments,
 	width,
 }: FeaturedJobsTypes) => {
-	const pathname = usePathname();
 	const router = useRouter();
 
 	return (
@@ -28,7 +27,7 @@ export const FindJobsCard = ({
 				width ? `md:w-[${width}]` : 'md:w-[800px]'
 			} h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
 			{...{
-				onClick: (e) => router.push(`${pathname}/id`),
+				onClick: (e) => router.push(`/jobs/id`),
 				title: 'Open this job',
 			}}>
 			<div className='flex gap-[16px] justify-between'>

@@ -1,12 +1,13 @@
-import { SearchTypes } from '@/types/types';
+import { FilterJobsTypes, SearchTypes } from '@/types/types';
 import { SearchIcon } from '../icons';
 
 export const SearchJob = ({
 	placeholder,
 	searchText,
 	onChange,
+	type,
 	width,
-}: SearchTypes) => {
+}: SearchTypes & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
 	return (
 		<div
 			className={`hidden md:flex ${
@@ -24,9 +25,11 @@ export const SearchJob = ({
 			</div>
 
 			<input
-				className='outline-none border rounded-[20px] px-[8px] pl-[50px] w-full h-[72px] shadow-searchShadow'
+				className='outline-none border rounded-[20px] pl-[50px] pr-[140px] w-full h-[72px] shadow-searchShadow'
 				placeholder={placeholder}
-				onChange={onChange}
+				{...{
+					onChange: (e) => onChange({ type, data: e.target.value.trim() }),
+				}}
 			/>
 			<div
 				role={'search'}
