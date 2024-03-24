@@ -1,6 +1,7 @@
 import { BASE_ASSET_URL } from '@/constants';
 import { AlertCardsTypes } from '@/types/types';
 import { ArrowRightIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export const Alert = ({
 	name,
@@ -8,6 +9,8 @@ export const Alert = ({
 	description,
 	buttonText,
 }: AlertCardsTypes) => {
+	const router = useRouter();
+
 	return (
 		<div className='flex w-full h-fit md:h-[402px] md:rounded-[20px] bg-foundationGreen mb-10 justify-between items-center p-[32px] md:gap-[100px]'>
 			<div className='md:w-[50%] flex flex-col gap-[16px]'>
@@ -18,7 +21,9 @@ export const Alert = ({
 				<p className='text-bodyText font-normal md:text-[16px] md:leading[24px] line-clamp-2 overflow-hidden'>
 					{description}
 				</p>
-				<button className='flex w-fit bg-main-Green h-[48px] items-center rounded-[8px] border px-[20px] py-[12px] text-white border-main-Green'>
+				<button
+					className='flex w-fit bg-main-Green h-[48px] items-center rounded-[8px] border px-[20px] py-[12px] text-white border-main-Green'
+					onClick={(e) => router.push('/auth/')}>
 					{buttonText}
 					<ArrowRightIcon width={20} height={30} color='white' />
 				</button>

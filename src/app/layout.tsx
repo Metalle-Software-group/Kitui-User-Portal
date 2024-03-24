@@ -1,11 +1,12 @@
 // 'use client';
+import './globals.css';
 
 import { Nunito_Sans } from 'next/font/google';
 import { Metadata } from 'next';
 
 import { PLATFORM_PREFIX_NAME, PLATFORM_SUFFIX_NAME } from '@/constants';
 import LayoutWrappers from '@/components/layout-wrappers';
-import './globals.css';
+import { TNodes } from '@/types/types';
 
 export const metadata: Metadata = {
 	title: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME}`,
@@ -20,11 +21,7 @@ const entireFont = Nunito_Sans({
 	subsets: ['latin'],
 });
 
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<TNodes>) {
 	return (
 		<html lang='en' suppressHydrationWarning={true}>
 			<body className={entireFont.className}>
