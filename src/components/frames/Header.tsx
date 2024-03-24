@@ -9,6 +9,9 @@ import { NavUrls } from '@/constants';
 export const Header = () => {
 	const router = useRouter();
 
+	{
+		/* check on box shadow on the header  */
+	}
 	return (
 		<nav className='shadow-headerShadow px-[100px] bg-white sticky top-0 left-0 z-[100] h-[108px]'>
 			<div className='flex justify-between items-center'>

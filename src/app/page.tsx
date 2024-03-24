@@ -30,8 +30,9 @@ export default function () {
 	const updateFilter = getFilterUpdateFunction({ setFilters });
 
 	return (
-		<main className='w-full px-[20px] md:px-[100px]  md:mb-0'>
-			<section className='bg-radial-gradient '>
+		// 1440px -> px-[100px], 1300px below px-[80px], px-[16px]->686px and below
+		<main className='w-full px-[16px] sm:px-[60px] lg:px-[80px] 2xl:px-[100px] md:mb-0'>
+			<section className='bg-radial-gradient'>
 				<HomeHero
 					{...{
 						onChange: updateFilter,
