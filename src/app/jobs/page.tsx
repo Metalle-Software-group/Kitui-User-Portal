@@ -1,59 +1,30 @@
 'use client';
 import {
-	Departments,
 	EmploymentType,
-	Featured,
 	initialFilterState,
+	Departments,
+	Featured,
 } from '@/constants';
 import { FindJobsCard } from '@/components/cards/FindJobsCard';
 import { FilterCheckbox, FilterTag } from '@/components/reusables/Others';
 import { Slogan } from '@/components/reusables/Slogan';
 import { Alert } from '@/components/cards/Alert';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SettingsIcon } from '@/components/icons';
-import {
-	AddRemoveEnum,
-	JobTypes,
-	TAddRemoveFilter,
-	TFilterTypes,
-} from '@/types/types';
+import { TFilterTypes } from '@/types/types';
+import { getFilterUpdateFunction } from '@/utils';
 
 export default function () {
 	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
 
-	const updateFilter = ({ type, data, action }: TAddRemoveFilter) =>
-		// add
-		action === AddRemoveEnum.Add
-			? type === 'department'
-				? setFilters((prev) => ({
-						...prev,
-						department: [...prev.department, data],
-				  }))
-				: type === 'jobType'
-				? setFilters((prev) => ({
-						...prev,
-						jobType: [...prev.jobType, data as JobTypes],
-				  }))
-				: null
-			: // remove
-			type === 'department'
-			? setFilters((prev) => ({
-					...prev,
-					department: prev.department.filter(
-						(currFilterValue) => currFilterValue !== data
-					),
-			  }))
-			: type === 'jobType'
-			? setFilters((prev) => ({
-					...prev,
-					jobType: prev.jobType.filter(
-						(currentFilterValue) => currentFilterValue !== (data as JobTypes)
-					),
-			  }))
-			: null;
+	const updateFilter = getFilterUpdateFunction({ setFilters });
 
 	const clearFilters = () => setFilters(initialFilterState);
+
+	useEffect(() => {
+		// console.log(filters);
+	}, [filters]);
 
 	return (
 		<main className='w-full space-y-10'>
@@ -65,6 +36,10 @@ export default function () {
 					beginningText='Find the'
 					middleText='Right Job'
 					endingText='for you'
+					{...{
+						onChange: updateFilter,
+						type: 'term',
+					}}
 				/>
 			</div>
 

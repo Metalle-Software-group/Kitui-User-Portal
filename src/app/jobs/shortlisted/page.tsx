@@ -11,29 +11,15 @@ import {
 	TableReusableComponent,
 	JobMinistryTag,
 } from '@/components/reusables/Others';
+import { getFilterUpdateFunction } from '@/utils';
+import { initialFilterState } from '@/constants';
+import { TFilterTypes } from '@/types/types';
 
 const ShortListedCandidatesPage = () => {
+	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
 	const [action, setAction] = useState<string | null>(null);
 
-	// const {
-	// 	isLoading: dataIsLoading,
-	// 	isError: dataIsError,
-	// 	data: customData,
-	// } = useQuery({
-	// 	queryFn: useQueryCustomWrapper<any>,
-	// 	queryKey: [
-	// 		`expenses-data`,
-	// 		{
-	// 			url: `organisation/summary/expenses/networks/1`,
-	// 			qFunc: fetchEndpointData,
-	// 			options: {
-	// 				populate: '*',
-	// 			},
-	// 		},
-	// 	],
-	// });
-
-	// console.log(customData);
+	const updateFilter = getFilterUpdateFunction({ setFilters });
 
 	const ActionsHandlerMapping = [
 		{
@@ -56,6 +42,10 @@ const ShortListedCandidatesPage = () => {
 					}
 					beginningText='Kitui County Jobs'
 					middleText='updates'
+					{...{
+						onChange: updateFilter,
+						type: 'term',
+					}}
 				/>
 			</div>
 

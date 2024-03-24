@@ -1,4 +1,13 @@
-import { BASE_ASSET_URL } from '@/constants';
+import {
+	BASE_ASSET_URL,
+	PLATFORM_PREFIX_NAME,
+	PLATFORM_SUFFIX_NAME,
+} from '@/constants';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME} | 404`,
+};
 
 export default function () {
 	return (

@@ -13,7 +13,6 @@ import Image from 'next/image';
 import {
 	ApplicantsIcon,
 	DocumentsIcon,
-	CommentsIcon,
 	ClockIcon,
 	CloseIcon,
 	DeleteIcon,
@@ -24,6 +23,7 @@ import {
 	CameraIcon,
 	DropFileIcon,
 	ArrowRightIcon,
+	MessageIcon,
 } from '../icons';
 
 import {
@@ -351,13 +351,10 @@ export const CommentCard = () => {
 				</div>
 
 				<div className='flex gap-[4px] items-center justify-center selection:bg-inherit cursor-pointer'>
-					<CommentsIcon
+					<MessageIcon
 						{...{
-							styles: {
-								width: '20px',
-								height: '20px',
-							},
-							svgElementClassName: 'stroke-gray-body-text',
+							svgElementClassName: 'fill-gray-body-text',
+							className: 'w-[18px] h-[18px]',
 						}}
 					/>
 					<p className='text-time-color'>3</p>

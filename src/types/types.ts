@@ -23,7 +23,6 @@ export type AlertCardsTypes = {
 };
 
 export type SearchTypes = {
-	onChange: (props: any) => void;
 	searchText: string;
 	placeholder: string;
 	width?: string;
@@ -48,13 +47,14 @@ export type FeatureCategoriesTypes = {
 export type TFilterTypes = {
 	jobType: JobTypes[];
 	department: string[];
+	term: string;
 };
 
 export type TupdateFilterType = keyof TFilterTypes;
 
 export type TAddRemoveFilter = {
 	type: TupdateFilterType;
-	action: AddRemoveEnum;
+	action?: AddRemoveEnum;
 	data: string | JobTypes;
 };
 
