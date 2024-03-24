@@ -332,4 +332,5 @@ export const HowItWorksSteps: THowItWorksCardProps[] = [
 export const initialFilterState: TFilterTypes = {
 	department: [],
 	jobType: [],
+	term: '',
 };
