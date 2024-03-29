@@ -75,6 +75,9 @@ import { Button } from '../ui/button';
 import { MyApplicantColumns } from '../table/Columns';
 import { shortlistedData } from '@/data/dummy';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -370,22 +373,28 @@ export const HowItWorksCard = ({
 	subtitle,
 	step,
 }: THowItWorksCardProps) => {
+	const { t } = useTranslation();
 	return (
-		<div className='flex flex-col gap-[16px] p-[12px] rounded-[20px] md:w-[330px] items-center justify-center'>
-			<div className=''>
-				<Image src={Icon} width={200} height={200} alt={title} />
-			</div>
+    <div className='flex flex-col gap-[16px] p-[12px] rounded-[20px] md:w-[330px] items-center justify-center'>
+      <div className=''>
+        <Image
+          src={Icon}
+          width={200}
+          height={200}
+          alt={title}
+        />
+      </div>
 
-			<div className='gap-[4px] flex flex-col justify-center items-center'>
-				<p className='font-bold text-[20px] leading-[28px] tracking-[.5%] text-center text-textTitle'>
-					{title}
-				</p>
-				<p className='text-bodyText leading-[24px] text-[16px] font-normal text-center'>
-					{subtitle}
-				</p>
-			</div>
-		</div>
-	);
+      <div className='gap-[4px] flex flex-col justify-center items-center'>
+        <p className='font-bold text-[20px] leading-[28px] tracking-[.5%] text-center text-textTitle'>
+          {t(`${title}`)}
+        </p>
+        <p className='text-bodyText leading-[24px] text-[16px] font-normal text-center'>
+          {t(`${subtitle}`)}
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export const FilterCheckbox = ({
@@ -1126,29 +1135,32 @@ export const MyApplications = () => {
 };
 
 export const NewsCard = () => {
+	const { t } = useTranslation();
 	return (
-		<div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
-			<p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
-				County news & updates
-			</p>
+    <div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
+      <p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
+        {t('County news & updates')}
+      </p>
 
-			<p className='md:leading-[24px] md:text-[16px] font-normal text-bodyBg'>
-				Get the latest county news,articles, and resources sent directly to your
-				email every month.
-			</p>
+      <p className='md:leading-[24px] md:text-[16px] font-normal text-bodyBg'>
+        {t(
+          'Get the latest county news,articles, and resources sent directly to your email every month'
+        )}
+        .
+      </p>
 
-			<div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
-				<input
-					className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px] w-full'
-					onChange={() => {}}
-					placeholder='Your Email'
-				/>
-				<button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
-					Subscribe
-				</button>
-			</div>
-		</div>
-	);
+      <div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
+        <input
+          className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px] w-full'
+          onChange={() => {}}
+          placeholder='Your Email'
+        />
+        <button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
+          {t('Subscribe')}
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export const Error404 = () => {
@@ -1241,19 +1253,19 @@ export const UploadFileCard = ({
 };
 
 export const SeeAllCategories = () => (
-	<Fragment>
-		<p className='font-semibold md:text-[14px] md:leading-[20px] text-main-Green'>
-			See all categories
-		</p>
+  <Fragment>
+    <p className='font-semibold md:text-[14px] md:leading-[20px] text-main-Green'>
+      'See all categories'
+    </p>
 
-		<ArrowRightIcon
-			{...{
-				svgElementClassName: 'fill-main-Green stroke-main-Green',
-				applyToSvgEl: true,
-				className: 'w-[20px] h-[20px]',
-			}}
-		/>
-	</Fragment>
+    <ArrowRightIcon
+      {...{
+        svgElementClassName: 'fill-main-Green stroke-main-Green',
+        applyToSvgEl: true,
+        className: 'w-[20px] h-[20px]',
+      }}
+    />
+  </Fragment>
 );
 
 export const SeeAllJobs = () => (
