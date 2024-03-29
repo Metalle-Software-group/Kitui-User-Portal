@@ -12,6 +12,7 @@ import {
 	TimeLimitLabel,
 } from './Others';
 import { MessageIcon } from '../icons';
+import { useTranslation } from 'react-i18next';
 
 export const Slogan = ({
 	beginningText,
@@ -22,44 +23,47 @@ export const Slogan = ({
 	type,
 	title,
 }: SloganType & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
+	const { t } = useTranslation();
 	return (
-		<div
-			className={`flex flex-col w-full bg-light-Purple h-[200px] md:h-[400px] items-center justify-center`}>
-			<div className='w-fit flex flex-col gap-[24px]'>
-				{middleText && (
-					<div className='flex space-x-2 justify-center'>
-						<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
-							{beginningText}
-						</p>
-						<p
-							className={`text-main-Green font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px]`}>
-							{middleText}
-						</p>
-						<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
-							{endingText}
-						</p>
-					</div>
-				)}
-				{!middleText && (
-					<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
-						{title}
-					</p>
-				)}
-				<p className='font-normal leading-[24px] text-[16px] text-center text-bodyText'>
-					{slogan}
-				</p>
-				<SearchJob
-					placeholder={'Job title or keyword'}
-					searchText={'Search Job'}
-					width='100%'
-					{...{
-						onChange,
-						type,
-					}}
-				/>
-			</div>
-		</div>
-	);
+    <div
+      className={`flex flex-col w-full bg-light-Purple h-[200px] md:h-[400px] items-center justify-center`}>
+      <div className='w-fit flex flex-col gap-[24px]'>
+        {middleText && (
+          <div className='flex space-x-2 justify-center'>
+            <p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
+              {beginningText}
+            </p>
+            <p
+              className={`text-main-Green font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px]`}>
+              {middleText}
+            </p>
+            <p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
+              {endingText}
+            </p>
+          </div>
+        )}
+        {!middleText && (
+          <p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
+            {title}
+          </p>
+        )}
+        <p className='font-normal leading-[24px] text-[16px] text-center text-bodyText'>
+          {slogan}
+        </p>
+        <div className=''>
+          <SearchJob
+            placeholder={t('Job title or keyword')}
+            searchText={t('Search Job')}
+            {...{
+              width: '100%',
+              onChange,
+              type,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export const SloganWithCategory = ({

@@ -21,6 +21,19 @@
   "@ 2024 County Government Of Kitui": "@ 2024 County Government Of Kitui",
   "All rights preserved": "All rights preserved",
 
+  "Auth": "",
+
+  "Log In": "Log In",
+  "Welcome back! Please enter your details.": "Welcome back! Please enter your details.",
+  "Email": "Email",
+  "Email address": "Email address",
+  "Password": "Password",
+  "Remember me": "Remember me",
+  "Forgot password": "Forgot password",
+  "Sign in": "Sign in",
+  "Don’t have an account?": "Don’t have an account?",
+  "Sign up": "Sign up",
+
   "Home": "",
 
   "Build Your Future": "Build Your Future",
@@ -43,7 +56,64 @@
   "See Available jobs": "See Available jobs",
   "Never Miss Your Dream Job!": "Never Miss Your Dream Job!",
   "Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!": "Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!",
-  "Get Job Alerts Now!":"Get Job Alerts Now!"
+  "Get Job Alerts Now!": "Get Job Alerts Now!",
+
+  "Departmentz": "",
+
+  "List of all departments": "List of all departments",
+
+  "Jobz": "",
+
+  "Filter": "Filter",
+  "Clear All": "Clear All",
+  "Find the": "Find the",
+  "Right Job": "Right Job",
+  "for you": "for you",
+  "Employment Types": "Employment Types",
+
+  "Jobz[index]": "",
+
+  "View Uploaded Documents": "View Uploaded Documents",
+  "Apply Now": "Apply Now",
+  "Share This Job": "Share This Job",
+  "Job description": "Job description",
+  "You May Also Be Interested In": "You May Also Be Interested In",
+  "See All Jobs": "See All Jobs",
+
+  "Jobz[index]Apply": "",
+
+  "Job Application": "Job Application",
+  "Please complete the form below to apply for the opportunity": "Please complete the form below to apply for the opportunity",
+  "Kindly attach the following files:": "Kindly attach the following files:",
+  "Resume,": "Resume,",
+  "Choose file": "Choose file",
+  "Drop your documents here": "Drop your documents here",
+  "Cover letter": "Cover letter",
+  "Upload files *": "Upload files *",
+  "Update Job Profile": "Update Job Profile",
+  "Submit Application": "Submit Application",
+
+  "JobzShortlisted": "",
+
+  "View all shortlisted candidates for various positions here. You can search and filter for a specific position.": "View all shortlisted candidates for various positions here. You can search and filter for a specific position.",
+  "Kitui County Jobs": "Kitui County Jobs",
+  "updates": "updates",
+  "Recent applications": "Recent applications",
+
+  "Profilez": "",
+
+  "Welcome":"Welcome",
+  "Access your past applications and profile from here": "Access your past applications and profile from here",
+  "My Applications": "My Applications",
+  "Profile": "Profile",
+  "Profile details": "Profile details",
+  "Name": "Name",
+  "Phone": "Phone",
+  "ID Number": " ID Number",
+  "Gender": "Gender",
+  "County of residence": "County of residence",
+  "Sub county":"Sub county",
+  "Location": " Location",
+  "Back": "Back",
+  "Update details": "Update details"
 }
-
-

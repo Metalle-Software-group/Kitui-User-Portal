@@ -21,6 +21,19 @@
   "@ 2024 County Government Of Kitui": "@ 2024 Serikali ya Kaunti ya Kitui",
   "All rights preserved": "Haki zote zimehifadhiwa",
 
+  "Auth": "",
+
+  "Log In": "Ingia",
+  "Welcome back! Please enter your details.": "Karibu tena! Tafadhali ingiza maelezo yako.",
+  "Email": "Barua pepe",
+  "Email address": "Anwani",
+  "Password": "Nywila",
+  "Remember me": "Nikumbuke",
+  "Forgot password": "Umesahau nywila?",
+  "Sign in": "Ingia ndani",
+  "Don’t have an account?": "Huna akaunti?",
+  "Sign up": "Jisajili",
+
   "Home": "",
 
   "Build Your Future": "Jenga mustakabali wako",
@@ -43,5 +56,64 @@
   "See Available jobs": "Angalia kazi zinazopatikana",
   "Never Miss Your Dream Job!": "Kamwe usikose kazi yako ya ndoto!",
   "Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!": "Jisajili kwa arifa za kazi na ujulishwe moja kwa moja kwenye kikasha chako wakati fursa zinazolingana na taaluma yako zinachapishwa. Usisubiri, jiandikishe leo na uchukue hatua ya kwanza kuelekea kazi yako kamili!",
-  "Get Job Alerts Now!": "Pata habari za Kazi Sasa!"
+  "Get Job Alerts Now!": "Pata habari za Kazi Sasa!",
+
+  "Departmentz": "",
+
+  "List of all departments": "Orodha ya idara zote",
+
+  "Jobz": "",
+
+  "Filter": "Chuja",
+  "Clear All": " Futa Zote",
+  "Find the": "Pata",
+  "Right Job": "Kazi ",
+  "for you": "nzuri kwako",
+  "Employment Types": "Aina za Ajira",
+
+  "Jobz[index]": "",
+
+  "View Uploaded Documents": "Tazama Nyaraka Zilizopakiwa",
+  "Apply Now": "jiandikishe Sasa",
+  "Share This Job": "Shiriki Kazi Hii",
+  "Job description": "Maelezo ya kazi",
+  "You May Also Be Interested In": "Unaweza pia kupendezwa na",
+  "See All Jobs": "Angalia Kazi Zote",
+
+  "Jobz[index]Apply": "",
+
+  "Job Application": "Maombi ya Kazi",
+  "Please complete the form below to apply for the opportunity": "Tafadhali jaza fomu hapa chini kuomba fursa",
+  "Kindly attach the following files:": "Kwa upole ambatisha faili zifuatazo:",
+  "Resume,": "Historia",
+  "Choose file": "Chagua faili",
+  "Drop your documents here": "Toa nyaraka zako hapa",
+  "Cover letter": "Barua ya kifuniko",
+  "Upload files *": "Pakia faili *",
+  "Update Job Profile": "Sasisha Wasifu wa Kazi",
+  "Submit Application": "Wasilisha Maombi",
+
+  "JobzShortlisted": "",
+
+  "View all shortlisted candidates for various positions here. You can search and filter for a specific position.": "Angalia wagombea wote waliochaguliwa kwa nafasi mbalimbali hapa. Unaweza kutafuta na kuchuja kwa nafasi maalum.",
+  "Kitui County Jobs": "Kazi za Kaunti ya Kitui",
+  "updates": "Sasishi",
+  "Recent applications": "Maombi ya hivi karibuni",
+
+  "Profilez": "",
+
+  "Welcome": "Karibu",
+  "Access your past applications and profile from here": "Fikia programu zako za zamani na wasifu kutoka hapa",
+  "My Applications": "Maombi Yangu",
+  "Profile": "Umbo",
+  "Profile details": "Maelezo ya umbo",
+  "Name": "Jina",
+  "Phone": "Rununu",
+  "ID Number": "Nambari ya Kitambulisho",
+  "Gender": "Jinsia",
+  "County of residence": "Kaunti ya Makazi",
+  "Sub county": "Wilaya",
+  "Location": "Mahali",
+  "Back": "Nyuma",
+  "Update details": "Sasisha maelezo"
 }

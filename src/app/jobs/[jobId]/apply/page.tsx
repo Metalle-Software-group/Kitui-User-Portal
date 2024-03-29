@@ -8,10 +8,11 @@ import {
 	JobType,
 } from '@/components/reusables/Others';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ApplyJob = () => {
 	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
-
+  const { t } = useTranslation();
 	const handleDeleteItem = (file: File) =>
 		setSelectedFile(
 			selectedFiles.filter((currItem) => {
@@ -25,13 +26,13 @@ const ApplyJob = () => {
         {/* header  */}
         <div className='flex flex-col gap-[6px] items-center justify-center'>
           <p className=' font-bold text-[20px] md:text-[30px] md:leading-[36px] md:tracking-[.75%] text-textTitle'>
-            Job Application
+            {t('Job Application')}
           </p>
 
           <div className='flex flex-col gap-[10px]'>
             <div className='flex w-full justify-center space-x-5 items-center'>
               <p className='font-bold leading-[24.55px] tracking-[.5%] text-[18px] text-textTitle'>
-                Public Health Officer
+                {t('Public Health Officer')}
               </p>
               <div className='w-fit'>
                 <JobMinistryTag
@@ -71,14 +72,14 @@ const ApplyJob = () => {
           </div>
 
           <p className='text-bodyText md:leading-[24px] text-[16px] font-normal'>
-            Please complete the form below to apply for the opportunity
+            {t('Please complete the form below to apply for the opportunity')}
           </p>
         </div>
 
         <div className='flex flex-col gap-[24px]'>
           <div className='font-normal text-[16px] leading-[24px] text-bodyText'>
             <p className='font-normal text-[16px] leading-[24px] text-bodyText'>
-              Kindly attach the following files:
+              {t('Kindly attach the following files:')}
             </p>
             <div className='px-[20px]'>
               <ul
@@ -86,8 +87,8 @@ const ApplyJob = () => {
                   className:
                     'font-normal text-[16px] leading-[24px] text-bodyText list-disc',
                 }}>
-                <li>Resume,</li>
-                <li>Cover letter</li>
+                <li>{t('Resume,')}</li>
+                <li>{t('Cover letter')}</li>
               </ul>
             </div>
           </div>
@@ -95,7 +96,7 @@ const ApplyJob = () => {
           {/* upload area  */}
           <div className=''>
             <p className='font-bold leading-[24px] text-[16px] text-textTitle'>
-              Upload files *
+              {t('Upload files *')}
             </p>
 
             <UploadFileCard
@@ -105,10 +106,10 @@ const ApplyJob = () => {
 
           <div className='flex gap-[32px]'>
             <button className='rounded-[8px] border px-[20px] py-[12px] bg-white border-jobApplicationBtnColor shadow-btnBoxShadow text-bodyText leading-[24px] text-[16px] font-semibold'>
-              Update Job Profile
+              {t('Update Job Profile')}
             </button>
             <button className='rounded-[8px] bg-main-Green border px-[20px] py-[12px] border-main-Green shadow-btnBoxShadow font-semibold leading-[24px] text-[16px] text-white flex-[1]'>
-              Submit Application
+              {t('Submit Application')}
             </button>
           </div>
         </div>

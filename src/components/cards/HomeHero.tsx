@@ -47,7 +47,7 @@ export const HomeHero = ({
 
         <div className=''>
           <SearchJob
-            placeholder={'Job title or keyword'}
+            placeholder={t('Job title or keyword')}
             searchText={t('Search Job')}
             {...{
               width: '100%',
