@@ -2,14 +2,16 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-
 import { toast } from '@/components/ui/use-toast';
 import { useForm } from 'react-hook-form';
 import { Avatar, MyApplications, Profile } from '@/components/reusables/Others';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProfileIcon, WorkIcon } from '@/components/icons';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const ProfilePage = () => {
+  const { t } = useTranslation();
 	const FormSchema = z.object({
 		name: z.string().min(2, {
 			message: 'Name must be at least 2 characters.',
@@ -67,14 +69,15 @@ const ProfilePage = () => {
 		});
 	}
 
+
 	return (
     <div className='md:mx-[50px] md:my-[85px] flex flex-col gap-[40px] md:px-[16px] md:py-[24px] px-[20px] pt-[20px] pb-[20px]'>
       <div className=''>
         <p className='text-textTitle leading-[36px] font-bold text-[30px] tracking-[.75%]'>
-          Welcome Joy,
+          {t('Welcome')}
         </p>
         <p className='text-bodyText leading-[24px] text-[14px] font-normal'>
-          Access your past applications and profile from here
+          {t('Access your past applications and profile from here')}
         </p>
       </div>
       <div className='flex gap-[24px] items-center w-fit'>
@@ -115,7 +118,7 @@ const ProfilePage = () => {
                 }}
               />
               <p className='text-inherit font-medium text-[16px] md:leading-[22px] text-center'>
-                My Applications
+                {t('My Applications')}
               </p>
             </TabsTrigger>
 
@@ -133,7 +136,7 @@ const ProfilePage = () => {
                 }}
               />
               <p className='text-inherit font-medium text-[16px] md:leading-[22px] text-center'>
-                Profile
+                {t('Profile')}
               </p>
             </TabsTrigger>
           </TabsList>
