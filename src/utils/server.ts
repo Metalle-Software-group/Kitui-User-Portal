@@ -1,5 +1,6 @@
 'use server';
 import Strapi, { StrapiOptions, StrapiRequestParams } from 'strapi-sdk-js';
+
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
@@ -7,48 +8,50 @@ import { COOKIE_KEYS } from '@/constants';
 import {
 	SERVER_ERROR,
 	StrapiAuthenticationData,
-	TAuthUser,
+	TApiHandlerProps,
 } from '@/types/types';
 
-export const getStrapiConfiguredInstance = (props?: Partial<StrapiOptions>) =>
-	new Strapi({
-		url: process.env.HOSTED_BACKEND_URL ?? 'https://mavuno.up.railway.app',
+export const getStrapiConfiguredInstance = (
+	props: Partial<StrapiOptions> = {}
+) => {
+	const auth = getCookie({ name: COOKIE_KEYS.auth });
+
+	return new Strapi({
+		url: 'https://kitui-jobs-portal.up.railway.app',
 		axiosOptions: {
-			...(getCookie({ name: COOKIE_KEYS.auth })
+			...(auth
 				? {
 						headers: {
-							Authorization: `Bearer ${getCookie({ name: COOKIE_KEYS.auth })}`,
+							Authorization: `Bearer ${auth}`,
 						},
 				  }
 				: {}),
 		},
 		...props,
 	});
+};
 
 export const AuthenticateUser = async ({
 	identifier,
 	password,
 }: StrapiAuthenticationData) => {
-	const strapi = getStrapiConfiguredInstance();
+	const strapi = new Strapi({
+		url: 'https://kitui-jobs-portal.up.railway.app',
+		// axiosOptions: {
+		// 	...(auth
+		// 		? {
+		// 				headers: {
+		// 					Authorization: `Bearer ${auth}`,
+		// 				},
+		// 		  }
+		// 		: {}),
+		// },
+		// ...props,
+	});
 
 	const response = strapi.login({ identifier, password });
 
 	return response
-		.then(({ user, jwt }) =>
-			getStrapiConfiguredInstance()
-				.findOne<TAuthUser>('users', user.id as number, {
-					populate: '*',
-				})
-				.then((data) => {
-					const { ...newUser }: TAuthUser = data as any as TAuthUser;
-
-					return {
-						user: newUser,
-
-						jwt,
-					};
-				})
-		)
 		.then(({ user, jwt }) => {
 			cookies().set(COOKIE_KEYS.auth, jwt, {
 				httpOnly: true,
@@ -63,13 +66,18 @@ export const AuthenticateUser = async ({
 				secure: true,
 				path: '/',
 			});
+
+			return { data: user, err: null };
 		})
+
 		.catch((err: SERVER_ERROR) => {
-			throw new Error(
-				err.error.status >= 400 && err.error.status <= 499
-					? 'Invalid credentials provided'
-					: 'Something went wrong.'
-			);
+			return {
+				data: null,
+				err:
+					err.error.status >= 400 && err.error.status <= 499
+						? 'Invalid credentials provided'
+						: 'Something went wrong.',
+			};
 		});
 };
 
@@ -90,9 +98,30 @@ export const fetchEndpointData = <dataTypeExpected = any>({
 	options: StrapiRequestParams;
 	url: string;
 }) =>
-	getStrapiConfiguredInstance().find<dataTypeExpected>(url, {
+	new Strapi({
+		url: 'https://kitui-jobs-portal.up.railway.app',
+		// axiosOptions: {
+		// 	...(auth
+		// 		? {
+		// 				headers: {
+		// 					Authorization: `Bearer ${auth}`,
+		// 				},
+		// 		  }
+		// 		: {}),
+		// },
+		// ...props,
+	}).find<dataTypeExpected>(url, {
 		...options,
 	});
+
+export const createResourceEndpointData = ({ data, url }: TApiHandlerProps) =>
+	getStrapiConfiguredInstance()
+		.create(url, data)
+		.then((data: any) => ({ data, err: null }))
+		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
+			err: { message, status, details },
+			data: null,
+		}));
 
 export const getCookie = ({ name }: { name: string }) =>
 	cookies().get(name)?.value;
