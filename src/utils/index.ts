@@ -1,5 +1,3 @@
-import { StrapiRequestParams } from 'strapi-sdk-js';
-import { getStrapiConfiguredInstance } from './server';
 import {
 	AddRemoveEnum,
 	JobTypes,
@@ -8,17 +6,6 @@ import {
 	TqueryKey,
 } from '@/types/types';
 import { Dispatch, SetStateAction } from 'react';
-
-export const fetchEndpointData = <dataTypeExpected = any>({
-	options,
-	url,
-}: {
-	options: StrapiRequestParams;
-	url: string;
-}) =>
-	getStrapiConfiguredInstance().find<dataTypeExpected>(url, {
-		...options,
-	});
 
 export const useQueryCustomWrapper = <dataTypeExpected>({
 	queryKey,
