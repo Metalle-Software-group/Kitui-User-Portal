@@ -209,34 +209,17 @@ export interface Role {
 	id: number;
 }
 
-export type TUSER = {
-	firstName: string | null;
-	lastName: string | null;
-	createdAt: string;
-	updatedAt: string;
-	username: string;
-	confirmed: true;
-	provider: string;
-	blocked: false;
-	email: string;
-	id: number;
-	role: Role;
-};
-
 export type TAuthUser = TUSER;
 
-export type Details = {};
-
-export type SERVER_ERR = {
-	status: number;
-	name: string;
+export type TError = {
 	message: string;
+	status: number;
 	details: Details;
+	name: string;
 };
 
-export type SERVER_ERROR = {
-	error: SERVER_ERR;
-	data: any;
+export type Details = {
+	errors: [{ path: string[]; message: string; name: string }];
 };
 
 export type TqueryKey = [
@@ -265,3 +248,124 @@ export type FileSelectorPropsType = {
 export type TUploadDocsCardProps = {
 	applyUrl: string;
 };
+
+export type TApiHandlerProps = {
+	id?: number | string;
+	data: any;
+	url: string;
+};
+
+export type TMinistry = {
+	id: number;
+	name: string;
+	createdAt: Date;
+	updatedAt: Date;
+	publishedAt: Date;
+};
+
+export type TUSER = {
+	phone_number: null | string;
+	ministry?: TMinistry;
+	confirmed: boolean;
+	accessType: string;
+	gender: null | string;
+	username: string;
+	staff_role: Role;
+	createdAt: Date;
+	updatedAt: Date;
+	blocked: boolean;
+	provider: string;
+	sub_county: null;
+	id_number: null;
+	status: string;
+	email: string;
+	location: null;
+	county: null;
+	id: number;
+};
+
+export type SERVER_ERROR = {
+	error: TError;
+	data: {};
+};
+
+export type THttpMethods = 'POST' | 'GET' | 'PUT' | 'PATCH';
+
+export type TCreateEditJobProps = {
+	successBtn: {
+		subDetails: { method: THttpMethods; url: string };
+		text: string;
+	};
+	titleEnd?: React.ReactNode;
+	jobTypes?: TJobTypes[];
+	ministries?: TMinistry[];
+	title: string;
+};
+
+export type TJobTypes = {
+	publishedAt: Date;
+	createdAt: Date;
+	updatedAt: Date;
+	name: string;
+	id: number;
+};
+
+export type TJobStatus = 'Open' | 'Closed' | 'Suspended';
+
+export enum JobStatusEnum {
+	UnderReview = 'under_review',
+	Closed = 'closed',
+	Open = 'open',
+}
+
+export enum TApplicationStatus {
+	UnderReview = 'under_review',
+	Shortlisted = 'shortlisted ',
+	Rejected = 'rejected',
+}
+
+export type TCommentType = {
+	replies: TCommentType[];
+	createdBy: TUSER;
+	updatedBy: TUSER;
+	createdAt: string;
+	updatedAt: string;
+	message: string;
+	hidden: boolean;
+	user: TUSER;
+	job: TJob;
+};
+
+export type TJob = {
+	comments: TCommentType[];
+	applications: Application[];
+	application_start: string;
+	applicationCount: number;
+	application_end: string;
+	job_type: TJobTypes;
+	status: TJobStatus;
+	ministry: TMinistry;
+	description: string;
+	publishedAt: string;
+	createdAt: string;
+	updatedAt: string;
+	createdBy: any;
+	updatedBy: any;
+	location: string;
+	closedBy: any;
+	title: string;
+	id: number;
+	files: any;
+};
+
+export interface Application {
+	status?: TApplicationStatus;
+	comment?: Comment;
+	publishedAt?: Date;
+	createdAt: Date;
+	updatedAt: Date;
+	user?: TUSER;
+	job?: TJob;
+	files?: any[];
+	id: number;
+}
