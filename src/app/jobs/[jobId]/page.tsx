@@ -5,11 +5,9 @@ import { usePathname } from 'next/navigation';
 import { CommentForm } from '@/components/reusables/CommentForm';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
 import { SloganWithCategory } from '@/components/reusables/Slogan';
-import { FindJobsCard } from '@/components/cards/FindJobsCard';
 import { JobDetails } from '@/components/cards/JobDetails';
 import { ArrowRightIcon } from '@/components/icons';
 import { Alert } from '@/components/cards/Alert';
-import { Featured } from '@/constants';
 import { useTranslation } from 'react-i18next';
 
 export default function () {
@@ -109,7 +107,7 @@ export default function () {
 						</button>
 					</div>
 					<div className='flex md:grid md:grid-cols-2 gap-[16px] overflow-x-auto'>
-						{Featured.slice(0, 2).map((job) => (
+						{/* {Featured.slice(0, 2).map((job) => (
 							<FindJobsCard
 								key={job.name}
 								name={job.name}
@@ -121,7 +119,7 @@ export default function () {
 								comments={job.comments}
 								width='600px'
 							/>
-						))}
+						))} */}
 					</div>
 				</section>
 				<section>

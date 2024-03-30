@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-	return <CreateUser />;
+	return (
+		<div className='w-full'>
+			<CreateUser />
+		</div>
+	);
 }
