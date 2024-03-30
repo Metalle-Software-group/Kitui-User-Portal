@@ -22,7 +22,7 @@ export default function ({ children }: TNodes) {
 					</div>
 
 					<div
-						className={`w-full h-full ${
+						className={`w-full h-[calc(100%-108px)] ${
 							!pathname.startsWith('/auth') ? 'mb-[150px] md:mb-[120px]' : null
 						}`}>
 						{children}
