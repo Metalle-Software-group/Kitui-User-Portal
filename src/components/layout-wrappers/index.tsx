@@ -1,35 +1,36 @@
 'use client';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { Header } from '../frames/Header';
-import { TNodes } from '@/types/types';
-import { Footer } from '../frames/Footer';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { usePathname } from 'next/navigation';
+
 import I18nProvider from '@/context/languageContext';
+import { Header } from '../frames/Header';
+import { Footer } from '../frames/Footer';
+import { TNodes } from '@/types/types';
 
 export default function ({ children }: TNodes) {
-  const queryClient = new QueryClient();
+	const pathname = usePathname();
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <main className='bg-bodyBg relative'>
-          <div className='hidden md:block'>
-            <Header />
-          </div>
+	const queryClient = new QueryClient();
 
-          <div className='w-full mb-[150px] md:mb-[120px]'>{children}</div>
+	return (
+		<QueryClientProvider client={queryClient}>
+			<I18nProvider>
+				<main className='bg-bodyBg relative'>
+					<div className='hidden md:block'>
+						<Header />
+					</div>
 
-          <Footer />
-        </main>
-      </I18nProvider>
-    </QueryClientProvider>
-  );
-}
+					<div
+						className={`w-full h-full ${
+							!pathname.startsWith('/auth') ? 'mb-[150px] md:mb-[120px]' : null
+						}`}>
+						{children}
+					</div>
 
-export function AuthLayout({ children }: TNodes) {
-  const queryClient = new QueryClient();
-
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+					{!pathname.startsWith('/auth') ? <Footer /> : null}
+				</main>
+			</I18nProvider>
+		</QueryClientProvider>
+	);
 }

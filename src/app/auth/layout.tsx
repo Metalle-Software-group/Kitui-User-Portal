@@ -3,7 +3,6 @@ import { Nunito_Sans } from 'next/font/google';
 import { TNodes } from '@/types/types';
 import { Metadata } from 'next';
 import { PLATFORM_PREFIX_NAME, PLATFORM_SUFFIX_NAME } from '@/constants';
-import { AuthLayout } from '@/components/layout-wrappers';
 
 export const metadata: Metadata = {
 	title: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME} | Login`,
@@ -20,10 +19,18 @@ const entireFont = Nunito_Sans({
 
 export default function DashboardLayout({ children }: TNodes) {
 	return (
-		<html lang='en' suppressHydrationWarning={true}>
-			<body className={entireFont.className}>
-				<AuthLayout>{children}</AuthLayout>
-			</body>
-		</html>
+		<div className='h-full'>
+			<div className='w-full flex justify-center text-login-screen-text-color bg-login-screen-text-colorr h-full text-black'>
+				<div className='flex-[1] h-full w-full'>
+					<img
+						src={'/images/others/auth-screen.png'}
+						className='w-full h-full object-cover'
+						alt='Diversity'
+					/>
+				</div>
+
+				<div className='flex-[1] h-fit w-full overflow-y-auto'>{children}</div>
+			</div>
+		</div>
 	);
 }

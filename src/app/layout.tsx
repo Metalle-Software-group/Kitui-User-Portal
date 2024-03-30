@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 const entireFont = Nunito_Sans({
-	weight: ['200', '300', '400', '700', '900'],
+	weight: ['200', '300', '400', '700', '900', '1000'],
 	subsets: ['latin'],
 });
 
