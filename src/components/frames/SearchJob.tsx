@@ -1,13 +1,17 @@
-import { FilterJobsTypes, SearchTypes } from '@/types/types';
+import { FilterJobsTypes, SearchTypes, TMoreSearchTypes } from '@/types/types';
 import { SearchIcon } from '../icons';
 
 export const SearchJob = ({
+	currentValue = '',
+	onClickHandler,
 	placeholder,
 	searchText,
 	onChange,
-	type,
 	width,
-}: SearchTypes & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
+	type,
+}: SearchTypes &
+	Pick<FilterJobsTypes, 'onChange' | 'type'> &
+	TMoreSearchTypes) => {
 	return (
 		<div
 			className={`hidden md:flex ${
@@ -29,11 +33,13 @@ export const SearchJob = ({
 				placeholder={placeholder}
 				{...{
 					onChange: (e) => onChange({ type, data: e.target.value.trim() }),
+					value: currentValue,
 				}}
 			/>
 			<div
 				role={'search'}
-				className='flex font-semibold rounded-[8px] items-center absolute right-[24px] cursor-pointer selection:bg-inherit shadow-btnBoxShadow text-white  bg-main-Green px-[20px] py-[12px] border border-main-Green text-[16px] leading-[24px] top-[calc(calc(100%-50px)/2)]'>
+				className='flex font-semibold rounded-[8px] items-center absolute right-[24px] cursor-pointer selection:bg-inherit shadow-btnBoxShadow text-white  bg-main-Green px-[20px] py-[12px] border border-main-Green text-[16px] leading-[24px] top-[calc(calc(100%-50px)/2)]'
+				onClick={onClickHandler}>
 				{searchText}
 			</div>
 		</div>

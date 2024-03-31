@@ -18,9 +18,18 @@ import { getFilterUpdateFunction, useQueryCustomWrapper } from '@/utils';
 import { TFilterTypes, TJob, TJobTypes, TMinistry } from '@/types/types';
 import { SettingsIcon } from '@/components/icons';
 import { fetchEndpointData } from '@/utils/server';
+import { useSearchParams } from 'next/navigation';
 
 export default function () {
-	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
+	const params = useSearchParams();
+
+	const [filters, setFilters] = useState<TFilterTypes>({
+		...initialFilterState,
+		department: params.getAll('departments') ?? initialFilterState.department,
+		jobType: params.getAll('job_type') ?? initialFilterState.jobType,
+		term: params.get('term') ?? initialFilterState.term,
+	});
+
 	const updateFilter = getFilterUpdateFunction({ setFilters });
 	const { t } = useTranslation();
 
@@ -125,6 +134,8 @@ export default function () {
 					middleText={t('Right Job')}
 					endingText={t('for you')}
 					{...{
+						onClickHandler: () => {},
+						currentValue: filters.term,
 						onChange: updateFilter,
 						type: 'term',
 					}}

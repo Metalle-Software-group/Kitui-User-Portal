@@ -27,7 +27,8 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 					<Avatar
 						{...{
 							classNames:
-								'w-[40px] h-[40px] font-bold text-[16px] leading-[24px]',
+								'w-[40px] h-[40px] font-bold text-[16px] leading-[24px] bg-applicant-colorbg',
+							includeCam: false,
 							name,
 						}}
 					/>

@@ -1,28 +1,34 @@
 'use client';
-import { FeatureCategoriesTypes } from '@/types/types';
-import { useState } from 'react';
+import {
+	AddRemoveEnum,
+	FeatureCategoriesTypes,
+	FilterJobsTypes,
+} from '@/types/types';
 
 export const FeaturedJobsCategories = ({
-	name,
 	onChange,
-}: FeatureCategoriesTypes) => {
-	const [selected, setSelected] = useState(false);
+	checked,
+	name,
+}: FeatureCategoriesTypes & Pick<FilterJobsTypes, 'checked'>) => {
 	return (
 		<button
 			className={`flex justify-between w-fit px-[18px] selection:bg-inherit py-[10px] ${
-				selected ? 'bg-purple-800' : 'bg-white'
+				checked ? 'bg-purple-800' : 'bg-white'
 			} md:border md:border-purple-300 md:rounded-[40px] justify-between items-center gap-[4px]`}
-			onClick={() => {
-				setSelected(!selected);
-				onChange;
-			}}>
+			onClick={() =>
+				onChange({
+					action: checked ? AddRemoveEnum.Remove : AddRemoveEnum.Add,
+					type: 'department',
+					data: name,
+				})
+			}>
 			<div
 				className={`rounded-full  bg-bodyBg w-[8px] h-[8px] ml-2 ${
-					selected ? '' : 'hidden'
+					checked ? '' : 'hidden'
 				}`}></div>
 			<p
 				className={`text-bodyBg font-bold text-[12px] leading-[16.37px] ${
-					selected ? 'text-bodyBg' : 'text-bodyText'
+					checked ? 'text-bodyBg' : 'text-bodyText'
 				}`}>
 				{name}
 			</p>
