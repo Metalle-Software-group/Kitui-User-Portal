@@ -13,6 +13,7 @@ import {
 } from '../reusables/Others';
 import { HelpIcon } from '../icons';
 import { DropdownData, TColumnStaffDefinition } from '@/types/types';
+import { formatDistance } from 'date-fns';
 
 export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	{
@@ -254,10 +255,11 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 		accessorKey: 'phone',
 		header: 'Application Deadline',
 		cell: ({ row }) => {
+			const application_end = new Date();
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						10 days left
+						{formatDistance(application_end, new Date(), { addSuffix: true })}
 					</p>
 				</div>
 			);

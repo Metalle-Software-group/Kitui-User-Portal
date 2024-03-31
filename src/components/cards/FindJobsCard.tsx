@@ -14,6 +14,7 @@ import {
 import { MessageIcon } from '../icons';
 import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
+import { getTextFromHTML } from '@/utils';
 
 const RichTexEditor = dynamic(() => import('@/components/editor/RichText'), {
 	ssr: false,
@@ -36,6 +37,7 @@ export const FindJobsCard = ({
 	location,
 	ministry,
 	title,
+	id,
 }: TJob) => {
 	const router = useRouter();
 
@@ -43,7 +45,7 @@ export const FindJobsCard = ({
 		<div
 			className={`flex flex-col w-full  h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
 			{...{
-				onClick: (e) => router.push(`/jobs/3`),
+				onClick: (e) => router.push(`/jobs/${id}`),
 				title: 'Open this job',
 			}}>
 			<div className='flex gap-[16px] justify-between'>
@@ -76,16 +78,18 @@ export const FindJobsCard = ({
 					<TimeLimitLabel
 						{...{
 							name: formatDistance(
+								new Date(),
 								createdAt ? new Date(createdAt) : new Date(),
-								new Date()
+								{ addSuffix: true }
 							),
 						}}
 					/>
 				</div>
 			</div>
 
-			<div className='font-semibold text-[14px] leading-[24px] text-commentCardTextColor'>
-				<RichTexEditor {...{ value: description }} />
+			<div className='font-semibold text-[14px] leading-[24px] text-commentCardTextColor text-wrap'>
+				{/* <RichTexEditor {...{ value: description }} /> */}
+				{getTextFromHTML(description).substring(0, 150)} ...
 			</div>
 
 			<div className='flex w-full justify-between items-center'>

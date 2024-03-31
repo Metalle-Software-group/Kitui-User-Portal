@@ -52,7 +52,7 @@ export const AuthScreen = ({}) => {
 		const res = AuthenticateUser({ ...data });
 
 		res
-			.then(({ err, data }) => {
+			.then(({ err }) => {
 				if (err) setAuthError(err);
 				else router.push('/profile');
 			})
