@@ -369,3 +369,8 @@ export interface Application {
 	files?: any[];
 	id: number;
 }
+
+export type TSeeMore = {
+	handler: (props: any) => void;
+	title: string;
+};

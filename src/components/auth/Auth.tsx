@@ -54,7 +54,7 @@ export const AuthScreen = ({}) => {
 		res
 			.then(({ err, data }) => {
 				if (err) setAuthError(err);
-				else router.push('/dashboard');
+				else router.push('/profile');
 			})
 			.catch(() =>
 				setAuthError("Username and password combination didn't match")
