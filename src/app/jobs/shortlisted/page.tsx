@@ -44,8 +44,8 @@ const ShortListedCandidatesPage = () => {
 					beginningText={t('Kitui County Jobs')}
 					middleText={t('updates')}
 					{...{
-						onChange: updateFilter,
 						onClickHandler: () => {},
+						onChange: updateFilter,
 						type: 'term',
 					}}
 				/>

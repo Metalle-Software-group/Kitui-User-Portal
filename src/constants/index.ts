@@ -148,7 +148,7 @@ export const Featured: FeaturedJobsTypes[] = [
 	},
 ];
 
-export const FeaturedCategories: FeatureCategoriesTypes[] = [
+export const FeaturedCategories: Pick<FeatureCategoriesTypes, 'name'>[] = [
 	{
 		name: 'All',
 	},
