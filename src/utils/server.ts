@@ -70,15 +70,13 @@ export const AuthenticateUser = async ({
 			return { data: user, err: null };
 		})
 
-		.catch((err: SERVER_ERROR) => {
-			return {
-				data: null,
-				err:
-					err.error.status >= 400 && err.error.status <= 499
-						? 'Invalid credentials provided'
-						: 'Something went wrong.',
-			};
-		});
+		.catch((err: SERVER_ERROR) => ({
+			data: null,
+			err:
+				err.error.status >= 400 && err.error.status <= 499
+					? 'Invalid credentials provided'
+					: 'Something went wrong.',
+		}));
 };
 
 export const Logout = async () => {

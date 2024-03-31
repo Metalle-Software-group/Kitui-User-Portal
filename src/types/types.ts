@@ -234,10 +234,7 @@ export type TqueryKey = [
 	}
 ];
 
-export type ProfilePropsTypes = {
-	onSubmit: any;
-	form: any;
-};
+export type ProfilePropsTypes = {};
 
 export type FileSelectorPropsType = {
 	setSelectedFile: Dispatch<SetStateAction<File[]>>;
@@ -373,4 +370,11 @@ export interface Application {
 export type TSeeMore = {
 	handler: (props: any) => void;
 	title: string;
+};
+
+export type TDataApplyJobORUpdateProfile = {
+	user: string | number;
+	job: string | number;
+	comment?: string;
+	files: any[];
 };

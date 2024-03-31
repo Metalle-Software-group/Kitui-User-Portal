@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import { ChangeEvent, Fragment, useRef, useState } from 'react';
+import { getCookie } from 'cookies-next';
 import Image from 'next/image';
 
 import {
@@ -43,9 +44,14 @@ import {
 	FileSelectorPropsType,
 	AddRemoveEnum,
 	TSeeMore,
+	TUSER,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
-import { FieldsToExcludeInFilter } from '@/constants';
+import {
+	COOKIE_KEYS,
+	FieldsToExcludeInFilter,
+	URL_SEARCH_PARAMS,
+} from '@/constants';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -77,6 +83,11 @@ import { MyApplicantColumns } from '../table/Columns';
 import { shortlistedData } from '@/data/dummy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createResourceEndpointData } from '@/utils/server';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -466,8 +477,8 @@ export const Avatar = ({
 		<div className='relative'>
 			<p
 				className={`rounded-[200px] text-deep-purple flex justify-center items-center content-center ${classNames}`}>
-				{fname.at(0)?.toUpperCase()}
-				{lname.at(0)?.toUpperCase()}
+				{fname?.at(0)?.toUpperCase()}
+				{lname?.at(0)?.toUpperCase()}
 			</p>
 
 			<div className='w-fit absolute bottom-[10px] right-[24px]'>
@@ -643,7 +654,7 @@ export const Search = ({
 				/>
 			</div>
 			<input
-				className='rounded-[8px] border px-[14px] py-[10px] pl-[26px] text-[#c3c3c3] w-full focus:border-[1px] focus:border-dev-accent h-[44px] outline-none shadow-btnBoxShadow'
+				className='rounded-[8px] border px-[14px] py-[10px] pl-[26px] placeholder:text-[#c3c3c3] w-full focus:border-[1px] focus:border-dev-accent h-[44px] outline-none shadow-btnBoxShadow'
 				{...{
 					onChange: onChangeHandler,
 					placeholder: title,
@@ -909,12 +920,97 @@ export const FileListDivider = () => (
 	<div className='bg-dividerColor h-[1px]'></div>
 );
 
-export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
+export const Profile = ({}: ProfilePropsTypes) => {
+	const [errMessage, setErrMsg] = useState<string | null>(null);
+	const [loading, setLoading] = useState(false);
+	const pathname = usePathname();
+	const router = useRouter();
 	const { t } = useTranslation();
+
+	const userCookie = getCookie(COOKIE_KEYS.user);
+
+	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
+
+	const FormSchema = z.object({
+		name: z.string().min(2, {
+			message: 'Name must be at least 2 characters.',
+		}),
+
+		phone: z.string().min(2, {
+			message: 'Phone number must be at least 2 characters.',
+		}),
+
+		email: z
+			.string()
+			.email({ message: 'Email field must contain a valid email' }),
+
+		nationalId: z
+			.string()
+			.min(6, {
+				message: 'ID must be at least 6 characters.',
+			})
+			.max(9, { message: 'ID mus 8 characters or less' }),
+		gender: z.string().min(2, {
+			message: 'Gender must be at least 2 characters.',
+		}),
+		location: z.string().min(2, {
+			message: 'Location must be field.',
+		}),
+		countyResidence: z.string().min(2, {
+			message: 'County of Residence must be filled',
+		}),
+		subCounty: z.string().min(2, {
+			message: 'Sub-county must be at least 2 characters.',
+		}),
+	});
+
+	const form = useForm<z.infer<typeof FormSchema>>({
+		resolver: zodResolver(FormSchema),
+		defaultValues: {
+			countyResidence: userInfo?.county ?? '',
+			nationalId: userInfo?.id_number ?? '',
+			subCounty: userInfo?.sub_county ?? '',
+			phone: userInfo?.phone_number ?? '',
+			location: userInfo?.location ?? '',
+			name: userInfo?.username ?? '',
+			gender: userInfo?.gender ?? '',
+			email: userInfo?.email ?? '',
+		},
+	});
+
+	function onSubmit(data: z.infer<typeof FormSchema>) {
+		setLoading(true);
+		createResourceEndpointData({ data, url: `users/1` })
+			.then(({ data: res, err }) => {
+				if (err) {
+					if (err.status === 400)
+						err.details.errors.map(({ path: [field_name], message, name }) =>
+							//@ts-ignore
+							form.setError(field_name, {
+								message: message.replace(field_name, 'This field '),
+							})
+						);
+					else if (err.status === 401)
+						router.push(
+							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+						);
+					else if (err.status === 403) setErrMsg('Permission denied');
+					else setErrMsg('Something went wrong');
+				} else {
+					console.log(res);
+				}
+			})
+			.finally(() => setLoading(false));
+	}
+
 	return (
 		<div className='shadow-profileBoxShadow bg-white gap-[4px] md:p-[28px] p-3 rounded-[20px]'>
 			<p className='text-title-text-color tracking-[-.5%] md:leading-[28px] md:text-[24px] font-bold'>
 				Profile details
+			</p>
+
+			<p className='w-fit mx-auto text-red-700 font-normal text-[16px]'>
+				{errMessage}
 			</p>
 
 			<div className='w-full h-fit flex gap-[40px] md:p-[28px] flex-wrap'>
@@ -1046,7 +1142,7 @@ export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 												{t('County of residence')}
 											</FormLabel>
 											<FormControl>
-												<Input placeholder='' {...field} />
+												<Input placeholder='e.g Kitui' {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -1066,7 +1162,7 @@ export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 												{t('Sub county')}
 											</FormLabel>
 											<FormControl>
-												<Input placeholder='Phone' {...field} />
+												<Input placeholder='e.g Kibati' {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -1084,7 +1180,7 @@ export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 												{t('Location')}
 											</FormLabel>
 											<FormControl>
-												<Input placeholder='' {...field} />
+												<Input placeholder='e.g Mwingi' {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>
@@ -1095,17 +1191,12 @@ export const Profile = ({ form, onSubmit }: ProfilePropsTypes) => {
 
 						<div className='w-full justify-center flex my-[8px] gap-[32px]'>
 							<Button
-								role={'button'}
-								type={'button'}
-								onClick={(e) => console.log}
-								className='flex gap-[6px] bg-white hover:bg-white text-black justify-between px-[16px] py-[12px] rounded-[8px] shadow-btnBoxShadow selection:bg-inherit cursor-pointer border border-border-color'>
-								{t('Back')}
-							</Button>
-
-							<Button
 								className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-fit items-center justify-center'
-								type='submit'>
-								<p className='text-inherit'>{t('Update details')}</p>
+								type='submit'
+								{...(loading ? { disabled: true } : {})}>
+								<p className='text-inherit'>
+									{t(loading ? 'Updating...' : 'Update details')}
+								</p>
 							</Button>
 						</div>
 					</form>
@@ -1130,6 +1221,7 @@ export const MyApplications = () => {
 							</div>
 						),
 						columns: MyApplicantColumns,
+						searchColumn: 'department',
 						data: shortlistedData,
 						titleFilterInline: false,
 						showPagination: true,
@@ -1281,3 +1373,29 @@ export const MoreJobsComponent = () => (
 		<ArrowRightIconLucid width={24} height={24} color='white' />
 	</div>
 );
+
+export const UserProfile = () => {
+	const userCookie = getCookie(COOKIE_KEYS.user);
+
+	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
+
+	return (
+		<div className='flex gap-[24px] items-center w-fit'>
+			<Avatar
+				{...{
+					classNames:
+						'w-[130px] h-[130px] font-bold text-[48px] leading-[36px] bg-purple-100',
+					name: userInfo?.username ?? '',
+				}}
+			/>
+			<div className='flex gap-[10px] flex-col'>
+				<p className='text-center tracking-[-.5%] leading-[30.01px] text-[22px] font-bold text-title-text-color'>
+					{userInfo?.username ?? ''}
+				</p>
+				<p className='text-gray-body-text text-center leading-[24px] text-[16px] font-normal'>
+					{userInfo?.email ?? ''}
+				</p>
+			</div>
+		</div>
+	);
+};

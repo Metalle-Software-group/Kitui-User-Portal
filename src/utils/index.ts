@@ -55,3 +55,19 @@ export const getFilterUpdateFunction =
 					),
 			  }))
 			: null;
+
+export const getTextFromHTML = (data: string) => {
+	const tmpDiv = document.createElement('div');
+
+	tmpDiv.innerHTML = data;
+	return tmpDiv.textContent || tmpDiv.innerText || '';
+};
+
+export const getLocalStorageItem = <TReturnType>({
+	key,
+}: {
+	key: string;
+}): TReturnType => {
+	const localStorageData = localStorage.getItem(key);
+	return JSON.parse(localStorageData!);
+};

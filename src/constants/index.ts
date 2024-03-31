@@ -334,3 +334,5 @@ export const initialFilterState: TFilterTypes = {
 	jobType: [],
 	term: '',
 };
+
+export const currentlySelectedJobKey = 'current_job';

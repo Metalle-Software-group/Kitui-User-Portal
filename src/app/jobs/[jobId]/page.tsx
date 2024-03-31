@@ -8,13 +8,13 @@ import { useQuery } from 'react-query';
 import { CommentForm } from '@/components/reusables/CommentForm';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
 import { SloganWithCategory } from '@/components/reusables/Slogan';
-import { JobDetails } from '@/components/cards/JobDetails';
 import { Loader } from '@/components/reusables/Others';
 import { fetchEndpointData } from '@/utils/server';
 import { Alert } from '@/components/cards/Alert';
 import { useQueryCustomWrapper } from '@/utils';
 import { TJob } from '@/types/types';
 import { ArrowRight } from 'lucide-react';
+import RichTexEditor from '@/components/editor/RichText';
 
 export default function ({ params }: { params: { jobId: string } }) {
 	const pathname = usePathname();
@@ -54,14 +54,14 @@ export default function ({ params }: { params: { jobId: string } }) {
 						{...{
 							comments: data?.comments.length ?? 0,
 							category: data?.ministry.name ?? '',
-							type: data?.job_type.name ?? '',
+							type: data?.job_type?.name ?? '',
 							location: data?.location ?? '',
 							title: data?.title ?? '',
 							datePosted: formatDistance(
+								new Date(),
 								data?.application_end
 									? new Date(data?.application_end)
 									: new Date(),
-								new Date(),
 								{ addSuffix: true }
 							),
 							slogan: t(
@@ -74,8 +74,18 @@ export default function ({ params }: { params: { jobId: string } }) {
 
 			<div className='px-[20px] pb-[20px] md:px-[100px] md:pb-[100px] space-y-10'>
 				<div className='flex flex-col md:flex-row w-full gap-[10px]'>
-					<div className='md:w-[70%] space-y-10'>
-						<JobDetails
+					{isLoading ? (
+						<div className='w-full h-full'>
+							<Loader />
+						</div>
+					) : isError ? (
+						<div className='w-full h-full'>
+							<Loader {...{ title: 'Error loading data' }} />
+						</div>
+					) : (
+						<div className='md:w-[70%] space-y-10'>
+							<RichTexEditor {...{ value: data?.description ?? '' }} />
+							{/* <JobDetails
 							about={
 								'The County Government is seeking a passionate and dedicated Public Health Educator to join our team and play a vital role in educating the community about critical health issues.'
 							}
@@ -120,11 +130,22 @@ export default function ({ params }: { params: { jobId: string } }) {
 							remark={
 								'If you are passionate about public health, have a strong desire to educate others, and are committed to making a positive impact in your community, we encourage you to apply!'
 							}
-						/>
-						<CommentForm />
-					</div>
+						/> */}
+							<CommentForm />
+						</div>
+					)}
 					<section className='md:w-[30%] space-y-10'>
-						<UploadDocsCard {...{ applyUrl: `${pathname}/apply` }} />
+						{isLoading ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader />
+							</div>
+						) : isError ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader {...{ title: 'Error loading data' }} />
+							</div>
+						) : (
+							<UploadDocsCard {...{ applyUrl: `${pathname}/apply`, data }} />
+						)}
 					</section>
 				</div>
 				<section className='space-y-5'>
