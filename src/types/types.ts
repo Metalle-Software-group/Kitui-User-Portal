@@ -93,13 +93,6 @@ export type JobDescriptionTypes = {
 	about: string;
 };
 
-export type commentType = {
-	replies?: commentType[];
-	comment: string;
-	timeline: string;
-	name: string;
-};
-
 export type TNodes = {
 	children?: React.ReactNode;
 };
@@ -321,6 +314,13 @@ export enum TApplicationStatus {
 	Rejected = 'rejected',
 }
 
+export type commentType = {
+	replies?: commentType[];
+	comment: string;
+	timeline: string;
+	name: string;
+};
+
 export type TCommentType = {
 	replies: TCommentType[];
 	createdBy: TUSER;
@@ -357,7 +357,7 @@ export type TJob = {
 
 export interface Application {
 	status?: TApplicationStatus;
-	comment?: Comment;
+	comment?: TCommentType;
 	publishedAt?: Date;
 	createdAt: Date;
 	updatedAt: Date;

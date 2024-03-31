@@ -32,12 +32,12 @@ export const NavUrls: NavUrlType[] = [
 		url: '/departments',
 	},
 	{
-		name: 'Register Details',
-		url: '/auth/register',
-	},
-	{
 		name: 'Kitui County',
 		url: 'kitui-county',
+	},
+	{
+		name: 'Sigin',
+		url: '/auth/signin',
 	},
 ];
 

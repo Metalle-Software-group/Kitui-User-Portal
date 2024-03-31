@@ -10,7 +10,7 @@ import { Slogan } from '@/components/reusables/Slogan';
 import { Alert } from '@/components/cards/Alert';
 
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import React from 'react';
 
@@ -89,6 +89,9 @@ export default function () {
 			{
 				url: `job-types`,
 				qFunc: fetchEndpointData,
+				options: {
+					fields: ['name'],
+				},
 			},
 		],
 	});
@@ -104,14 +107,12 @@ export default function () {
 			{
 				url: `ministries`,
 				qFunc: fetchEndpointData,
-				// options: {
-				// 	populate: '*',
-				// },
+				options: {
+					fields: ['name'],
+				},
 			},
 		],
 	});
-
-	useEffect(() => {}, [filters]);
 
 	return (
 		<main className='w-full space-y-10'>
@@ -260,9 +261,15 @@ export default function () {
 							</div>
 						) : (
 							<React.Fragment>
-								{data?.map((job, index) => (
-									<FindJobsCard key={index} {...job} />
-								))}
+								{data && data.length > 0 ? (
+									data?.map((job, index) => (
+										<FindJobsCard key={index} {...job} />
+									))
+								) : (
+									<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
+										No Jobs available
+									</div>
+								)}
 							</React.Fragment>
 						)}
 					</section>

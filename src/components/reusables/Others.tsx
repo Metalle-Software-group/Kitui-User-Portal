@@ -45,6 +45,7 @@ import {
 	AddRemoveEnum,
 	TSeeMore,
 	TUSER,
+	Application,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import {
@@ -86,8 +87,10 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createResourceEndpointData } from '@/utils/server';
+import { createResourceEndpointData, fetchEndpointData } from '@/utils/server';
 import { usePathname, useRouter } from 'next/navigation';
+import { useQuery } from 'react-query';
+import { useQueryCustomWrapper } from '@/utils';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -1207,6 +1210,33 @@ export const Profile = ({}: ProfilePropsTypes) => {
 };
 
 export const MyApplications = () => {
+	const userCookie = getCookie(COOKIE_KEYS.user);
+
+	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
+
+	const { isLoading, isError, data } = useQuery({
+		queryFn: useQueryCustomWrapper<Application[]>,
+		queryKey: [
+			`my-applications-data`,
+			{
+				url: `applications`,
+				qFunc: fetchEndpointData,
+				options: {
+					populate: {
+						job: { ministry: '', job_type: '' },
+						comment: '',
+						comments: '',
+						user: '',
+					},
+					sort: 'createdAt:desc',
+					filters: { user: { id: 1 } },
+				},
+			},
+		],
+	});
+
+	data;
+
 	const { t } = useTranslation();
 	return (
 		<div className='gap-y-[32px] md:gap-y-0 md:col-span-3 h-fit overflow-auto shadow-tableBoxShadow bg-white border border-white rounded-[12px] p-[10px]'>
