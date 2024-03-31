@@ -46,12 +46,17 @@ import {
 	TSeeMore,
 	TUSER,
 	Application,
+	TMoreSearchTypes,
+	TJob,
+	TFilterTypes,
+	TMinistry,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import {
 	COOKIE_KEYS,
 	FieldsToExcludeInFilter,
 	URL_SEARCH_PARAMS,
+	initialFilterState,
 } from '@/constants';
 import {
 	DropdownMenu,
@@ -90,7 +95,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createResourceEndpointData, fetchEndpointData } from '@/utils/server';
 import { usePathname, useRouter } from 'next/navigation';
 import { useQuery } from 'react-query';
-import { useQueryCustomWrapper } from '@/utils';
+import {
+	getFilterUpdateFunction,
+	getTextFromHTML,
+	useQueryCustomWrapper,
+} from '@/utils';
+import { formatDistance } from 'date-fns';
+import { FeaturedJobsCategories } from './FeaturedJobsCategories';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -227,7 +238,7 @@ export const ApplicantCountIcon = ({ count = 59 }: { count?: number }) => {
 
 export const Loader = ({
 	align = 'justify-center',
-	title = 'Loading data...',
+	title = 'Fetching data...',
 }: {
 	title?: string;
 	align?: string;
@@ -306,19 +317,34 @@ export const Comment = () => {
 	);
 };
 
-export const CommentCard = () => {
+export const CommentCard = ({
+	application_end,
+	description,
+	job_type,
+	location,
+	ministry,
+	title,
+	id,
+}: TJob) => {
+	const router = useRouter();
+
 	return (
-		<div className='md:w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'>
+		<div
+			className='md:w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'
+			{...{
+				onClick: (e) => router.push(`/jobs/${id}`),
+				title: 'Open this job',
+			}}>
 			<div className='flex gap-[16px] justify-between'>
 				<p className='font-bold text-[18px] leading-[24.55px] text-title-text-color'>
-					Public Health Officer
+					{title}
 				</p>
 
 				<div className='w-fit'>
 					<JobMinistryTag
 						{...{
 							textClassName: 'text-dev-accent',
-							ministry_name: 'Youth & Culture',
+							ministry_name: ministry?.name,
 							className: 'bg-tag-color',
 							dotClass: 'bg-dev-accent',
 						}}
@@ -332,6 +358,7 @@ export const CommentCard = () => {
 						{...{
 							className:
 								'flex items-center justify-center border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px] leading-[16.37px] font-bold text-[12px] h-fit',
+							name: job_type?.name,
 						}}
 					/>
 				</div>
@@ -341,19 +368,24 @@ export const CommentCard = () => {
 						{...{
 							className:
 								'flex gap-[2px] text-[12px] leading-[16.37px] font-semibold text-commentCardTextColor',
+							name: location,
 						}}
 					/>
 				</div>
 
 				<div className='w-fit'>
-					<TimeLimitLabel />
+					<TimeLimitLabel
+						{...{
+							name: formatDistance(application_end ?? new Date(), new Date(), {
+								addSuffix: true,
+							}),
+						}}
+					/>
 				</div>
 			</div>
 
 			<div className='w-fit leading-[24px] font-normal text-[14px] text-commentCardTextColor my-[4px]'>
-				Join our passionate team of public health professionals and help educate
-				the community about critical health issues. You'll develop and deliver
-				info....
+				{getTextFromHTML(description).substring(0, 150)} ...
 			</div>
 
 			<div className='flex justify-between my-[6px]'>
@@ -386,9 +418,9 @@ export const CommentCard = () => {
 };
 
 export const HowItWorksCard = ({
+	subtitle,
 	Icon,
 	title,
-	subtitle,
 	step,
 }: THowItWorksCardProps) => {
 	const { t } = useTranslation();
@@ -400,7 +432,7 @@ export const HowItWorksCard = ({
 
 			<div className='gap-[4px] flex flex-col justify-center items-center'>
 				<p className='font-bold text-[20px] leading-[28px] tracking-[.5%] text-center text-textTitle'>
-					{t(`${title}`)}
+					{step}. {t(`${title}`)}
 				</p>
 				<p className='text-bodyText leading-[24px] text-[16px] font-normal text-center'>
 					{t(`${subtitle}`)}
@@ -469,8 +501,10 @@ export const FilterTag = ({
 
 export const Avatar = ({
 	classNames = 'w-[32px] h-[32px] bg-applicant-colorbg',
+	includeCam = true,
 	name,
 }: {
+	includeCam?: boolean;
 	classNames?: string;
 	name: string;
 }) => {
@@ -483,19 +517,20 @@ export const Avatar = ({
 				{fname?.at(0)?.toUpperCase()}
 				{lname?.at(0)?.toUpperCase()}
 			</p>
-
-			<div className='w-fit absolute bottom-[10px] right-[24px]'>
-				<CameraIcon
-					{...{
-						svgElementClassName: 'stroke-bodyText',
-						applyToSvgEl: true,
-						styles: {
-							width: '30px',
-							height: '30px',
-						},
-					}}
-				/>
-			</div>
+			{includeCam ? (
+				<div className='w-fit absolute bottom-[10px] right-[24px]'>
+					<CameraIcon
+						{...{
+							svgElementClassName: 'stroke-bodyText',
+							applyToSvgEl: true,
+							styles: {
+								width: '30px',
+								height: '30px',
+							},
+						}}
+					/>
+				</div>
+			) : null}
 		</div>
 	);
 };
@@ -842,8 +877,8 @@ export const TableReusableComponent = ({
 										onChangeHandler: (value) => setCurrentFilter(value),
 										currPageSize: currentFilter,
 										data: processedColumnNames.map((item) => ({
-											label: item,
 											onChangeHandler: console.log,
+											label: item,
 										})),
 									}}
 								/>
@@ -999,8 +1034,6 @@ export const Profile = ({}: ProfilePropsTypes) => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				} else {
-					console.log(res);
 				}
 			})
 			.finally(() => setLoading(false));
@@ -1235,31 +1268,39 @@ export const MyApplications = () => {
 		],
 	});
 
-	data;
-
 	const { t } = useTranslation();
 	return (
 		<div className='gap-y-[32px] md:gap-y-0 md:col-span-3 h-fit overflow-auto shadow-tableBoxShadow bg-white border border-white rounded-[12px] p-[10px]'>
-			<div className='md:col-span-6'>
-				<TableReusableComponent
-					{...{
-						title: (
-							<div className='flex items-center gap-[8px]'>
-								<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
-									{t('My Applications')}
-								</p>
-							</div>
-						),
-						columns: MyApplicantColumns,
-						searchColumn: 'department',
-						data: shortlistedData,
-						titleFilterInline: false,
-						showPagination: true,
-						isSearchAtEnd: false,
-						filter: true,
-					}}
-				/>
-			</div>
+			{isLoading ? (
+				<div className='w-full h-full'>
+					<Loader />
+				</div>
+			) : isError ? (
+				<div className='w-full h-full'>
+					<Loader {...{ title: 'Error fetching data' }} />
+				</div>
+			) : (
+				<div className='md:col-span-6'>
+					<TableReusableComponent
+						{...{
+							title: (
+								<div className='flex items-center gap-[8px]'>
+									<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
+										{t('My Applications')}
+									</p>
+								</div>
+							),
+							columns: MyApplicantColumns,
+							searchColumn: 'department',
+							data: shortlistedData,
+							titleFilterInline: false,
+							showPagination: true,
+							isSearchAtEnd: false,
+							filter: true,
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
@@ -1393,9 +1434,12 @@ export const SeeMore = ({ title, handler }: TSeeMore) => (
 	</div>
 );
 
-export const MoreJobsComponent = () => (
+export const MoreJobsComponent = ({
+	onClickHandler,
+}: Pick<TMoreSearchTypes, 'onClickHandler'>) => (
 	<div
 		className='bg-main-Green w-fit h-fit flex gap-[2px] rounded-[8px] px-[18px] py-[10px] items-center justify-center selection:bg-inherit'
+		onClick={onClickHandler}
 		role='button'>
 		<p className='text-white w-fit font-semibold text-[14px] leading-[20px]'>
 			More Jobs
@@ -1425,6 +1469,124 @@ export const UserProfile = () => {
 				<p className='text-gray-body-text text-center leading-[24px] text-[16px] font-normal'>
 					{userInfo?.email ?? ''}
 				</p>
+			</div>
+		</div>
+	);
+};
+
+export const FeaturedJobs = () => {
+	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
+
+	const updateFilter = getFilterUpdateFunction({ setFilters });
+	const router = useRouter();
+
+	const {
+		isLoading: isMinistryLoading,
+		isError: isMinistryError,
+		data: ministries,
+	} = useQuery({
+		queryFn: useQueryCustomWrapper<TMinistry[]>,
+		queryKey: [
+			`ministry-data`,
+			{
+				qFunc: fetchEndpointData,
+				url: `ministries`,
+				options: {
+					fields: ['name'],
+				},
+			},
+		],
+	});
+
+	const { isLoading, isError, data, error } = useQuery({
+		queryFn: useQueryCustomWrapper<TJob[]>,
+		queryKey: [
+			`featured-jobs`,
+			{
+				url: `jobs`,
+				qFunc: fetchEndpointData,
+				options: {
+					populate: ['ministry', 'job_type', 'applications', 'comments'],
+					sort: 'createdAt:desc',
+					filters: {
+						...(filters.department.length > 0
+							? {
+									ministry: {
+										name: {
+											$in: filters.department,
+										},
+									},
+							  }
+							: {}),
+					},
+				},
+			},
+		],
+	});
+
+	return (
+		<div className='w-full'>
+			{/* featured jobs category list  */}
+			<div className='flex w-full justify-center space-x-3 mb-5 overflow-x-auto'>
+				{isMinistryLoading ? (
+					<div className='w-full h-full my-[50px]'>
+						<Loader />
+					</div>
+				) : isMinistryError ? (
+					<div className='w-full h-full my-[50px]'>
+						<Loader {...{ title: 'Error fetching data.' }} />
+					</div>
+				) : (
+					ministries?.map(({ name }, index) => (
+						<FeaturedJobsCategories
+							key={index}
+							{...{
+								onChange: updateFilter,
+								checked: filters.department.find((value) => value === name)
+									? true
+									: false,
+								name,
+							}}
+						/>
+					))
+				)}
+			</div>
+
+			<div className='w-full'>
+				<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
+					{isLoading ? (
+						<div className='w-full h-full py-[50px]'>
+							<Loader />
+						</div>
+					) : isError ? (
+						<div className='w-full h-full py-[50px]'>
+							<Loader {...{ title: 'Error fetching data.' }} />
+						</div>
+					) : (
+						data?.map((job, index) => <CommentCard key={index} {...job} />)
+					)}
+				</div>
+
+				<div className='flex items-center justify-center my-[20px]'>
+					<MoreJobsComponent
+						{...{
+							onClickHandler: () => {
+								// const searchParams = new URLSearchParams();
+
+								// searchParams.set('term', filters.term);
+								// filters.department.map((department) =>
+								// 	searchParams.set('departments[]', department)
+								// );
+
+								// filters.jobType.map((job_type) =>
+								// 	searchParams.set('job_type[]', job_type)
+								// );
+
+								router.push(`/jobs`);
+							},
+						}}
+					/>
+				</div>
 			</div>
 		</div>
 	);

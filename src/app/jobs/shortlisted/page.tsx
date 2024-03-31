@@ -60,13 +60,13 @@ const ShortListedCandidatesPage = () => {
 									title: (
 										<div className='flex items-center gap-[8px]'>
 											<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
-												{t('Recent applications')}
+												{t('Shortlisted candidates')}
 											</p>
 											<JobMinistryTag
 												{...{
 													textClassName:
 														'bg-applicant-colorbg text-applicant-colorText',
-													ministry_name: '99 Applicants',
+													ministry_name: '100 Applicants',
 													className:
 														'bg-applicant-colorbg rounded-[16px] px-[8px] py-[2px]',
 													dotClass: 'hidden',

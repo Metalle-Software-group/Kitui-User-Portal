@@ -411,8 +411,6 @@ export const CreateEditUser = ({
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				} else {
-					console.log(res);
 				}
 			})
 			.finally(() => setLoading(false));

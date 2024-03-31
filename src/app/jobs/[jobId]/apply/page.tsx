@@ -55,8 +55,6 @@ const ApplyJob = () => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				} else {
-					console.log(res);
 				}
 			})
 			.finally(() => setLoading(false));
@@ -81,8 +79,6 @@ const ApplyJob = () => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				} else {
-					console.log(res);
 				}
 			})
 			.finally(() => setLoading(false));

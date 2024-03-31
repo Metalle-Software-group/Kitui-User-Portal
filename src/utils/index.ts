@@ -1,11 +1,11 @@
+import { Dispatch, SetStateAction } from 'react';
 import {
-	AddRemoveEnum,
-	JobTypes,
 	TAddRemoveFilter,
+	AddRemoveEnum,
 	TFilterTypes,
 	TqueryKey,
+	JobTypes,
 } from '@/types/types';
-import { Dispatch, SetStateAction } from 'react';
 
 export const useQueryCustomWrapper = <dataTypeExpected>({
 	queryKey,

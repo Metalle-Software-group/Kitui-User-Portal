@@ -1,19 +1,16 @@
 'use client';
 
-import { FeaturedJobsCategories } from '@/components/reusables/FeaturedJobsCategories';
 import { HomeHero } from '@/components/cards/HomeHero';
 import { Alert } from '@/components/cards/Alert';
 import {
-	MoreJobsComponent,
 	HowItWorksCard,
 	DepartmentCard,
-	CommentCard,
 	SeeMore,
+	FeaturedJobs,
 } from '@/components/reusables/Others';
 
 import {
 	ExploreCategoryCards,
-	FeaturedCategories,
 	HowItWorksSteps,
 	initialFilterState,
 } from '@/constants';
@@ -21,13 +18,15 @@ import { TFilterTypes } from '@/types/types';
 import { useState } from 'react';
 import { getFilterUpdateFunction } from '@/utils';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/navigation';
 
 // export const metadata: Metadata = { title: 'Home' };
 
 export default function () {
 	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
-	const { t } = useTranslation();
 	const updateFilter = getFilterUpdateFunction({ setFilters });
+	const { t } = useTranslation();
+	const router = useRouter();
 
 	return (
 		// 1440px -> px-[100px], 1300px below px-[80px], px-[16px]->686px and below
@@ -35,8 +34,23 @@ export default function () {
 			<section className='bg-radial-gradient'>
 				<HomeHero
 					{...{
+						currentValue: filters.term,
 						onChange: updateFilter,
 						type: 'term',
+						onClickHandler: () => {
+							const searchParams = new URLSearchParams();
+
+							searchParams.set('term', filters.term);
+							filters.department.map((department) =>
+								searchParams.set('departments[]', department)
+							);
+
+							filters.jobType.map((job_type) =>
+								searchParams.set('job_type[]', job_type)
+							);
+
+							router.push(`/jobs?${searchParams.toString()}`);
+						},
 					}}
 				/>
 			</section>
@@ -54,7 +68,25 @@ export default function () {
 						</p>
 					</div>
 
-					<SeeMore {...{ title: 'See all categories', handler: () => {} }} />
+					<SeeMore
+						{...{
+							title: 'See all categories',
+							handler: () => {
+								// const searchParams = new URLSearchParams();
+
+								// searchParams.set('term', filters.term);
+								// filters.department.map((department) =>
+								// 	searchParams.set('departments[]', department)
+								// );
+
+								// filters.jobType.map((job_type) =>
+								// 	searchParams.set('job_type[]', job_type)
+								// );
+
+								router.push(`/departments`);
+							},
+						}}
+					/>
 				</div>
 
 				<div className='grid grid-cols-1 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
@@ -98,33 +130,30 @@ export default function () {
 					</div>
 
 					<div className='flex gap-[8px] cursor-pointer'>
-						<SeeMore {...{ title: 'See all jobs', handler: () => {} }} />
-					</div>
-				</div>
+						<SeeMore
+							{...{
+								title: 'See all jobs',
+								handler: () => {
+									// const searchParams = new URLSearchParams();
 
-				{/* featured jobs category list  */}
-				<div className='flex w-full justify-center space-x-3 mb-5 overflow-x-auto'>
-					{FeaturedCategories.map((category) => (
-						<FeaturedJobsCategories
-							key={category.name}
-							name={category.name}
-							onChange={() => {}}
+									// searchParams.set('term', filters.term);
+									// filters.department.map((department) =>
+									// 	searchParams.set('departments[]', department)
+									// );
+
+									// filters.jobType.map((job_type) =>
+									// 	searchParams.set('job_type[]', job_type)
+									// );
+
+									router.push(`/jobs`);
+								},
+							}}
 						/>
-					))}
-				</div>
-
-				{/* featured jobs card  */}
-				<div className='w-full'>
-					<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
-						{[0, 0, 0, 0, 0, 0].map((_, index) => (
-							<CommentCard key={index} />
-						))}
-					</div>
-
-					<div className='flex items-center justify-center my-[20px]'>
-						<MoreJobsComponent />
 					</div>
 				</div>
+
+				{/* featured jobs  */}
+				<FeaturedJobs />
 
 				<section>
 					<Alert

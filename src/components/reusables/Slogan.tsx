@@ -3,6 +3,7 @@ import {
 	FilterJobsTypes,
 	SloganType,
 	SloganWithCategoryType,
+	TMoreSearchTypes,
 } from '@/types/types';
 import { SearchJob } from '../frames/SearchJob';
 import {
@@ -15,6 +16,8 @@ import { MessageIcon } from '../icons';
 import { useTranslation } from 'react-i18next';
 
 export const Slogan = ({
+	currentValue = '',
+	onClickHandler,
 	beginningText,
 	endingText,
 	middleText,
@@ -22,7 +25,9 @@ export const Slogan = ({
 	slogan,
 	type,
 	title,
-}: SloganType & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
+}: SloganType &
+	Pick<FilterJobsTypes, 'onChange' | 'type'> &
+	TMoreSearchTypes) => {
 	const { t } = useTranslation();
 	return (
 		<div
@@ -50,11 +55,13 @@ export const Slogan = ({
 				<p className='font-normal leading-[24px] text-[16px] text-center text-bodyText'>
 					{slogan}
 				</p>
-				<div className=''>
+				<div className='w-full'>
 					<SearchJob
 						placeholder={t('Job title or keyword')}
 						searchText={t('Search Job')}
 						{...{
+							onClickHandler,
+							currentValue,
 							width: '100%',
 							onChange,
 							type,
@@ -139,14 +146,18 @@ export const SloganWithCategory = ({
 };
 
 export const SloganUpdates = ({
+	currentValue = '',
 	beginningText,
-	middleText,
+	onClickHandler,
 	endingText,
+	middleText,
 	onChange,
 	type,
 	slogan,
 	title,
-}: SloganType & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
+}: SloganType &
+	Pick<FilterJobsTypes, 'onChange' | 'type'> &
+	TMoreSearchTypes) => {
 	return (
 		<div
 			className={`flex flex-col w-full bg-light-Purple h-[400px] items-center justify-center`}>
@@ -167,6 +178,8 @@ export const SloganUpdates = ({
 				searchText={'Search Job'}
 				width='400px'
 				{...{
+					onClickHandler,
+					currentValue,
 					onChange,
 					type,
 				}}

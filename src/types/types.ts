@@ -40,17 +40,21 @@ export type FeaturedJobsTypes = {
 };
 
 export type FeatureCategoriesTypes = {
-	onChange?: () => void;
 	name: string;
-};
+} & Pick<FilterJobsTypes, 'onChange'>;
 
 export type TFilterTypes = {
-	jobType: JobTypes[];
+	jobType: JobTypes[] | string[];
 	department: string[];
 	term: string;
 };
 
 export type TupdateFilterType = keyof TFilterTypes;
+
+export enum JobTypes {
+	attachment = 'Attachment',
+	contract = 'Contract',
+}
 
 export type TAddRemoveFilter = {
 	type: TupdateFilterType;
@@ -127,11 +131,6 @@ export type THowItWorksCardProps = Pick<
 	step?: number;
 	Icon: string;
 };
-
-export enum JobTypes {
-	attachment = 'Attachment',
-	contract = 'Contract',
-}
 
 export enum AddRemoveEnum {
 	Remove = 'Remove',
@@ -377,4 +376,9 @@ export type TDataApplyJobORUpdateProfile = {
 	job: string | number;
 	comment?: string;
 	files: any[];
+};
+
+export type TMoreSearchTypes = {
+	onClickHandler: (any: any) => void;
+	currentValue?: string;
 };
