@@ -4,17 +4,16 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { NavUrls } from '@/constants';
+import { COOKIE_KEYS, NavUrls } from '@/constants';
 import LanguageSelector from '../translation/LanguageSelect';
 import { useTranslation } from 'react-i18next';
+import { getCookie } from 'cookies-next';
 
 export const Header = () => {
-  const router = useRouter();
+  const userCookie = getCookie(COOKIE_KEYS.user);
   const { t } = useTranslation();
+  const router = useRouter();
 
-  {
-    /* check on box shadow on the header  */
-  }
   return (
     <nav className='shadow-headerShadow px-[100px] bg-white sticky top-0 left-0 z-[100] h-[108px]'>
       <div className='flex justify-between items-center'>
@@ -39,9 +38,22 @@ export const Header = () => {
                 {...{
                   className:
                     'gap-[2px] flex py-[10px] leading-[24px] text-[16px] text-bodyText font-bold',
-                  href: url,
+                  href:
+                    url === '/auth/signin'
+                      ? userCookie
+                        ? '/profile'
+                        : url
+                      : url,
                 }}>
-                {t(`${name}`)}
+                {t(
+                  `${
+                    url === '/auth/signin'
+                      ? userCookie
+                        ? 'Profile'
+                        : name
+                      : name
+                  }`
+                )}
               </Link>
             ))}
           </div>
@@ -73,7 +85,7 @@ export const Header = () => {
               priority
             />
           </div>
-          <div className='flex w-fit h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit p-2'>
+          <div className='flex w-[98px] h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
             <p className='text-mainGreen font-bold text-[16px] leading-[20px]'>
               {t('Contact Us')}
             </p>
