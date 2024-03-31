@@ -34,8 +34,45 @@ export default function () {
 				url: `jobs`,
 				qFunc: fetchEndpointData,
 				options: {
-					sort: 'createdAt:desc',
 					populate: ['ministry', 'job_type', 'applications', 'comments'],
+					sort: 'createdAt:desc',
+					filters: {
+						$and: [
+							...(filters.term
+								? [
+										{
+											title: {
+												$containsi: filters.term,
+											},
+										},
+								  ]
+								: []),
+
+							...(filters.jobType.length > 0
+								? [
+										{
+											job_type: {
+												name: {
+													$in: filters.jobType,
+												},
+											},
+										},
+								  ]
+								: []),
+							,
+							...(filters.department.length > 0
+								? [
+										{
+											ministry: {
+												name: {
+													$in: filters.department,
+												},
+											},
+										},
+								  ]
+								: []),
+						],
+					},
 				},
 			},
 		],
