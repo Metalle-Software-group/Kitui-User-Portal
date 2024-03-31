@@ -54,9 +54,11 @@
   "Track your application status and see shortlisted candidates.": "Track your application status and see shortlisted candidates.",
   "Featured Jobs": "Featured Jobs",
   "See Available jobs": "See Available jobs",
+  "See all jobs": "See all jobs",
   "Never Miss Your Dream Job!": "Never Miss Your Dream Job!",
   "Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!": "Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!",
   "Get Job Alerts Now!": "Get Job Alerts Now!",
+  "More Jobs": "More Jobs",
 
   "Departmentz": "",
 
@@ -79,6 +81,12 @@
   "Job description": "Job description",
   "You May Also Be Interested In": "You May Also Be Interested In",
   "See All Jobs": "See All Jobs",
+  "Leave a comment": "Leave a comment",
+  "Your email address will not be published. Required fields are marked *": "Your email address will not be published. Required fields are marked *        ",
+  "Comment": "Comment",
+  "Website Link": "Website Link",
+  "Save my name,email and website for the next time I comment.": "Save my name,email and website for the next time I comment.",
+  "Post Comment": "Post Comment",
 
   "Jobz[index]Apply": "",
 
@@ -102,7 +110,7 @@
 
   "Profilez": "",
 
-  "Welcome":"Welcome",
+  "Welcome": "Welcome",
   "Access your past applications and profile from here": "Access your past applications and profile from here",
   "My Applications": "My Applications",
   "Profile": "Profile",
@@ -112,7 +120,7 @@
   "ID Number": " ID Number",
   "Gender": "Gender",
   "County of residence": "County of residence",
-  "Sub county":"Sub county",
+  "Sub county": "Sub county",
   "Location": " Location",
   "Back": "Back",
   "Update details": "Update details"

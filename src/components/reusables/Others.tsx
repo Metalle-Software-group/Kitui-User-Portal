@@ -1363,16 +1363,23 @@ export const SeeMore = ({ title, handler }: TSeeMore) => (
 	</div>
 );
 
-export const MoreJobsComponent = () => (
-	<div
-		className='bg-main-Green w-fit h-fit flex gap-[2px] rounded-[8px] px-[18px] py-[10px] items-center justify-center selection:bg-inherit'
-		role='button'>
-		<p className='text-white w-fit font-semibold text-[14px] leading-[20px]'>
-			More Jobs
-		</p>
-		<ArrowRightIconLucid width={24} height={24} color='white' />
-	</div>
-);
+export const MoreJobsComponent = () => {
+	const {t} = useTranslation()
+	return (
+    <div
+      className='bg-main-Green w-fit h-fit flex gap-[2px] rounded-[8px] px-[18px] py-[10px] items-center justify-center selection:bg-inherit'
+      role='button'>
+      <p className='text-white w-fit font-semibold text-[14px] leading-[20px]'>
+        {t('More Jobs')}
+      </p>
+      <ArrowRightIconLucid
+        width={24}
+        height={24}
+        color='white'
+      />
+    </div>
+  );
+};
 
 export const UserProfile = () => {
 	const userCookie = getCookie(COOKIE_KEYS.user);
