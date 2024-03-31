@@ -85,8 +85,8 @@ export const Header = () => {
               priority
             />
           </div>
-          <div className='flex w-[98px] h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
-            <p className='text-mainGreen font-bold text-[16px] leading-[20px]'>
+          <div className='flex w-fit h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
+            <p className='text-mainGreen font-[600] text-[14px] leading-[20px] px-[8px] py-[14px]'>
               {t('Contact Us')}
             </p>
           </div>

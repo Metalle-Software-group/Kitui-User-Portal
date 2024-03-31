@@ -9,18 +9,20 @@ export const CommentForm = () => {
     <div className='flex flex-col space-y-10'>
       <div className='space-y-5'>
         <p className='font-semibold text-[20px] leading-[28px] text-textTitle'>
-          t('Leave a comment')
+          {t('Leave a comment')}
         </p>
         <p className='font-[700] text-[16px] leading-[24px] text-commentsColor'>
-          t('Your email address will not be published. Required fields are
-          marked')*
+          {t(
+            'Your email address will not be published. Required fields are marked'
+          )}
+          *
         </p>
       </div>
 
       <form className='space-y-5'>
         <div className='flex flex-col space-y-3 w-full'>
           <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-            t('Comment')*
+            {t('Comment')}*
           </label>
           <textarea
             placeholder='Your comment here'
@@ -32,7 +34,7 @@ export const CommentForm = () => {
         <div className='grid grid-cols-2 gap-[16px]'>
           <div className='flex flex-col space-y-3 w-full'>
             <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-              t('Name')*
+              {t('Name')}*
             </label>
             <input
               placeholder='e.g James Musyoka'
@@ -44,7 +46,7 @@ export const CommentForm = () => {
           </div>
           <div className='flex flex-col space-y-3 w-full'>
             <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-              t('Email')*
+              {t('Email')}*
             </label>
             <input
               placeholder='e.g jamesmusyoka@gmail.com'
@@ -57,7 +59,7 @@ export const CommentForm = () => {
         </div>
         <div className='flex flex-col space-y-3 w-full'>
           <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-            t('Website Link')*
+            {t('Website Link')}*
           </label>
           <input
             placeholder=''
@@ -78,12 +80,12 @@ export const CommentForm = () => {
           <label
             className='font-[400] text-[14px] leading-[24px] text-textTitle cursor-pointer selection:bg-inherit'
             htmlFor='remember-me'>
-            t('Save my name,email and website for the next time I comment.')
+            {t('Save my name,email and website for the next time I comment.')}
           </label>
         </div>
         <button className='flex rounded-[8px] bg-mainGreen border gap-[8px] justify-center items-center px-[16px] py-[10px] border-mainGreen shadow-btnBoxShadow'>
           <p className='text-white font-semibold text-[14px] leading-[20px] '>
-            t('Post Comment')
+            {t('Post Comment')}
           </p>
         </button>
       </form>
