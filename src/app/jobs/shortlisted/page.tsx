@@ -45,6 +45,7 @@ const ShortListedCandidatesPage = () => {
 					middleText={t('updates')}
 					{...{
 						onChange: updateFilter,
+						onClickHandler: () => {},
 						type: 'term',
 					}}
 				/>
