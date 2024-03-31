@@ -136,19 +136,24 @@ export default function () {
 				</div>
 
 				<section className='flex flex-col md:flex-row w-full gap-[32px]'>
-					{isJobtypeLoading || isMinistryLoading ? (
-						<div className='w-full h-full flex'>
-							<Loader />
-						</div>
-					) : isJobTypeError || isMinistryError ? (
-						<div className='w-full h-full flex'>
-							<Loader {...{ title: 'Error loading job types' }} />
-						</div>
-					) : (
-						<section className='w-full md:w-[30%] space-y-10 overflow-x-auto'>
-							<div className='flex flex-col space-y-5'>
-								<p className='selection:bg-inherit'>{t('Departments')}</p>
+					<section className='w-full md:w-[30%] space-y-10 overflow-x-auto py-[30px]'>
+						<div className='flex flex-col space-y-5'>
+							<p className='selection:bg-inherit'>{t('Departments')}</p>
 
+							{isMinistryLoading ? (
+								<div className='w-full rounded flex'>
+									<Loader {...{ align: 'justify-start' }} />
+								</div>
+							) : isMinistryError ? (
+								<div className='w-full rounded flex'>
+									<Loader
+										{...{
+											title: 'Error loading job types',
+											align: 'justify-start',
+										}}
+									/>
+								</div>
+							) : (
 								<div className='flex md:flex-col md:space-y-5 space-x-2 md:space-x-0'>
 									{ministries?.map(({ name }, index) => (
 										<FilterCheckbox
@@ -166,10 +171,26 @@ export default function () {
 										/>
 									))}
 								</div>
-							</div>
+							)}
+						</div>
 
-							<div className='flex flex-col space-y-5'>
-								<p>{t('Employment Types')}</p>
+						<div className='flex flex-col space-y-5'>
+							<p>{t('Employment Types')}</p>
+
+							{isJobtypeLoading ? (
+								<div className='w-full rounded flex'>
+									<Loader {...{ align: 'justify-start' }} />
+								</div>
+							) : isJobTypeError ? (
+								<div className='w-full rounded flex'>
+									<Loader
+										{...{
+											title: 'Error loading job types',
+											align: 'justify-start',
+										}}
+									/>
+								</div>
+							) : (
 								<div className='flex md:flex-col md:space-y-5 space-x-2 md:space-x-0'>
 									{jobTypes?.map(({ name }, index) => (
 										<FilterCheckbox
@@ -186,18 +207,18 @@ export default function () {
 										/>
 									))}
 								</div>
-							</div>
-						</section>
-					)}
+							)}
+						</div>
+					</section>
 
 					{/* job listing */}
 					<section className='w-[70%] mb-[100px] flex flex-col gap-[24px]'>
 						{isLoading ? (
-							<div className='w-full h-full'>
+							<div className='w-[70%] h-full'>
 								<Loader />
 							</div>
 						) : isError ? (
-							<div className='h-full w-full'>
+							<div className='h-full w-[70%]'>
 								<Loader {...{ title: 'Error loading data' }} />
 							</div>
 						) : (

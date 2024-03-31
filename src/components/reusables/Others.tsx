@@ -1,6 +1,7 @@
 'use client';
 
 import {
+	ArrowRight,
 	ArrowRightIcon as ArrowRightIconLucid,
 	DownloadIcon,
 	EyeIcon,
@@ -22,7 +23,6 @@ import {
 	CrossMarkIcon,
 	CameraIcon,
 	DropFileIcon,
-	ArrowRightIcon,
 	MessageIcon,
 } from '../icons';
 
@@ -42,6 +42,7 @@ import {
 	ProfilePropsTypes,
 	FileSelectorPropsType,
 	AddRemoveEnum,
+	TSeeMore,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import { FieldsToExcludeInFilter } from '@/constants';
@@ -210,9 +211,13 @@ export const ApplicantCountIcon = ({ count = 59 }: { count?: number }) => {
 	);
 };
 
-export const Loader = ({ title = 'Loading data...' }: { title?: string }) => (
-	<div className='w-full h-full flex justify-center items-center'>{title}</div>
-);
+export const Loader = ({
+	align = 'justify-center',
+	title = 'Loading data...',
+}: {
+	title?: string;
+	align?: string;
+}) => <div className={`w-full h-full flex ${align} items-center`}>{title}</div>;
 
 export const DepartmentCard = ({
 	subtitle,
@@ -345,13 +350,10 @@ export const CommentCard = () => {
 						View Job
 					</p>
 
-					<ArrowRightIcon
-						{...{
-							svgElementClassName:
-								'fill-foundationGreen2 stroke-foundationGreen2',
-							applyToSvgEl: true,
-							className: 'w-[24px] h-[24px]',
-						}}
+					<ArrowRight
+						className='stroke-main-Green'
+						width={'24px'}
+						height={'24px'}
 					/>
 				</div>
 
@@ -524,6 +526,12 @@ export const Comments = ({
 			<p className='font-semibold text-[20px] leading-[28px] tracking-[.5%] text-textTitle'>
 				Comments
 			</p>
+
+			{comments.length < 1 ? (
+				<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
+					No comments yet. Be the first one to leave a comment.
+				</div>
+			) : null}
 			{comments.map(({ name, comment, timeline, replies }) => (
 				<div key={name} className='flex flex-col gap-[6px]'>
 					<div className='flex gap-[6px] item-center'>
@@ -1252,36 +1260,15 @@ export const UploadFileCard = ({
 	);
 };
 
-export const SeeAllCategories = () => (
-	<Fragment>
+export const SeeMore = ({ title, handler }: TSeeMore) => (
+	<div
+		className='flex  md:gap-[8px] cursor-pointer selection:bg-inherit w-fit'
+		onClick={handler}>
 		<p className='font-semibold md:text-[14px] md:leading-[20px] text-main-Green'>
-			'See all categories'
+			{title}
 		</p>
-
-		<ArrowRightIcon
-			{...{
-				svgElementClassName: 'fill-main-Green stroke-main-Green',
-				applyToSvgEl: true,
-				className: 'w-[20px] h-[20px]',
-			}}
-		/>
-	</Fragment>
-);
-
-export const SeeAllJobs = () => (
-	<Fragment>
-		<p className='font-semibold text-[16px] leading-[24px] text-main-Green'>
-			See all jobs
-		</p>
-
-		<ArrowRightIcon
-			{...{
-				svgElementClassName:
-					'fill-main-Green stroke-main-Green w-[20px] h-[20px]',
-				applyToSvgEl: true,
-			}}
-		/>
-	</Fragment>
+		<ArrowRight className='stroke-main-Green' width={'24px'} height={'24px'} />
+	</div>
 );
 
 export const MoreJobsComponent = () => (

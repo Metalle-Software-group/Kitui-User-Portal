@@ -1,40 +1,80 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import { formatDistance } from 'date-fns';
+import { useQuery } from 'react-query';
 
 import { CommentForm } from '@/components/reusables/CommentForm';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
 import { SloganWithCategory } from '@/components/reusables/Slogan';
 import { JobDetails } from '@/components/cards/JobDetails';
-import { ArrowRightIcon } from '@/components/icons';
+import { Loader } from '@/components/reusables/Others';
+import { fetchEndpointData } from '@/utils/server';
 import { Alert } from '@/components/cards/Alert';
-import { useTranslation } from 'react-i18next';
+import { useQueryCustomWrapper } from '@/utils';
+import { TJob } from '@/types/types';
+import { ArrowRight } from 'lucide-react';
 
-export default function () {
+export default function ({ params }: { params: { jobId: string } }) {
 	const pathname = usePathname();
 	const { t } = useTranslation();
 
-	return (
-		<main className='w-full space-y-10'>
-			<section>
-				<SloganWithCategory
-					{...{
-						title: 'Public Health Officer',
-						category: 'Youth & Culture',
-						datePosted: '2 days ago',
-						type: 'Attachment',
-						location: 'Mwingi',
-						comments: 3,
-						slogan: t(
-							'Make a real difference in your community by joining a vibrant team dedicated to serving the public good'
-						),
-					}}
-				/>
-			</section>
+	const { jobId } = params;
 
-			<section className='px-[20px] pb-[20px] md:px-[100px] md:pb-[100px] space-y-10'>
-				<section className='flex flex-col md:flex-row w-full gap-[10px]'>
-					<section className='md:w-[70%] space-y-10'>
+	const { isLoading, isError, data } = useQuery({
+		queryFn: useQueryCustomWrapper<TJob>,
+		queryKey: [
+			`jobs-data-${jobId}`,
+			{
+				url: `jobs/${jobId}`,
+				qFunc: fetchEndpointData,
+				options: {
+					sort: 'createdAt:desc',
+					populate: ['ministry', 'job_type', 'applications', 'comments'],
+				},
+			},
+		],
+		enabled: !!jobId,
+	});
+
+	return (
+		<div className='w-full space-y-10'>
+			{isLoading ? (
+				<div className='w-full h-[400px] bg-light-Purple'>
+					<Loader />
+				</div>
+			) : isError ? (
+				<div className='w-full h-[400px] bg-light-Purple'>
+					<Loader {...{ title: '' }} />
+				</div>
+			) : (
+				<div>
+					<SloganWithCategory
+						{...{
+							comments: data?.comments.length ?? 0,
+							category: data?.ministry.name ?? '',
+							type: data?.job_type.name ?? '',
+							location: data?.location ?? '',
+							title: data?.title ?? '',
+							datePosted: formatDistance(
+								data?.application_end
+									? new Date(data?.application_end)
+									: new Date(),
+								new Date(),
+								{ addSuffix: true }
+							),
+							slogan: t(
+								'Make a real difference in your community by joining a vibrant team dedicated to serving the public good'
+							),
+						}}
+					/>
+				</div>
+			)}
+
+			<div className='px-[20px] pb-[20px] md:px-[100px] md:pb-[100px] space-y-10'>
+				<div className='flex flex-col md:flex-row w-full gap-[10px]'>
+					<div className='md:w-[70%] space-y-10'>
 						<JobDetails
 							about={
 								'The County Government is seeking a passionate and dedicated Public Health Educator to join our team and play a vital role in educating the community about critical health issues.'
@@ -57,36 +97,36 @@ export default function () {
 								'Opportunity to make a real difference in the lives of others.',
 								'Be part of a passionate team dedicated to improving community health.',
 							]}
-							comments={[
-								{
-									name: 'Musyoka Juma',
-									comment: 'Seems good',
-									timeline: 'a min ago',
-								},
-								{
-									name: 'Tom Brady',
-									comment: 'Seems good',
-									timeline: '2 days ago',
-									replies: [
-										{
-											name: 'Youth Department',
-											timeline: '1 day ago',
-											comment:
-												'Hello Tom, shortlisted candidates shall be notified once screening is completed.. All the best.',
-										},
-									],
-								},
-							]}
+							comments={
+								data
+									? data?.comments.map((comment) => ({
+											name: comment.createdBy.username,
+											comment: comment.message,
+											timeline: formatDistance(comment.createdAt, new Date(), {
+												includeSeconds: true,
+												addSuffix: true,
+											}),
+
+											replies: comment.replies.map((reply) => ({
+												name: reply.createdBy.username,
+												timeline: formatDistance(reply.createdAt, new Date(), {
+													addSuffix: true,
+												}),
+												comment: reply.message,
+											})),
+									  }))
+									: []
+							}
 							remark={
 								'If you are passionate about public health, have a strong desire to educate others, and are committed to making a positive impact in your community, we encourage you to apply!'
 							}
 						/>
 						<CommentForm />
-					</section>
+					</div>
 					<section className='md:w-[30%] space-y-10'>
 						<UploadDocsCard {...{ applyUrl: `${pathname}/apply` }} />
 					</section>
-				</section>
+				</div>
 				<section className='space-y-5'>
 					<div className='flex w-full justify-between'>
 						<p className='font-bold text-[20px] md:text-[30px] md:leading-[36px] md:tracking-[.75%] text-textTitle'>
@@ -96,13 +136,10 @@ export default function () {
 							<p className='font-[600] text-[14px] leading-[20px] text-mainGreen'>
 								{t('See All Jobs')}
 							</p>
-
-							<ArrowRightIcon
-								{...{
-									svgElementClassName: 'fill-main-Green stroke-main-Green',
-									className: 'w-[24px] h-[24px]',
-									applyToSvgEl: true,
-								}}
+							<ArrowRight
+								className='stroke-main-Green'
+								width={'24px'}
+								height={'24px'}
 							/>
 						</button>
 					</div>
@@ -132,7 +169,7 @@ export default function () {
 						buttonText={t('Get Job Alerts Now!')}
 					/>
 				</section>
-			</section>
-		</main>
+			</div>
+		</div>
 	);
 }

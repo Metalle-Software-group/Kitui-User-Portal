@@ -114,7 +114,7 @@ export const ArrowRightIcon = ({
 				  })}
 			xmlns='http://www.w3.org/2000/svg'>
 			<path
-				d='M4.16663 10H15.8333'
+				d='M4.1665 10H15.8332'
 				{...{
 					className: svgElementClassName,
 				}}
@@ -123,13 +123,13 @@ export const ArrowRightIcon = ({
 				strokeWidth='1.5'
 			/>
 			<path
-				d='M10 4.1665L15.8333 9.99984L10 15.8332'
+				d='M10 4.16666L15.8333 9.99999L10 15.8333'
 				{...{
 					className: svgElementClassName,
 				}}
-				strokeWidth='1.5'
 				strokeLinecap='round'
 				strokeLinejoin='round'
+				strokeWidth='1.5'
 			/>
 		</svg>
 	</div>

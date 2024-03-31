@@ -11,8 +11,9 @@ import {
 	LocationLabel,
 	TimeLimitLabel,
 } from '../reusables/Others';
-import { ArrowRightIcon, MessageIcon } from '../icons';
+import { MessageIcon } from '../icons';
 import dynamic from 'next/dynamic';
+import { ArrowRight } from 'lucide-react';
 
 const RichTexEditor = dynamic(() => import('@/components/editor/RichText'), {
 	ssr: false,
@@ -42,7 +43,7 @@ export const FindJobsCard = ({
 		<div
 			className={`flex flex-col w-full  h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
 			{...{
-				onClick: (e) => router.push(`/jobs/id`),
+				onClick: (e) => router.push(`/jobs/3`),
 				title: 'Open this job',
 			}}>
 			<div className='flex gap-[16px] justify-between'>
@@ -93,12 +94,10 @@ export const FindJobsCard = ({
 						Apply Now
 					</p>
 
-					<ArrowRightIcon
-						{...{
-							svgElementClassName: 'fill-main-Green stroke-main-Green',
-							className: 'w-[24px] h-[24px]',
-							applyToSvgEl: true,
-						}}
+					<ArrowRight
+						className='stroke-main-Green'
+						width={'24px'}
+						height={'24px'}
 					/>
 				</button>
 				<button className='flex w-[38px] justify-between items-center'>

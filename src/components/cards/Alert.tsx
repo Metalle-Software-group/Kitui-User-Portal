@@ -23,7 +23,7 @@ export const Alert = ({
 				</p>
 				<button
 					className='flex w-fit bg-main-Green h-[48px] items-center rounded-[8px] border px-[20px] py-[12px] text-white border-main-Green'
-					onClick={(e) => router.push('/auth/')}>
+					onClick={(e) => router.push('/auth/signin')}>
 					{buttonText}
 					<ArrowRightIcon width={20} height={30} color='white' />
 				</button>

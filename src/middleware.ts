@@ -12,7 +12,7 @@ export default function middleware(req: NextRequest) {
 
 	const base_URL = `http${process.env.NODE_ENV === 'production' ? 's' : ''}://${
 		new URL(req.url).host
-	}/auth?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(req.url)}`;
+	}/auth/signin?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(req.url)}`;
 
 	return authenticated
 		? NextResponse.next()
