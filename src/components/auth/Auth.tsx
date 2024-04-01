@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import Image from 'next/image';
@@ -31,6 +31,8 @@ export const AuthScreen = ({}) => {
 	const [authError, setAuthError] = useState<string | null>(null);
 	const router = useRouter();
 
+	const params = useSearchParams();
+
 	const FormSchema = z.object({
 		password: z.string().min(2, {
 			message: 'Password must meet the minimum requirements.',
@@ -52,10 +54,11 @@ export const AuthScreen = ({}) => {
 		const res = AuthenticateUser({ ...data });
 
 		res
-			.then(({ err }) => {
-				if (err) setAuthError(err);
-				else router.push('/profile');
-			})
+			.then(({ err }) =>
+				err
+					? setAuthError(err)
+					: router.push(params.get(URL_SEARCH_PARAMS.redirect) ?? '/profile')
+			)
 			.catch(() =>
 				setAuthError("Username and password combination didn't match")
 			)
@@ -68,10 +71,10 @@ export const AuthScreen = ({}) => {
 			<div className='w-full flex items-center justify-center'>
 				<Image
 					src={'/images/logo/logo.png'}
+					className='w-[100px] h-[100px]'
 					width={100}
 					height={100}
 					alt='Logo'
-					className='w-[100px] h-[100px]'
 				/>
 			</div>
 

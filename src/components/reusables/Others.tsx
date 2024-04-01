@@ -585,45 +585,78 @@ export const Comments = ({
 					No comments yet. Be the first one to leave a comment.
 				</div>
 			) : null}
-			{comments.map(({ name, comment, timeline, replies }) => (
-				<div key={name} className='flex flex-col gap-[6px]'>
-					<div className='flex gap-[6px] item-center'>
-						<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-							{name}
-						</p>
-						<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
-							says
-						</p>
-					</div>
-					<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
-						{comment}
-					</p>
-					<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-						{timeline}
-					</p>
+			{comments.map(({ id, message, createdAt, replies }) => {
+				const providedDate = new Date(createdAt); // Use createdAt as the provided date
+				const currentDate = new Date();
+				const differenceMs: number =
+					currentDate.getTime() - providedDate.getTime();
 
-					<div className='px-[32px]'>
-						{replies?.map(({ comment, name, timeline }) => (
-							<div key={name} className='flex flex-col gap-[6px]'>
-								<div className='flex gap-[6px] items-center'>
-									<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-										{name}
-									</p>
-									<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
-										responded
-									</p>
-								</div>
-								<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
-									{comment}
-								</p>
-								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-									{timeline}
-								</p>
-							</div>
-						))}
+				const days = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
+				const hours = Math.floor(
+					(differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+				);
+				const minutes = Math.floor(
+					(differenceMs % (1000 * 60 * 60)) / (1000 * 60)
+				);
+				const seconds = Math.floor((differenceMs % (1000 * 60)) / 1000);
+
+				return (
+					<div key={id} className='flex flex-col gap-[6px]'>
+						<div className='flex gap-[6px] item-center'>
+							<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+								{id}
+							</p>
+							<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+								says
+							</p>
+						</div>
+						<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+							{message}
+						</p>
+						<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+							{days} days, {hours} hours, {minutes} minutes, {seconds} seconds
+							ago
+						</p>
+
+						<div className='px-[32px]'>
+							{replies?.map(({ message, id, createdAt }) => {
+								const replyDate = new Date(createdAt); // Use createdAt as the provided date for replies
+								const differenceMs: number =
+									currentDate.getTime() - replyDate.getTime();
+
+								const days = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
+								const hours = Math.floor(
+									(differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+								);
+								const minutes = Math.floor(
+									(differenceMs % (1000 * 60 * 60)) / (1000 * 60)
+								);
+								const seconds = Math.floor((differenceMs % (1000 * 60)) / 1000);
+
+								return (
+									<div key={id} className='flex flex-col gap-[6px]'>
+										<div className='flex gap-[6px] items-center'>
+											<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+												{id}
+											</p>
+											<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+												responded
+											</p>
+										</div>
+										<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+											{message}
+										</p>
+										<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+											{days} days, {hours} hours, {minutes} minutes, {seconds}{' '}
+											seconds ago
+										</p>
+									</div>
+								);
+							})}
+						</div>
 					</div>
-				</div>
-			))}
+				);
+			})}
 		</div>
 	);
 };

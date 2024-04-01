@@ -1,14 +1,38 @@
 'use client';
 
 import { Alert } from '@/components/cards/Alert';
-import { DepartmentCard } from '@/components/reusables/Others';
+import { DepartmentCard, Loader } from '@/components/reusables/Others';
 import { ExploreCategoryCards } from '@/constants';
+import { TMinistry } from '@/types/types';
+import { useQueryCustomWrapper } from '@/utils';
+import { fetchEndpointData } from '@/utils/server';
+import { Coming_Soon } from 'next/font/google';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 
+export default function () {
+  const {
+    isLoading: isMinistryLoading,
+    isError: isMinistryError,
+    data: ministries,
+  } = useQuery({
+    queryFn: useQueryCustomWrapper<TMinistry[]>,
+    queryKey: [
+      `ministry-data`,
+      {
+        url: `ministries`,
+        qFunc: fetchEndpointData,
+        options: {
+          fields: ['name'],
+        },
+      },
+    ],
+  });
 
-const Departments = () => {
-	 const { t } = useTranslation();
-	return (
+  console.log(ministries);
+
+  const { t } = useTranslation();
+  return (
     <div className='py-[60px] px-[30px] flex flex-col gap-[20px]'>
       <div className='flex justify-between items-center'>
         <div className='flex flex-col gap-[12px] selection:bg-inherit'>
@@ -23,11 +47,35 @@ const Departments = () => {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
-        {ExploreCategoryCards.map((category, index) => (
-          <div key={index}>
-            <DepartmentCard {...category} />
+        {isMinistryLoading ? (
+          <div className='w-full rounded flex'>
+            <Loader {...{ align: 'justify-start' }} />
           </div>
-        ))}
+        ) : isMinistryError ? (
+          <div className='w-full rounded flex'>
+            <Loader
+              {...{
+                title: 'Error loading job types',
+                align: 'justify-start',
+              }}
+            />
+          </div>
+        ) : (
+          <>
+            {ExploreCategoryCards.filter((category) =>
+              ministries?.some((ministry) =>
+                category.title
+                  .toLowerCase()
+                  .trim()
+                  .includes(ministry.name.toLowerCase().trim())
+              )
+            ).map((category, index) => (
+              <div key={index}>
+                <DepartmentCard {...category} />
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       <div className='mt-[100px]'>
@@ -42,6 +90,4 @@ const Departments = () => {
       </div>
     </div>
   );
-};
-
-export default Departments;
+}

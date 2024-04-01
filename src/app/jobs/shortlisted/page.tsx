@@ -46,7 +46,7 @@ const ShortListedCandidatesPage = () => {
 				options: {
 					populate: ['job', 'user'],
 					sort: 'createdAt:desc',
-					filter: {
+					filters: {
 						status: { $eq: 'shortlisted' },
 					},
 				},

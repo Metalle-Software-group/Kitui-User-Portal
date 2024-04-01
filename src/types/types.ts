@@ -315,9 +315,47 @@ export enum TApplicationStatus {
 
 export type commentType = {
 	replies?: commentType[];
-	comment: string;
-	timeline: string;
+	message: string;
+	createdAt: string;
+	id: string;
+};
+
+export interface MediaFormat {
+	height: number;
+	width: number;
 	name: string;
+	size: number;
+	hash: string;
+	ext: string;
+	mime: string;
+	path: string;
+	url: string;
+}
+
+export type Media = {
+	id: number;
+	attributes: {
+		formats: {
+			thumbnail: MediaFormat;
+			small: MediaFormat;
+			medium: MediaFormat;
+			large: MediaFormat;
+		};
+		alternativeText: string;
+		previewUrl: string;
+		updatedAt: Date;
+		createdAt: Date;
+		provider: string;
+		caption: string;
+		height: number;
+		width: number;
+		name: string;
+		size: number;
+		mime: string;
+		hash: string;
+		ext: string;
+		url: string;
+	};
 };
 
 export type TCommentType = {
@@ -328,6 +366,7 @@ export type TCommentType = {
 	updatedAt: string;
 	message: string;
 	hidden: boolean;
+	id: string;
 	user: TUSER;
 	job: TJob;
 };
