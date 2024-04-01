@@ -11,12 +11,22 @@ import {
 	TApiHandlerProps,
 } from '@/types/types';
 
-export const getStrapiConfiguredInstance = (
+export const getCookie = ({ name }: { name: string }) => {
+	const cookieStore = cookies();
+
+	return cookieStore.get(name)?.value;
+};
+
+export const getCookieAsync = async ({ name }: { name: string }) => {
+	const cookieStore = cookies();
+
+	return cookieStore.get(name)?.value;
+};
+
+export const getStrapiConfiguredInstance = async (
 	props: Partial<StrapiOptions> = {}
 ) => {
-	const auth = getCookie({ name: COOKIE_KEYS.auth });
-
-	console.log(auth);
+	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
 
 	return new Strapi({
 		url: 'https://kitui-jobs-portal.up.railway.app',
@@ -37,19 +47,7 @@ export const AuthenticateUser = async ({
 	identifier,
 	password,
 }: StrapiAuthenticationData) => {
-	const strapi = new Strapi({
-		url: 'https://kitui-jobs-portal.up.railway.app',
-		// axiosOptions: {
-		// 	...(auth
-		// 		? {
-		// 				headers: {
-		// 					Authorization: `Bearer ${auth}`,
-		// 				},
-		// 		  }
-		// 		: {}),
-		// },
-		// ...props,
-	});
+	const strapi = await getStrapiConfiguredInstance();
 
 	const response = strapi.login({ identifier, password });
 
@@ -82,7 +80,9 @@ export const AuthenticateUser = async ({
 };
 
 export const Logout = async () => {
-	await getStrapiConfiguredInstance().logout();
+	const strapi = await getStrapiConfiguredInstance();
+	strapi.logout();
+
 	Object.values(COOKIE_KEYS).map((item) => deleteCookie({ name: item }));
 
 	redirect('/');
@@ -91,43 +91,53 @@ export const Logout = async () => {
 export const deleteCookie = ({ name }: { name: string }) =>
 	cookies().set(name, '', { maxAge: 0 });
 
-export const fetchEndpointData = <dataTypeExpected = any>({
+export const fetchEndpointData = async <dataTypeExpected = any>({
 	options,
 	url,
 }: {
 	options: StrapiRequestParams;
 	url: string;
 }) => {
-	const auth = getCookie({ name: COOKIE_KEYS.auth });
-
-	return new Strapi({
-		url: 'https://kitui-jobs-portal.up.railway.app',
-		axiosOptions: {
-			...(auth
-				? {
-						headers: {
-							Authorization: `Bearer ${auth}`,
-						},
-				  }
-				: {}),
-		},
-		// ...props,
-	}).find<dataTypeExpected>(url, {
+	const strapi = await getStrapiConfiguredInstance();
+	return strapi.find<dataTypeExpected>(url, {
 		...options,
 	});
 };
 
-export const createResourceEndpointData = ({ data, url }: TApiHandlerProps) =>
-	getStrapiConfiguredInstance()
+export const createResourceEndpointData = async ({
+	data,
+	url,
+}: TApiHandlerProps) => {
+	const strapi = await getStrapiConfiguredInstance();
+
+	return strapi
 		.create(url, data)
 		.then((data: any) => ({ data, err: null }))
 		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
 			err: { message, status, details },
 			data: null,
 		}));
+};
 
-export const getCookie = ({ name }: { name: string }) =>
-	cookies().get(name)?.value;
+export const uploadResourceEndpointData = async ({
+	data,
+	url,
+}: TApiHandlerProps) => {
+	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
 
-export const getCookieAsync = async ({ name }: { name: string }) =>
-	cookies().get(name)?.value;
+	const strapi = await getStrapiConfiguredInstance();
+
+	return fetch(`https://kitui-jobs-portal.up.railway.app/api/${url}`, {
+		method: 'post',
+		body: data,
+		headers: {
+			Authorization: `Bearer ${auth}`,
+		},
+	})
+		.then((data) => data.json())
+		.then((data: any) => ({ data, err: null }))
+		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
+			err: { message, status, details },
+			data: null,
+		}));
+};

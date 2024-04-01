@@ -14,7 +14,10 @@ import {
 	JobType,
 } from '@/components/reusables/Others';
 import { TDataApplyJobORUpdateProfile, TJob } from '@/types/types';
-import { createResourceEndpointData } from '@/utils/server';
+import {
+	createResourceEndpointData,
+	uploadResourceEndpointData,
+} from '@/utils/server';
 import { getLocalStorageItem } from '@/utils';
 
 const ApplyJob = () => {
@@ -61,27 +64,36 @@ const ApplyJob = () => {
 	};
 
 	const handleApply = (data: TDataApplyJobORUpdateProfile) => {
-		setLoading(true);
+		const frmData = new FormData();
+		selectedFiles.map((file) => frmData.append('files', file));
 
-		createResourceEndpointData({ data, url: 'applications' })
-			.then(({ data: res, err }) => {
-				if (err) {
-					if (err.status === 400)
-						err.details.errors.map(({ path: [field_name], message, name }) =>
-							//@ts-ignore
-							form.setError(field_name, {
-								message: message.replace(field_name, 'This field '),
-							})
-						);
-					else if (err.status === 401)
-						router.push(
-							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
-						);
-					else if (err.status === 403) setErrMsg('Permission denied');
-					else setErrMsg('Something went wrong');
-				}
+		setLoading(true);
+		uploadResourceEndpointData({ url: 'upload', data: frmData })
+			.then((res) => {
+				console.log(res);
 			})
+			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
+
+		// createResourceEndpointData({ data, url: 'applications' })
+		// 	.then(({ data: res, err }) => {
+		// 		if (err) {
+		// 			if (err.status === 400)
+		// 				err.details.errors.map(({ path: [field_name], message, name }) =>
+		// 					//@ts-ignore
+		// 					form.setError(field_name, {
+		// 						message: message.replace(field_name, 'This field '),
+		// 					})
+		// 				);
+		// 			else if (err.status === 401)
+		// 				router.push(
+		// 					`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+		// 				);
+		// 			else if (err.status === 403) setErrMsg('Permission denied');
+		// 			else setErrMsg('Something went wrong');
+		// 		}
+		// 	})
+		// 	.finally(() => setLoading(false));
 	};
 
 	return (
