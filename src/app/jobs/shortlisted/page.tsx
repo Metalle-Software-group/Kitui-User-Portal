@@ -100,7 +100,7 @@ const ShortListedCandidatesPage = () => {
 													{...{
 														textClassName:
 															'bg-applicant-colorbg text-applicant-colorText',
-														ministry_name: '6 Applicants',
+														ministry_name: `${data?.meta.pagination.total} Applicants`,
 														className:
 															'bg-applicant-colorbg rounded-[16px] px-[8px] py-[2px]',
 														dotClass: 'hidden',
@@ -114,7 +114,7 @@ const ShortListedCandidatesPage = () => {
 										],
 										showPagination: true,
 										isSearchAtEnd: true,
-										data: data ?? [],
+										data: data?.data ?? [],
 										filter: true,
 									}}
 								/>

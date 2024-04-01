@@ -1,4 +1,4 @@
-import { StrapiRequestParams, StrapiResponse } from 'strapi-sdk-js';
+import { StrapiRequestParams } from 'strapi-sdk-js';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { ColumnDef } from '@tanstack/react-table';
@@ -278,6 +278,19 @@ export type SERVER_ERROR = {
 	data: {};
 };
 
+export type ResponseMeta = {
+	pagination: {
+		pageSize: 25;
+		pageCount: 1;
+		page: 0;
+		total: 0;
+	};
+};
+export interface StrapiResponse<T> {
+	meta: ResponseMeta;
+	data: T;
+}
+
 export type THttpMethods = 'POST' | 'GET' | 'PUT' | 'PATCH';
 
 export type TCreateEditJobProps = {
@@ -309,7 +322,7 @@ export enum JobStatusEnum {
 
 export enum TApplicationStatus {
 	UnderReview = 'under_review',
-	Shortlisted = 'shortlisted ',
+	Shortlisted = 'shortlisted',
 	Rejected = 'rejected',
 }
 
@@ -371,7 +384,7 @@ export type TCommentType = {
 	job: TJob;
 };
 
-export type TJob = {
+export interface TJob<TMedia = any> {
 	comments: TCommentType[];
 	applications: Application[];
 	application_start: string;
@@ -389,10 +402,10 @@ export type TJob = {
 	updatedBy: any;
 	location: string;
 	closedBy: any;
+	files: TMedia;
 	title: string;
 	id: number;
-	files: any;
-};
+}
 
 export interface Application {
 	status?: TApplicationStatus;

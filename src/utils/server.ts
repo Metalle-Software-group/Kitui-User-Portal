@@ -16,6 +16,8 @@ export const getStrapiConfiguredInstance = (
 ) => {
 	const auth = getCookie({ name: COOKIE_KEYS.auth });
 
+	console.log(auth);
+
 	return new Strapi({
 		url: 'https://kitui-jobs-portal.up.railway.app',
 		axiosOptions: {
