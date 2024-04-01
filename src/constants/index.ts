@@ -43,7 +43,7 @@ export const NavUrls: NavUrlType[] = [
 
 export const ExploreCategoryCards: TDepartmentCardProps[] = [
 	{
-		title: 'Youth, Sport & Culture',
+		title: 'Youth, Sports & Culture',
 		subtitle: '10 Open Positions',
 		Icon: YSportIcon,
 	},

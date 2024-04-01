@@ -6,7 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-**/yarn.lock
+yarn.lock
+package.json
+package-lock.json
 **/*.lock
 
 # Diagnostic reports (https://nodejs.org/api/report.html)

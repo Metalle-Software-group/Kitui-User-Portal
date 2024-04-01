@@ -19,8 +19,8 @@ const entireFont = Nunito_Sans({
 
 export default function DashboardLayout({ children }: TNodes) {
 	return (
-		<div className='h-full'>
-			<div className='w-full h-full text-login-screen-text-color bg-login-screen-text-color text-black'>
+		
+			<div className='w-full h-[90dvh] text-login-screen-text-color bg-login-screen-text-color text-black'>
 				<div className='h-full inline-block align-top w-[50%]'>
 					<img
 						src={'/images/others/auth-screen.png'}
@@ -33,6 +33,5 @@ export default function DashboardLayout({ children }: TNodes) {
 					{children}
 				</div>
 			</div>
-		</div>
 	);
 }
