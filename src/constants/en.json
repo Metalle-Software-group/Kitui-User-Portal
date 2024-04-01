@@ -1,7 +1,7 @@
 {
   "Header": "",
 
-  "home": "home",
+  "Home": "Home",
   "Find Jobs": "Find Jobs",
   "Departments": "Departments",
   "Register Details": "Register Details",
@@ -34,7 +34,7 @@
   "Don’t have an account?": "Don’t have an account?",
   "Sign up": "Sign up",
 
-  "Home": "",
+  "Homez": "",
 
   "Build Your Future": "Build Your Future",
   "Explore County Jobs": " Explore County Jobs",
@@ -102,7 +102,7 @@
 
   "Profilez": "",
 
-  "Welcome":"Welcome",
+  "Welcome": "Welcome",
   "Access your past applications and profile from here": "Access your past applications and profile from here",
   "My Applications": "My Applications",
   "Profile": "Profile",
@@ -112,7 +112,7 @@
   "ID Number": " ID Number",
   "Gender": "Gender",
   "County of residence": "County of residence",
-  "Sub county":"Sub county",
+  "Sub county": "Sub county",
   "Location": " Location",
   "Back": "Back",
   "Update details": "Update details"
