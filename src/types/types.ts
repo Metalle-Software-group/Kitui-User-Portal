@@ -392,10 +392,11 @@ export interface TJob<TMedia = any> {
 	application_end: string;
 	job_type: TJobTypes;
 	status: TJobStatus;
+	relatedjobs: TJob[];
+	publishedAt: string;
 	ministry: TMinistry;
 	description: string;
 	about_job: string;
-	publishedAt: string;
 	createdAt: string;
 	updatedAt: string;
 	createdBy: any;

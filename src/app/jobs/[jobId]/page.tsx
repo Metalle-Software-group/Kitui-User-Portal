@@ -5,16 +5,16 @@ import { useTranslation } from 'react-i18next';
 import { formatDistance } from 'date-fns';
 import { useQuery } from 'react-query';
 
+import { CommentCard, Comments, Loader } from '@/components/reusables/Others';
 import { CommentForm } from '@/components/reusables/CommentForm';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
 import { SloganWithCategory } from '@/components/reusables/Slogan';
-import { Comments, Loader } from '@/components/reusables/Others';
+import RichTexEditor from '@/components/editor/RichText';
 import { fetchEndpointData } from '@/utils/server';
 import { Alert } from '@/components/cards/Alert';
 import { useQueryCustomWrapper } from '@/utils';
 import { TJob } from '@/types/types';
 import { ArrowRight } from 'lucide-react';
-import RichTexEditor from '@/components/editor/RichText';
 
 export default function ({ params }: { params: { jobId: string } }) {
 	const pathname = usePathname();
@@ -125,20 +125,20 @@ export default function ({ params }: { params: { jobId: string } }) {
 							/>
 						</button>
 					</div>
-					<div className='flex md:grid md:grid-cols-2 gap-[16px] overflow-x-auto'>
-						{/* {Featured.slice(0, 2).map((job) => (
-							<FindJobsCard
-								key={job.name}
-								name={job.name}
-								category={job.category}
-								type={job.type}
-								location={job.location}
-								datePosted={job.datePosted}
-								description={job.description}
-								comments={job.comments}
-								width='600px'
-							/>
-						))} */}
+					<div className='flex  gap-[16px] overflow-x-auto'>
+						{isLoading ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader />
+							</div>
+						) : isError ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader {...{ title: 'Error loading data' }} />
+							</div>
+						) : (
+							data?.data?.relatedjobs?.map((job, index) => (
+								<CommentCard key={index} {...job} />
+							))
+						)}
 					</div>
 				</section>
 				<section>
