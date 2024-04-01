@@ -95,22 +95,25 @@ export const fetchEndpointData = <dataTypeExpected = any>({
 }: {
 	options: StrapiRequestParams;
 	url: string;
-}) =>
-	new Strapi({
+}) => {
+	const auth = getCookie({ name: COOKIE_KEYS.auth });
+
+	return new Strapi({
 		url: 'https://kitui-jobs-portal.up.railway.app',
-		// axiosOptions: {
-		// 	...(auth
-		// 		? {
-		// 				headers: {
-		// 					Authorization: `Bearer ${auth}`,
-		// 				},
-		// 		  }
-		// 		: {}),
-		// },
+		axiosOptions: {
+			...(auth
+				? {
+						headers: {
+							Authorization: `Bearer ${auth}`,
+						},
+				  }
+				: {}),
+		},
 		// ...props,
 	}).find<dataTypeExpected>(url, {
 		...options,
 	});
+};
 
 export const createResourceEndpointData = ({ data, url }: TApiHandlerProps) =>
 	getStrapiConfiguredInstance()

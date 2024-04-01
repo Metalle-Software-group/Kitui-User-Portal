@@ -342,6 +342,7 @@ export type TJob = {
 	status: TJobStatus;
 	ministry: TMinistry;
 	description: string;
+	about_job: string;
 	publishedAt: string;
 	createdAt: string;
 	updatedAt: string;

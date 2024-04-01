@@ -6,15 +6,17 @@ import { ApplicantsColumns, actionsColumn } from '@/components/table/Columns';
 import AlertDialogComponent from '@/components/reusables/AlertDialog';
 import { Slogan } from '@/components/reusables/Slogan';
 import { Alert } from '@/components/cards/Alert';
-import { shortlistedData } from '@/data/dummy';
 import {
 	TableReusableComponent,
 	JobMinistryTag,
+	Loader,
 } from '@/components/reusables/Others';
-import { getFilterUpdateFunction } from '@/utils';
+import { getFilterUpdateFunction, useQueryCustomWrapper } from '@/utils';
 import { initialFilterState } from '@/constants';
-import { TFilterTypes } from '@/types/types';
+import { Application, TFilterTypes } from '@/types/types';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
+import { fetchEndpointData } from '@/utils/server';
 
 const ShortListedCandidatesPage = () => {
 	const [filters, setFilters] = useState<TFilterTypes>(initialFilterState);
@@ -33,6 +35,24 @@ const ShortListedCandidatesPage = () => {
 			onChangeHandler: (value: string) => setAction(value),
 		},
 	];
+
+	const { isLoading, isError, data } = useQuery({
+		queryFn: useQueryCustomWrapper<Application[]>,
+		queryKey: [
+			`shortlisted-data`,
+			{
+				url: `applications`,
+				qFunc: fetchEndpointData,
+				options: {
+					populate: ['job', 'user'],
+					sort: 'createdAt:desc',
+					filter: {
+						status: { $eq: 'shortlisted' },
+					},
+				},
+			},
+		],
+	});
 
 	return (
 		<main className='w-full flex flex-col gap-[80px] bg-white'>
@@ -55,37 +75,51 @@ const ShortListedCandidatesPage = () => {
 				<section className='w-full flex flex-col gap-y-[24px] md:mb-2 items-center justify-center'>
 					{/* table */}
 					<section className='gap-y-[32px] md:gap-y-0 md:col-span-3 h-fit overflow-auto w-[86%] shadow-tableBoxShadow border border-white rounded-[12px]'>
-						<div className='md:col-span-6 py-[60px]'>
-							<TableReusableComponent
-								{...{
-									title: (
-										<div className='flex items-center gap-[8px]'>
-											<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
-												{t('Shortlisted candidates')}
-											</p>
-											<JobMinistryTag
-												{...{
-													textClassName:
-														'bg-applicant-colorbg text-applicant-colorText',
-													ministry_name: '100 Applicants',
-													className:
-														'bg-applicant-colorbg rounded-[16px] px-[8px] py-[2px]',
-													dotClass: 'hidden',
-												}}
-											/>
-										</div>
-									),
-									columns: [
-										...ApplicantsColumns,
-										actionsColumn({ ActionsHandlerMapping }),
-									],
-									data: shortlistedData,
-									showPagination: true,
-									isSearchAtEnd: true,
-									filter: true,
-								}}
-							/>
-						</div>
+						{isLoading ? (
+							<div className='w-full rounded flex py-[200px]'>
+								<Loader />
+							</div>
+						) : isError ? (
+							<div className='w-full rounded flex py-[200px]'>
+								<Loader
+									{...{
+										title: 'Error loading',
+									}}
+								/>
+							</div>
+						) : (
+							<div className='md:col-span-6 py-[60px]'>
+								<TableReusableComponent
+									{...{
+										title: (
+											<div className='flex items-center gap-[8px]'>
+												<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
+													{t('Shortlisted candidates')}
+												</p>
+												<JobMinistryTag
+													{...{
+														textClassName:
+															'bg-applicant-colorbg text-applicant-colorText',
+														ministry_name: '6 Applicants',
+														className:
+															'bg-applicant-colorbg rounded-[16px] px-[8px] py-[2px]',
+														dotClass: 'hidden',
+													}}
+												/>
+											</div>
+										),
+										columns: [
+											...ApplicantsColumns,
+											actionsColumn({ ActionsHandlerMapping }),
+										],
+										showPagination: true,
+										isSearchAtEnd: true,
+										data: data ?? [],
+										filter: true,
+									}}
+								/>
+							</div>
+						)}
 					</section>
 				</section>
 			</div>

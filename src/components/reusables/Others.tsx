@@ -88,7 +88,6 @@ import { Input } from '../ui/input';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Button } from '../ui/button';
 import { MyApplicantColumns } from '../table/Columns';
-import { shortlistedData } from '@/data/dummy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
@@ -1249,8 +1248,8 @@ export const Profile = ({}: ProfilePropsTypes) => {
 
 export const MyApplications = () => {
 	const userCookie = getCookie(COOKIE_KEYS.user);
-
 	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
+	const { t } = useTranslation();
 
 	const { isLoading, isError, data } = useQuery({
 		queryFn: useQueryCustomWrapper<Application[]>,
@@ -1261,19 +1260,26 @@ export const MyApplications = () => {
 				qFunc: fetchEndpointData,
 				options: {
 					populate: {
-						job: { ministry: '', job_type: '' },
+						job: {
+							populate: ['ministry', 'job_type'],
+						},
 						comment: '',
-						comments: '',
 						user: '',
 					},
 					sort: 'createdAt:desc',
-					filters: { user: { id: 1 } },
+					filters: {
+						user: {
+							id: {
+								$eq: userInfo?.id,
+							},
+						},
+					},
 				},
 			},
 		],
+		enabled: !!userInfo?.id,
 	});
 
-	const { t } = useTranslation();
 	return (
 		<div className='gap-y-[32px] md:gap-y-0 md:col-span-3 h-fit overflow-auto shadow-tableBoxShadow bg-white border border-white rounded-[12px] p-[10px]'>
 			{isLoading ? (
@@ -1296,11 +1302,11 @@ export const MyApplications = () => {
 								</div>
 							),
 							columns: MyApplicantColumns,
-							searchColumn: 'department',
-							data: shortlistedData,
+							searchColumn: 'job',
 							titleFilterInline: false,
 							showPagination: true,
 							isSearchAtEnd: false,
+							data: data ?? [],
 							filter: true,
 						}}
 					/>

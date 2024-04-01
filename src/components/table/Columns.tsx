@@ -12,28 +12,34 @@ import {
 	JobType,
 } from '../reusables/Others';
 import { HelpIcon } from '../icons';
-import { DropdownData, TColumnStaffDefinition } from '@/types/types';
+import {
+	DropdownData,
+	TColumnStaffDefinition,
+	TJob,
+	TUSER,
+} from '@/types/types';
 import { formatDistance } from 'date-fns';
 
 export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	{
-		accessorKey: 'name',
+		accessorKey: 'user',
 		header: 'Name',
 
 		cell: ({ row }) => {
-			const name = 'Joy Pendo';
+			const user: TUSER = row.getValue('user');
+
 			return (
 				<div className='w-full flex gap-[12px] items-center'>
 					<Avatar
 						{...{
 							classNames:
 								'w-[40px] h-[40px] font-bold text-[16px] leading-[24px] bg-applicant-colorbg',
+							name: user.username,
 							includeCam: false,
-							name,
 						}}
 					/>
 					<p className='font-normal text-[14px] leading-[24px] text-gray-body-text'>
-						{name}
+						{user.username}
 					</p>
 				</div>
 			);
@@ -44,28 +50,28 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 		accessorKey: 'status',
 		header: 'Status',
 		cell: ({ row }) => {
-			const name = row.getValue('status');
+			const status: string = row.getValue('status');
 
 			return (
 				<div
 					className={`h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] justify-center items-center rounded-[16px] font-semibold ${
-						name === 'active'
+						status === 'active'
 							? 'bg-hover-bg-color-btn text-dev-accent'
-							: name === 'awarded'
+							: status === 'awarded'
 							? 'bg-job-awarded-bg-color text-job-awarded-text-color'
 							: 'bg-job-closed-bg-color text-job-closed-text-color'
 					}`}>
-					{name === 'shortlisted'
+					{status === 'shortlisted'
 						? 'Shortlisted'
-						: name === 'rejected'
+						: status === 'rejected'
 						? 'Rejected'
-						: 'Rejected'}
+						: status}
 				</div>
 			);
 		},
 	},
 	{
-		accessorKey: 'id',
+		accessorKey: 'job',
 		header: () => (
 			<div className='flex gap-[2px] items-center justify-center'>
 				<div className='flex items-center gap-[2px]'>
@@ -82,22 +88,24 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			</div>
 		),
 		cell: ({ row }) => {
+			const job: TJob = row.getValue('job');
 			return (
 				<div className='w-full flex justify-center'>
-					<p className='text-center m-auto'>Product Designer</p>
+					<p className='text-center m-auto'>{job.title}</p>
 				</div>
 			);
 		},
 	},
 
 	{
-		accessorKey: 'phone',
+		accessorKey: 'user',
 		header: 'Phone number',
 		cell: ({ row }) => {
+			const user: TUSER = row.getValue('user');
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						0712345678
+						{user.phone_number}
 					</p>
 				</div>
 			);
@@ -105,11 +113,12 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	},
 
 	{
-		accessorKey: 'department',
+		accessorKey: 'job',
 		header: 'Department',
 
 		cell: ({ row }) => {
-			const department: string = row.getValue('department');
+			const job: TJob = row.getValue('job');
+
 			return (
 				<div className='w-full flex gap-[6px] justify-center items-center'>
 					<div className='w-fit'>
@@ -117,7 +126,7 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 							{...{
 								textClassName:
 									'text-gray-body-text leading-[16.37px] text-[12px] font-bold bg-gray-200',
-								ministry_name: department,
+								ministry_name: job?.ministry?.name,
 								dotClass: 'bg-gray-body-text',
 								className: 'bg-gray-200',
 							}}
@@ -128,7 +137,7 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 							{...{
 								className:
 									'border-bg-gray-200 text-gray-body-text px-[12px] py-[4px] rounded-[40px]',
-								name: 'Contract',
+								name: job.job_type?.name,
 							}}
 						/>
 					</div>
@@ -140,7 +149,7 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 
 export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	{
-		accessorKey: 'id',
+		accessorKey: 'job',
 		header: () => (
 			<div className='flex gap-[2px] items-center justify-center w-fit'>
 				<div className='flex items-center gap-[2px]'>
@@ -157,20 +166,22 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			</div>
 		),
 		cell: ({ row }) => {
+			const job: TJob = row.getValue('job');
+
 			return (
 				<div className='w-full flex justify-center'>
-					<p className='text-center m-auto'>Product Designer</p>
+					<p className='text-center m-auto'>{job.title}</p>
 				</div>
 			);
 		},
 	},
 
 	{
-		accessorKey: 'department',
+		accessorKey: 'job',
 		header: 'Department',
 
 		cell: ({ row }) => {
-			const department: string = row.getValue('department');
+			const job: TJob = row.getValue('job');
 			return (
 				<div className='w-full flex gap-[6px] justify-center items-center'>
 					<div className='w-fit'>
@@ -178,7 +189,7 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 							{...{
 								textClassName:
 									'text-gray-body-text leading-[16.37px] text-[12px] font-bold bg-gray-200',
-								ministry_name: department,
+								ministry_name: job?.ministry?.name,
 								dotClass: 'bg-gray-body-text',
 								className: 'bg-gray-200',
 							}}
@@ -189,7 +200,7 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 							{...{
 								className:
 									'border-bg-gray-200 text-gray-body-text px-[12px] py-[4px] rounded-[40px]',
-								name: 'Contract',
+								name: job?.job_type?.name,
 							}}
 						/>
 					</div>
@@ -224,7 +235,7 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	},
 
 	{
-		accessorKey: 'phone',
+		accessorKey: 'comment',
 		header: () => (
 			<div className='flex gap-[2px] items-center justify-center'>
 				<div className='flex items-center gap-[2px]'>
@@ -241,11 +252,11 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			</div>
 		),
 		cell: ({ row }) => {
+			const comment: string = row.getValue('comment');
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						I'm impressed by Joy's experience in. Their background seems like
-						a...
+						{comment?.substring(0, 28)}
 					</p>
 				</div>
 			);
@@ -253,14 +264,17 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	},
 
 	{
-		accessorKey: 'phone',
+		accessorKey: 'job',
 		header: 'Application Deadline',
 		cell: ({ row }) => {
-			const application_end = new Date();
+			const job: TJob = row.getValue('job');
+
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						{formatDistance(application_end, new Date(), { addSuffix: true })}
+						{formatDistance(job.application_end, new Date(), {
+							addSuffix: true,
+						})}
 					</p>
 				</div>
 			);
