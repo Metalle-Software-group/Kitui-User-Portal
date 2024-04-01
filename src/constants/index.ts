@@ -36,7 +36,7 @@ export const NavUrls: NavUrlType[] = [
 		url: 'kitui-county',
 	},
 	{
-		name: 'Sigin',
+		name: 'Sign In',
 		url: '/auth/signin',
 	},
 ];

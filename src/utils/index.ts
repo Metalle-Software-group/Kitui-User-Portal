@@ -1,3 +1,5 @@
+'use client';
+
 import { Dispatch, SetStateAction } from 'react';
 import {
 	TAddRemoveFilter,
@@ -8,7 +10,7 @@ import {
 	StrapiResponse,
 } from '@/types/types';
 
-export const useQueryCustomWrapper = <dataTypeExpected>({
+export const useQueryCustomWrapper = async <dataTypeExpected>({
 	queryKey,
 }: {
 	queryKey: any;
