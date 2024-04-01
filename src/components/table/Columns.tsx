@@ -14,6 +14,7 @@ import {
 import { HelpIcon } from '../icons';
 import {
 	DropdownData,
+	TApplicationStatus,
 	TColumnStaffDefinition,
 	TJob,
 	TUSER,
@@ -55,17 +56,19 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			return (
 				<div
 					className={`h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] justify-center items-center rounded-[16px] font-semibold ${
-						status === 'active'
+						status === TApplicationStatus.Shortlisted
 							? 'bg-hover-bg-color-btn text-dev-accent'
-							: status === 'awarded'
+							: status === TApplicationStatus.UnderReview
 							? 'bg-job-awarded-bg-color text-job-awarded-text-color'
 							: 'bg-job-closed-bg-color text-job-closed-text-color'
 					}`}>
-					{status === 'shortlisted'
+					{status === TApplicationStatus.Shortlisted
 						? 'Shortlisted'
-						: status === 'rejected'
+						: status === TApplicationStatus.Rejected
 						? 'Rejected'
-						: status}
+						: status === TApplicationStatus.UnderReview
+						? 'Under review'
+						: null}
 				</div>
 			);
 		},
@@ -105,7 +108,8 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						{user.phone_number}
+						{user.phone_number?.substring(0, 4)}***
+						{user.phone_number?.substring(7, 10)}
 					</p>
 				</div>
 			);
@@ -213,22 +217,24 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 		accessorKey: 'status',
 		header: 'Status',
 		cell: ({ row }) => {
-			const name = row.getValue('status');
+			const status: string = row.getValue('status');
 
 			return (
 				<div
 					className={`h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] justify-center items-center rounded-[16px] font-semibold ${
-						name === 'active'
+						status === TApplicationStatus.Shortlisted
 							? 'bg-hover-bg-color-btn text-dev-accent'
-							: name === 'awarded'
+							: status === TApplicationStatus.UnderReview
 							? 'bg-job-awarded-bg-color text-job-awarded-text-color'
 							: 'bg-job-closed-bg-color text-job-closed-text-color'
 					}`}>
-					{name === 'shortlisted'
+					{status === TApplicationStatus.Shortlisted
 						? 'Shortlisted'
-						: name === 'rejected'
+						: status === TApplicationStatus.Rejected
 						? 'Rejected'
-						: 'Rejected'}
+						: status === TApplicationStatus.UnderReview
+						? 'Under review'
+						: null}
 				</div>
 			);
 		},

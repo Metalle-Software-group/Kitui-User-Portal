@@ -1,21 +1,21 @@
 import {
 	AgricultureAndLivestockIcon,
-	EnergyIcon,
 	HealthCareIcon,
-	HomeIcon,
+	YSportIcon,
+	EnergyIcon,
+	WaterIcon,
 	RoadsIcon,
 	TradeIcon,
-	WaterIcon,
-	YSportIcon,
+	HomeIcon,
 } from '@/components/icons';
 import {
-	EmpTypes,
-	FeatureCategoriesTypes,
-	FeaturedJobsTypes,
-	NavUrlType,
-	TDepartmentCardProps,
-	TFilterTypes,
 	THowItWorksCardProps,
+	FeatureCategoriesTypes,
+	TDepartmentCardProps,
+	FeaturedJobsTypes,
+	TFilterTypes,
+	NavUrlType,
+	EmpTypes,
 } from '@/types/types';
 
 export const NavUrls: NavUrlType[] = [
@@ -302,8 +302,6 @@ export const FieldsToExcludeInFilter = ['actions', 'id'];
 export const PAGE_SIZE: string[] = ['5', '10', '25', '50', '100'];
 
 export const COOKIE_KEYS = {
-	network: 'net_',
-	campus: 'camp_',
 	user: 'u_',
 	auth: 'a_',
 };

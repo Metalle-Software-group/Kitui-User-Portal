@@ -5,6 +5,7 @@ import {
 	TFilterTypes,
 	TqueryKey,
 	JobTypes,
+	StrapiResponse,
 } from '@/types/types';
 
 export const useQueryCustomWrapper = <dataTypeExpected>({
@@ -17,7 +18,10 @@ export const useQueryCustomWrapper = <dataTypeExpected>({
 	return qFunc<dataTypeExpected>({
 		options,
 		url,
-	}).then(({ data }) => data);
+	}).then(({ data, meta }: StrapiResponse<dataTypeExpected>) => ({
+		data,
+		meta,
+	}));
 };
 
 export const getFilterUpdateFunction =

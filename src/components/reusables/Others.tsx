@@ -1332,6 +1332,17 @@ export const MyApplications = () => {
 									<p className='leading-[28px] text-table-title-color font-bold text-[20px] md:text-[24px] tracking-[-.5%]'>
 										{t('My Applications')}
 									</p>
+
+									<JobMinistryTag
+										{...{
+											textClassName:
+												'bg-applicant-colorbg text-applicant-colorText',
+											ministry_name: `${data?.meta.pagination.total} Applications`,
+											className:
+												'bg-applicant-colorbg rounded-[16px] px-[8px] py-[2px]',
+											dotClass: 'hidden',
+										}}
+									/>
 								</div>
 							),
 							columns: MyApplicantColumns,
@@ -1339,7 +1350,7 @@ export const MyApplications = () => {
 							titleFilterInline: false,
 							showPagination: true,
 							isSearchAtEnd: false,
-							data: data ?? [],
+							data: data?.data ?? [],
 							filter: true,
 						}}
 					/>
@@ -1581,7 +1592,7 @@ export const FeaturedJobs = () => {
 						<Loader {...{ title: 'Error fetching data.' }} />
 					</div>
 				) : (
-					ministries?.map(({ name }, index) => (
+					ministries?.data?.map(({ name }, index) => (
 						<FeaturedJobsCategories
 							key={index}
 							{...{
@@ -1607,7 +1618,9 @@ export const FeaturedJobs = () => {
 							<Loader {...{ title: 'Error fetching data.' }} />
 						</div>
 					) : (
-						data?.map((job, index) => <CommentCard key={index} {...job} />)
+						data?.data?.map((job, index) => (
+							<CommentCard key={index} {...job} />
+						))
 					)}
 				</div>
 
@@ -1820,7 +1833,7 @@ export const JobContainer = () => {
 								</div>
 							) : (
 								<div className='flex md:flex-col md:space-y-5 space-x-2 md:space-x-0'>
-									{ministries?.map(({ name }, index) => (
+									{ministries?.data?.map(({ name }, index) => (
 										<FilterCheckbox
 											key={index}
 											{...{
@@ -1857,7 +1870,7 @@ export const JobContainer = () => {
 								</div>
 							) : (
 								<div className='flex md:flex-col md:space-y-5 space-x-2 md:space-x-0'>
-									{jobTypes?.map(({ name }, index) => (
+									{jobTypes?.data?.map(({ name }, index) => (
 										<FilterCheckbox
 											key={index}
 											{...{
@@ -1888,8 +1901,8 @@ export const JobContainer = () => {
 							</div>
 						) : (
 							<React.Fragment>
-								{data && data.length > 0 ? (
-									data?.map((job, index) => (
+								{data && data.data.length > 0 ? (
+									data.data?.map((job, index) => (
 										<FindJobsCard key={index} {...job} />
 									))
 								) : (
