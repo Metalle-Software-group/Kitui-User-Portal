@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export const TechnicalErrorCard = () => {
   return (
@@ -38,7 +38,6 @@ export const TechnicalErrorCard = () => {
 };
 
 export const SuccessfulApplicationCard = () => {
-  const router = useRouter();
   return (
     <div className='flex flex-col w-[820px] h-[520px] p-10 justify-center items-center shadow-applicationFormBoxShadow bg-white gap-[32px]'>
       <Image
@@ -57,13 +56,13 @@ export const SuccessfulApplicationCard = () => {
         candidates shall be posted here. All the best.
       </p>
       <div className='flex w-[180px] h-[48px] space-x-[32px]'>
-        <button
-          className='flex rounded-[8px] bg-white border border-[#D0D5DD] justify-center items-center'
-          onClick={() => router.push('/')}>
+        <Link
+          href={'/'}
+          className='flex rounded-[8px] bg-white border border-[#D0D5DD] justify-center items-center'>
           <p className='font-[600]  text-[14px] leading-[20px] text-foundationGreen2 px-[8px] py-[14px]'>
             Back To Home Page
           </p>
-        </button>
+        </Link>
       </div>
     </div>
   );
