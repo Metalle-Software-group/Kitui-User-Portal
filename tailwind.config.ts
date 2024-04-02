@@ -98,6 +98,7 @@ const config = {
 					foreground: 'hsl(var(--card-foreground))',
 				},
 			},
+
 			boxShadow: {
 				searchShadow:
 					'0px 2px 4px -1px var(--dividerColor), 0px 3px 12px -1px var(--checkboxColor)',

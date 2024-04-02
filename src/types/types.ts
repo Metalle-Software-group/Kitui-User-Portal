@@ -235,7 +235,10 @@ export type FileSelectorPropsType = {
 };
 
 export type TUploadDocsCardProps = {
-	applyUrl: string;
+	applyUrl: {
+		title: string;
+		url: string;
+	};
 };
 
 export type TApiHandlerProps = {
@@ -444,4 +447,8 @@ export type TDataApplyJobORUpdateProfile = {
 export type TMoreSearchTypes = {
 	onClickHandler: (any: any) => void;
 	currentValue?: string;
+};
+
+export type TSinglePageProps = {
+	jobId: string | number;
 };

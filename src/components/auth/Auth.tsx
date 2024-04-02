@@ -399,7 +399,6 @@ export const CreateEditUser = ({
 		setLoading(true);
 		createResourceEndpointData({ url: successBtn.subDetails.url, data })
 			.then(({ data: res, err }) => {
-				console.log(res, err, 'Morph');
 				if (err)
 					if (err.status === 400)
 						err.details.errors.map(({ path: [field_name], message, name }) =>

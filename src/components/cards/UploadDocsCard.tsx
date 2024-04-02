@@ -21,17 +21,20 @@ export const UploadDocsCard = ({
 	return (
 		<div className='flex flex-col justify-center items-center ] md:w-[400px]'>
 			<div className='flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10 w-full'>
-				<div className='flex flex-col justify-center items-center space-y-5'>
-					<p className='font-bold text-[16px] leading-[24px] text-textTitle'>
-						{t('View Uploaded Documents')}
-					</p>
+				{data?.applications && data.applications.length > 0 ? null : (
+					<div className='flex flex-col justify-center items-center space-y-5'>
+						<p className='font-bold text-[16px] leading-[24px] text-textTitle'>
+							{t('View Uploaded Documents')}
+						</p>
 
-					<div className='w-full flex gap-[6px] flex-col'>
-						<UploadedDocument />
-						<UploadedDocument />
-						<UploadedDocument />
+						<div className='w-full flex gap-[6px] flex-col'>
+							<UploadedDocument />
+							<UploadedDocument />
+							<UploadedDocument />
+						</div>
 					</div>
-				</div>
+				)}
+
 				<div className='flex justify-center items-center'>
 					<button
 						className='flex w-fit h-fit bg-main-Green rounded-[8px] border items-center justify-center px-[20px] py-[12px] gap-[8px] shadow-btnBoxShadow text-white'
@@ -39,9 +42,9 @@ export const UploadDocsCard = ({
 						role={'button'}
 						onClick={(e) => {
 							setLocalStorageItem(data);
-							router.push(applyUrl);
+							router.push(applyUrl.url);
 						}}>
-						{t('Apply Now')}
+						{t(applyUrl.title)}
 					</button>
 				</div>
 				<div className='flex flex-col justify-center items-center space-y-5'>
