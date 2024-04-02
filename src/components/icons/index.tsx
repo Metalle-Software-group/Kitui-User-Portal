@@ -1503,7 +1503,6 @@ export const CameraIcon = ({
 				<path
 					d='M26 26.6666C27.5188 26.6666 28.75 25.4354 28.75 23.9166C28.75 22.3978 27.5188 21.1666 26 21.1666C24.4812 21.1666 23.25 22.3978 23.25 23.9166C23.25 25.4354 24.4812 26.6666 26 26.6666Z'
 					stroke='#4B5563'
-					stroke-width='2'
 					fillRule='evenodd'
 					clipRule='evenodd'
 					strokeWidth='1.5'

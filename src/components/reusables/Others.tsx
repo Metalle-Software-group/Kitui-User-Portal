@@ -53,6 +53,7 @@ import {
 	TMinistry,
 	TJobTypes,
 	TSinglePageProps,
+	TCommentType,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import {
@@ -579,66 +580,62 @@ export const UploadedDocument = () => {
 
 export const Comments = ({
 	comments,
-}: Pick<JobDescriptionTypes, 'comments'>) => {
-	return (
-		<div className='flex flex-col gap-[6px]'>
-			<p className='font-semibold text-[20px] leading-[28px] tracking-[.5%] text-textTitle'>
-				Comments
-			</p>
+}: Pick<JobDescriptionTypes, 'comments'>) => (
+	<div className='flex flex-col gap-[6px]'>
+		<p className='font-semibold text-[20px] leading-[28px] tracking-[.5%] text-textTitle'>
+			Comments
+		</p>
 
-			{comments.length < 1 ? (
-				<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
-					No comments yet. Be the first one to leave a comment.
+		{comments.length < 1 ? (
+			<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
+				No comments yet. Be the first one to leave a comment.
+			</div>
+		) : null}
+		{comments.map(({ id, message, user, createdAt, replies }) => (
+			<div key={id} className='flex flex-col gap-[6px]'>
+				<div className='flex gap-[6px] item-center'>
+					<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+						{user.username}
+					</p>
+					<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+						says
+					</p>
 				</div>
-			) : null}
-			{comments.map(({ id, message, createdAt, replies }) => {
-				return (
-					<div key={id} className='flex flex-col gap-[6px]'>
-						<div className='flex gap-[6px] item-center'>
-							<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-								{id}
-							</p>
-							<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
-								says
-							</p>
-						</div>
-						<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
-							{message}
-						</p>
-						<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-							{formatDistance(new Date(), createdAt, { addSuffix: true })}
-						</p>
+				<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+					{message}
+				</p>
+				<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+					{formatDistance(createdAt, new Date(), { addSuffix: true })}
+				</p>
 
-						<div className='px-[32px]'>
-							{replies?.map(({ message, id, createdAt }) => {
-								return (
-									<div key={id} className='flex flex-col gap-[6px]'>
-										<div className='flex gap-[6px] items-center'>
-											<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-												{id}
-											</p>
-											<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
-												responded
-											</p>
-										</div>
-										<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
-											{message}
-										</p>
-										<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-											{formatDistance(new Date(), createdAt, {
-												addSuffix: true,
-											})}
-										</p>
-									</div>
-								);
-							})}
-						</div>
-					</div>
-				);
-			})}
-		</div>
-	);
-};
+				<div className='px-[32px]'>
+					{replies?.map(({ message, id, createdAt }) => {
+						return (
+							<div key={id} className='flex flex-col gap-[6px]'>
+								<div className='flex gap-[6px] items-center'>
+									<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+										{id}
+									</p>
+									<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+										responded
+									</p>
+								</div>
+								<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+									{message}
+								</p>
+								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+									{formatDistance(new Date(), createdAt, {
+										addSuffix: true,
+									})}
+								</p>
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		))}
+	</div>
+);
 
 export const DropDownWrapperCustomComponent = ({
 	components,
@@ -1290,7 +1287,7 @@ export const MyApplications = () => {
 		queryKey: [
 			`my-applications-data`,
 			{
-				url: `applications`,
+				url: `myapplications`,
 				qFunc: fetchEndpointData,
 				options: {
 					populate: {
@@ -1301,13 +1298,13 @@ export const MyApplications = () => {
 						user: '',
 					},
 					sort: 'createdAt:desc',
-					filters: {
-						user: {
-							id: {
-								$eq: userInfo?.id,
-							},
-						},
-					},
+					// filters: {
+					// 	user: {
+					// 		id: {
+					// 			$eq: userInfo?.id,
+					// 		},
+					// 	},
+					// },
 				},
 			},
 		],
@@ -1931,6 +1928,8 @@ export const JobContainer = () => {
 };
 
 export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
+	const [chats, setChats] = useState<TCommentType[]>([]);
+
 	const { t } = useTranslation();
 
 	const userCookie = getCookie(COOKIE_KEYS.user);
@@ -1945,13 +1944,26 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 				qFunc: fetchEndpointData,
 				options: {
 					sort: 'createdAt:desc',
-					populate: [
-						'applications',
-						'job_type',
-						'comments',
-						'ministry',
-						'files',
-					],
+					populate: {
+						applications: true,
+						job_type: true,
+						comments: {
+							populate: {
+								user: true,
+								replies: {
+									populate: {
+										comment: true,
+										message: true,
+										user: true,
+										id: true,
+									},
+								},
+							},
+						},
+						ministry: true,
+						files: true,
+					},
+
 					filter: {
 						applications: {
 							user: {
@@ -2025,11 +2037,13 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							) : null}
 							<RichTexEditor {...{ value: data?.data?.description ?? '' }} />
 							{data?.data?.comments && (
-								<Comments comments={data.data?.comments} />
+								<Comments
+									comments={[...chats, ...(data.data?.comments ?? [])]}
+								/>
 							)}
 
 							{userInfo && userInfo.id ? (
-								<CommentForm {...{ jobId }} />
+								<CommentForm {...{ jobId, setChats }} />
 							) : (
 								<div className='font-normal text-[16px] leading-[24px]'>
 									You must{' '}

@@ -104,14 +104,15 @@ export const fetchEndpointData = async <dataTypeExpected = any>({
 	});
 };
 
-export const createResourceEndpointData = async ({
+export const createResourceEndpointData = async <dataTypeExpected = any>({
+	options = {},
 	data,
 	url,
 }: TApiHandlerProps) => {
 	const strapi = await getStrapiConfiguredInstance();
 
 	return strapi
-		.create(url, data)
+		.create<dataTypeExpected>(url, data, { ...options })
 		.then((data: any) => ({ data, err: null }))
 		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
 			err: { message, status, details },
