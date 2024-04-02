@@ -25,6 +25,7 @@ import { TCreateEditJobProps } from '@/types/types';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { URL_SEARCH_PARAMS } from '@/constants';
 import { UploadFileCard } from '../reusables/Others';
+import { SuccessfulApplicationCard } from '../cards/TechnicalError';
 
 export const AuthScreen = ({}) => {
 	const [authLoading, setAuthLoading] = useState<boolean>(false);
@@ -335,11 +336,12 @@ export const CreateEditUser = ({
 	'ministries' | 'jobTypes' | 'successBtn' | 'title'
 > & { subtitle: string }) => {
 	const [errMessage, setErrMsg] = useState<string | null>(null);
+	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
+	const [successFull, setSuccessFull] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const { t } = useTranslation();
 	const router = useRouter();
 
-	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
-	const { t } = useTranslation();
 	const handleDeleteItem = (file: File) =>
 		setSelectedFile(
 			selectedFiles.filter((currItem) => {
@@ -351,17 +353,14 @@ export const CreateEditUser = ({
 
 	const FormSchema = z.object({
 		username: z.string().min(2, {
-			message: 'Username must be at least 2 characters.',
+			message: 'Name must be at least 2 characters.',
 		}),
-
 		phone_number: z.string().min(2, {
 			message: 'Phone number must be at least 2 characters.',
 		}),
-
 		email: z
 			.string()
 			.email({ message: 'Email field must contain a valid email' }),
-
 		id_number: z
 			.string()
 			.min(6, {
@@ -371,26 +370,26 @@ export const CreateEditUser = ({
 		gender: z.string().min(2, {
 			message: 'Gender must be at least 2 characters.',
 		}),
-		position: z.string().min(1, {
-			message: 'Position must be field.',
+		location: z.string().min(2, {
+			message: 'Location must be field.',
 		}),
-		ministry: z.string().min(1, {
-			message: 'Ministry must be field',
+		county: z.string().min(2, {
+			message: 'County of Residence must be filled',
 		}),
-		accessType: z
-			.string()
-			.min(1, { message: 'You must provide an access type to a user' }),
+		sub_county: z.string().min(2, {
+			message: 'Sub-county must be at least 2 characters.',
+		}),
 	});
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			phone_number: '',
-			accessType: '',
+			sub_county: '',
 			id_number: '',
 			username: '',
-			ministry: '',
-			position: '',
+			location: '',
+			county: '',
 			gender: '',
 			email: '',
 		},
@@ -400,7 +399,8 @@ export const CreateEditUser = ({
 		setLoading(true);
 		createResourceEndpointData({ url: successBtn.subDetails.url, data })
 			.then(({ data: res, err }) => {
-				if (err) {
+				console.log(res, err, 'Morph');
+				if (err)
 					if (err.status === 400)
 						err.details.errors.map(({ path: [field_name], message, name }) =>
 							//@ts-ignore
@@ -414,268 +414,283 @@ export const CreateEditUser = ({
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				}
+				else setSuccessFull(true);
 			})
 			.finally(() => setLoading(false));
 	}
 
 	return (
 		<div className=' h-fit m-[10px] flex flex-col gap-[40px] justify-center items-center'>
-			<div className='gap-[4px] rounded-[20px]'>
-				<div className='flex flex-col gap-[14px] items-center justify-center my-[16px]'>
-					<p className='font-bold text-[30px] leading-[36px] tracking-[-.75%] text-title-text-color w-fit'>
-						{title}
-					</p>
+			{successFull && (
+				<SuccessfulApplicationCard
+					{...{
+						title: 'Your job application has been received.',
+						sentiment:
+							'Thank you for expressing your interest in joining our team. Shortlisted candidates shall be posted here. All the best.',
+						link: {
+							text: 'Back To Home Page',
+							url: '/',
+						},
+					}}
+				/>
+			)}
+			{!successFull && (
+				<div className='gap-[4px] rounded-[20px]'>
+					<div className='flex flex-col gap-[14px] items-center justify-center my-[16px]'>
+						<p className='font-bold text-[30px] leading-[36px] tracking-[-.75%] text-title-text-color w-fit'>
+							{title}
+						</p>
 
-					<p className='text-gray-body-text text-[16px] leading-[24px] font-normal'>
-						{subtitle}
-					</p>
+						<p className='text-gray-body-text text-[16px] leading-[24px] font-normal'>
+							{subtitle}
+						</p>
+					</div>
+
+					<div className='w-fit mx-auto'>
+						<p className='text-red-500'>{errMessage}</p>
+					</div>
+
+					<div className='w-full h-fit flex gap-[20px] flex-wrap'>
+						<Form {...form}>
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className='w-full space-y-6'>
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='username'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Username
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Name'
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='email'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Email
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Email address'
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='phone_number'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Phone number
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Phone'
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name={'id_number'}
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														ID number
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder=''
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
+								<div className='flex flex-wrap gap-[24px] text-black'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='gender'
+											render={({ field }) => (
+												<FormItem className='space-y-3'>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Gender
+													</FormLabel>
+													<FormControl>
+														<RadioGroup
+															onValueChange={field.onChange}
+															defaultValue={field.value}
+															className='flex flex-col space-y-1'>
+															<FormItem className='flex items-center space-x-3 space-y-0'>
+																<FormControl>
+																	<RadioGroupItem value='female' />
+																</FormControl>
+																<FormLabel className='text-bodyText font-medium text-[14px]'>
+																	Female
+																</FormLabel>
+															</FormItem>
+
+															<FormItem className='flex items-center space-x-3 space-y-0'>
+																<FormControl>
+																	<RadioGroupItem value='male' />
+																</FormControl>
+																<FormLabel className='text-bodyText font-medium text-[14px]'>
+																	Male
+																</FormLabel>
+															</FormItem>
+														</RadioGroup>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='county'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														County of residence
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='e.g Kitui'
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='sub_county'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Sub-county
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='e.g Kitui West'
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='location'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Location
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='e.g Kabati'
+															{...field}
+															className='text-bodyText font-medium text-[14px]'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<p className='font-bold leading-[24px] text-[16px] text-textTitle'>
+											{t('Upload files *')}
+										</p>
+
+										<UploadFileCard
+											{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
+										/>
+
+										<p className='font-normal text-[14px] leading-[24px] text-gray-400'>
+											Kindly attach the following files: Resume, cover letter
+										</p>
+									</div>
+								</div>
+
+								<div className='w-full center flex my-[8px] gap-[32px]'>
+									<Button
+										className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-full items-center justify-center'
+										type='submit'
+										{...{
+											disabled: loading,
+										}}>
+										<p className='text-inherit leading-[20px] text-[14px] font-semibold'>
+											{loading ? 'Submitting...' : successBtn.text}
+										</p>
+									</Button>
+								</div>
+							</form>
+						</Form>
+					</div>
 				</div>
-
-				<div className='w-fit mx-auto'>
-					<p className='text-red-500'>{errMessage}</p>
-				</div>
-
-				<div className='w-full h-fit flex gap-[20px] flex-wrap'>
-					<Form {...form}>
-						<form
-							onSubmit={form.handleSubmit(onSubmit)}
-							className='w-full space-y-6'>
-							<div className='flex flex-wrap gap-[24px]'>
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='username'
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													Username
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder='Name'
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='email'
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													Email
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder='Email address'
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-							</div>
-
-							<div className='flex flex-wrap gap-[24px]'>
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='phone_number'
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													Phone number
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder='Phone'
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name={'id_number'}
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													ID number
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder=''
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-							</div>
-
-							<div className='flex flex-wrap gap-[24px] text-black'>
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='gender'
-										render={({ field }) => (
-											<FormItem className='space-y-3'>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													Gender
-												</FormLabel>
-												<FormControl>
-													<RadioGroup
-														onValueChange={field.onChange}
-														defaultValue={field.value}
-														className='flex flex-col space-y-1'>
-														<FormItem className='flex items-center space-x-3 space-y-0'>
-															<FormControl>
-																<RadioGroupItem value='female' />
-															</FormControl>
-															<FormLabel className='text-bodyText font-medium text-[14px]'>
-																Female
-															</FormLabel>
-														</FormItem>
-
-														<FormItem className='flex items-center space-x-3 space-y-0'>
-															<FormControl>
-																<RadioGroupItem value='male' />
-															</FormControl>
-															<FormLabel className='text-bodyText font-medium text-[14px]'>
-																Male
-															</FormLabel>
-														</FormItem>
-													</RadioGroup>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-							</div>
-
-							<div className='flex flex-wrap gap-[24px]'>
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='username'
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													County of residence
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder='e.g Kitui'
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-							</div>
-
-							<div className='flex flex-wrap gap-[24px]'>
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='username'
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													Sub-county
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder='e.g Kitui West'
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-
-								<div className='flex-[1]'>
-									<FormField
-										control={form.control}
-										name='email'
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
-													Location
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder='e.g Kabati'
-														{...field}
-														className='text-bodyText font-medium text-[14px]'
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
-							</div>
-
-							<div className='flex flex-wrap gap-[24px]'>
-								<div className='flex-[1]'>
-									<p className='font-bold leading-[24px] text-[16px] text-textTitle'>
-										{t('Upload files *')}
-									</p>
-
-									<UploadFileCard
-										{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
-									/>
-
-									<p className='font-normal text-[14px] leading-[24px] text-gray-400'>
-										Kindly attach the following files: Resume, cover letter
-									</p>
-								</div>
-							</div>
-
-							<div className='w-full center flex my-[8px] gap-[32px]'>
-								<Button
-									className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-full items-center justify-center'
-									type='submit'
-									{...{
-										disabled: loading,
-									}}>
-									<p className='text-inherit leading-[20px] text-[14px] font-semibold'>
-										{loading ? 'Submitting...' : successBtn.text}
-									</p>
-								</Button>
-							</div>
-						</form>
-					</Form>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 };

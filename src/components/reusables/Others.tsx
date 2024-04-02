@@ -93,7 +93,7 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createResourceEndpointData, fetchEndpointData } from '@/utils/server';
+import { fetchEndpointData, updateResourceEndpointData } from '@/utils/server';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from 'react-query';
 import {
@@ -1007,47 +1007,67 @@ export const Profile = ({}: ProfilePropsTypes) => {
 	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
 
 	const FormSchema = z.object({
-		name: z.string().min(2, {
-			message: 'Name must be at least 2 characters.',
-		}),
+		username: z
+			.string()
+			.min(2, {
+				message: 'Name must be at least 2 characters.',
+			})
+			.optional(),
 
-		phone: z.string().min(2, {
-			message: 'Phone number must be at least 2 characters.',
-		}),
+		phone_number: z
+			.string()
+			.min(2, {
+				message: 'Phone number must be at least 2 characters.',
+			})
+			.optional(),
 
 		email: z
 			.string()
-			.email({ message: 'Email field must contain a valid email' }),
+			.email({ message: 'Email field must contain a valid email' })
+			.optional(),
 
-		nationalId: z
+		id_number: z
 			.string()
 			.min(6, {
 				message: 'ID must be at least 6 characters.',
 			})
-			.max(9, { message: 'ID mus 8 characters or less' }),
-		gender: z.string().min(2, {
-			message: 'Gender must be at least 2 characters.',
-		}),
-		location: z.string().min(2, {
-			message: 'Location must be field.',
-		}),
-		countyResidence: z.string().min(2, {
-			message: 'County of Residence must be filled',
-		}),
-		subCounty: z.string().min(2, {
-			message: 'Sub-county must be at least 2 characters.',
-		}),
+			.max(9, { message: 'ID mus 8 characters or less' })
+			.optional(),
+		gender: z
+			.string()
+			.min(2, {
+				message: 'Gender must be at least 2 characters.',
+			})
+			.optional(),
+		location: z
+			.string()
+			.min(2, {
+				message: 'Location must be field.',
+			})
+			.optional(),
+		county: z
+			.string()
+			.min(2, {
+				message: 'County of Residence must be filled',
+			})
+			.optional(),
+		sub_county: z
+			.string()
+			.min(2, {
+				message: 'Sub-county must be at least 2 characters.',
+			})
+			.optional(),
 	});
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			countyResidence: userInfo?.county ?? '',
-			nationalId: userInfo?.id_number ?? '',
-			subCounty: userInfo?.sub_county ?? '',
-			phone: userInfo?.phone_number ?? '',
+			phone_number: userInfo?.phone_number ?? '',
+			sub_county: userInfo?.sub_county ?? '',
+			id_number: userInfo?.id_number ?? '',
+			username: userInfo?.username ?? '',
 			location: userInfo?.location ?? '',
-			name: userInfo?.username ?? '',
+			county: userInfo?.county ?? '',
 			gender: userInfo?.gender ?? '',
 			email: userInfo?.email ?? '',
 		},
@@ -1055,7 +1075,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 
 	function onSubmit(data: z.infer<typeof FormSchema>) {
 		setLoading(true);
-		createResourceEndpointData({ data, url: `users/1` })
+		updateResourceEndpointData({ data, url: `users/${userInfo?.id}` })
 			.then(({ data: res, err }) => {
 				if (err) {
 					if (err.status === 400)
@@ -1071,6 +1091,8 @@ export const Profile = ({}: ProfilePropsTypes) => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
+				} else {
+					console.log(res);
 				}
 			})
 			.finally(() => setLoading(false));
@@ -1095,7 +1117,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
-									name='name'
+									name='username'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className='text-title-text-color'>
@@ -1133,7 +1155,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
-									name='phone'
+									name='phone_number'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className='text-title-text-color'>
@@ -1151,7 +1173,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
-									name={'nationalId'}
+									name={'id_number'}
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className='text-title-text-color'>
@@ -1208,7 +1230,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
-									name={'countyResidence'}
+									name={'county'}
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className='text-title-text-color'>
@@ -1228,7 +1250,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
-									name={'subCounty'}
+									name={'sub_county'}
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className='text-title-text-color'>
