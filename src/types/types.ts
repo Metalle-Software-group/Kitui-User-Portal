@@ -408,6 +408,15 @@ export interface TJob<TMedia = any> {
 	id: number;
 }
 
+export type TSuccessProps = {
+	sentiment: string;
+	title: string;
+	link: {
+		text: string;
+		url: string;
+	};
+};
+
 export interface Application {
 	status?: TApplicationStatus;
 	comment?: TCommentType;
@@ -429,7 +438,7 @@ export type TDataApplyJobORUpdateProfile = {
 	user: string | number;
 	job: string | number;
 	comment?: string;
-	files: any[];
+	files?: any[];
 };
 
 export type TMoreSearchTypes = {

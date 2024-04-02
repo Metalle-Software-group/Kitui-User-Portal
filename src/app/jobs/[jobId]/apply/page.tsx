@@ -2,16 +2,15 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { formatDistance } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { URL_SEARCH_PARAMS } from '@/constants';
+import { currentlySelectedJobKey, URL_SEARCH_PARAMS } from '@/constants';
 import {
 	JobMinistryTag,
-	TimeLimitLabel,
 	LocationLabel,
 	UploadFileCard,
 	JobType,
+	TimeLimitLabel,
 } from '@/components/reusables/Others';
 import { TDataApplyJobORUpdateProfile, TJob } from '@/types/types';
 import {
@@ -19,6 +18,8 @@ import {
 	uploadResourceEndpointData,
 } from '@/utils/server';
 import { SuccessfulApplicationCard } from '@/components/cards/TechnicalError';
+import { getLocalStorageItem } from '@/utils';
+import { formatDistance } from 'date-fns';
 
 const ApplyJob = () => {
 	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
@@ -28,6 +29,7 @@ const ApplyJob = () => {
 	const [errMessage, setErrMsg] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [successFull, setSuccessFull] = useState(false);
+	const [url, setUrl] = useState<string[]>([]);
 	const router = useRouter();
 
 	const handleDeleteItem = (file: File) =>
@@ -60,44 +62,95 @@ const ApplyJob = () => {
 			.finally(() => setLoading(false));
 	};
 
-	setLoading(true);
+	const uploadFilesSequentially = async (
+		files: File[],
+		data2: TDataApplyJobORUpdateProfile,
+		index = 0
+	) => {
+		if (index >= files.length) return;
 
-	const handleApply = (data: TDataApplyJobORUpdateProfile) => {
 		const frmData = new FormData();
-		selectedFiles.map((file) => frmData.append('files', file));
+		frmData.append('files', files[index]);
+
+		const formDataEntries: [string, FormDataEntryValue][] = Array.from(
+			frmData.entries()
+		);
+
+		formDataEntries.forEach((entry) => {
+			console.log(entry[0], entry[1]);
+		});
 
 		setLoading(true);
 		uploadResourceEndpointData({ url: 'upload', data: frmData })
 			.then((res) => {
 				console.log(res);
+				setUrl((prevState) => [...prevState, res.data[0].url]);
+				uploadFilesSequentially(files, data2, index + 1);
 			})
-			.catch((err) => console.log(err))
-			.finally(() => setLoading(false));
-
-		// createResourceEndpointData({ data, url: 'applications' })
-		// 	.then(({ data: res, err }) => {
-		// 		if (err) {
-		// 			if (err.status === 400)
-		// 				err.details.errors.map(({ path: [field_name], message, name }) =>
-		// 					//@ts-ignore
-		// 					form.setError(field_name, {
-		// 						message: message.replace(field_name, 'This field '),
-		// 					})
-		// 				);
-		// 			else if (err.status === 401)
-		// 				router.push(
-		// 					`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
-		// 				);
-		// 			else if (err.status === 403) setErrMsg('Permission denied');
-		// 			else setErrMsg('Something went wrong');
-		// 		}
-		// 	})
-		// 	.finally(() => setLoading(false));
+			.catch((err) => {
+				console.error(`Error uploading file ${index + 1}:`, err);
+				setLoading(false);
+			});
 	};
+
+	const handleApply = async (data: TDataApplyJobORUpdateProfile) => {
+		await uploadFilesSequentially(selectedFiles, data).then(() => {
+			UploadDetails(data);
+		});
+	};
+
+	const UploadDetails = (data2: TDataApplyJobORUpdateProfile) => {
+		const data = { ...data2, files: url };
+		console.log('submit', data);
+		createResourceEndpointData({ data, url: 'applications' })
+			.then(({ data: res, err }) => {
+				if (err)
+					if (err.status === 400)
+						err.details.errors.map(({ path: [field_name], message, name }) =>
+							//@ts-ignore
+							form.setError(field_name, {
+								message: message.replace(field_name, 'This field '),
+							})
+						);
+					else if (err.status === 401)
+						router.push(
+							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+						);
+					else if (err.status === 403) setErrMsg('Permission denied');
+					else setErrMsg('Something went wrong');
+				else {
+					setSuccessFull(true);
+				}
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	};
+
+	console.log('array', url);
+
+	useEffect(() => {
+		const job: TJob = getLocalStorageItem<TJob>({
+			key: currentlySelectedJobKey,
+		});
+		setJob(job);
+	}, []);
 
 	return (
 		<div className='w-full bg-bodyBg my-10 md:my-[60px] flex flex-col justify-center items-center'>
-			{successFull && <SuccessfulApplicationCard />}
+			{successFull && (
+				<SuccessfulApplicationCard
+					{...{
+						title: 'Your job application has been received.',
+						sentiment:
+							'Thank you for expressing your interest in joining our team. Shortlisted candidates shall be posted here. All the best.',
+						link: {
+							text: 'Back To Home Page',
+							url: '/',
+						},
+					}}
+				/>
+			)}
 			{job && !successFull && (
 				<div className='shadow-applicationFormBoxShadow bg-white p-10 md:p-[40px] gap-[32px] rounded-[20px] md:w-[819px]'>
 					{/* header  */}
@@ -206,13 +259,18 @@ const ApplyJob = () => {
 							</button>
 
 							<button
-								className='rounded-[8px] bg-main-Green border px-[20px] py-[12px] border-main-Green shadow-btnBoxShadow font-semibold leading-[24px] text-[16px] text-white flex-[1]'
+								className={`rounded-[8px] ${
+									loading || selectedFiles.length < 1
+										? ''
+										: 'bg-main-Green border-main-Green text-white'
+								} border px-[20px] py-[12px] font-semibold leading-[24px] text-[16px] flex-[1] shadow-btnBoxShadow`}
 								{...{
-									...(loading ? { disabled: true } : {}),
+									...(loading || selectedFiles.length < 1
+										? { disabled: true }
+										: {}),
 									onClick: () =>
 										handleApply({
-											files: selectedFiles,
-											job: job.id,
+											job: job.id.toString(),
 											user: '1',
 										}),
 								}}>

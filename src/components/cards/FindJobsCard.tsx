@@ -14,7 +14,6 @@ import {
 import { MessageIcon } from '../icons';
 import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
-import { getTextFromHTML } from '@/utils';
 
 const RichTexEditor = dynamic(() => import('@/components/editor/RichText'), {
 	ssr: false,
@@ -31,6 +30,7 @@ const RichTexEditor = dynamic(() => import('@/components/editor/RichText'), {
 
 export const FindJobsCard = ({
 	description,
+	about_job,
 	createdAt,
 	comments,
 	job_type,
@@ -89,7 +89,7 @@ export const FindJobsCard = ({
 
 			<div className='font-semibold text-[14px] leading-[24px] text-commentCardTextColor text-wrap'>
 				{/* <RichTexEditor {...{ value: description }} /> */}
-				{getTextFromHTML(description).substring(0, 150)} ...
+				{about_job}
 			</div>
 
 			<div className='flex w-full justify-between items-center'>

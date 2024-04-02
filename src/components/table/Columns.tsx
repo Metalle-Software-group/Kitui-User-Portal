@@ -278,7 +278,7 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						{formatDistance(job.application_end, new Date(), {
+						{formatDistance(job.application_end ?? new Date(), new Date(), {
 							addSuffix: true,
 						})}
 					</p>

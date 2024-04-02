@@ -119,13 +119,26 @@ export const createResourceEndpointData = async ({
 		}));
 };
 
+export const updateResourceEndpointData = async ({
+	data,
+	url,
+}: TApiHandlerProps) => {
+	const strapi = await getStrapiConfiguredInstance();
+
+	return strapi
+		.axios({ url, method: 'PUT', data })
+		.then(({ data }) => ({ data, err: null }))
+		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
+			err: { message, status, details },
+			data: null,
+		}));
+};
+
 export const uploadResourceEndpointData = async ({
 	data,
 	url,
 }: TApiHandlerProps) => {
 	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
-
-	const strapi = await getStrapiConfiguredInstance();
 
 	return fetch(`https://kitui-jobs-portal.up.railway.app/api/${url}`, {
 		method: 'post',
