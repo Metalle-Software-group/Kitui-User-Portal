@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { formatDistance } from 'date-fns';
 import { useQuery } from 'react-query';
-
 import { CommentCard, Comments, Loader } from '@/components/reusables/Others';
 import { CommentForm } from '@/components/reusables/CommentForm';
 import { UploadDocsCard } from '@/components/cards/UploadDocsCard';
@@ -37,8 +36,6 @@ export default function ({ params }: { params: { jobId: string } }) {
 		],
 		enabled: !!jobId,
 	});
-
-	console.log(data);
 
 	return (
 		<div className='w-full space-y-10'>
