@@ -52,6 +52,7 @@ import {
 	TFilterTypes,
 	TMinistry,
 	TJobTypes,
+	TSinglePageProps,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import {
@@ -103,9 +104,13 @@ import {
 } from '@/utils';
 import { formatDistance } from 'date-fns';
 import { FeaturedJobsCategories } from './FeaturedJobsCategories';
-import { Slogan } from './Slogan';
+import { Slogan, SloganWithCategory } from './Slogan';
 import { FindJobsCard } from '../cards/FindJobsCard';
 import { Alert } from '../cards/Alert';
+import RichTexEditor from '../editor/RichText';
+import { CommentForm } from './CommentForm';
+import { UploadDocsCard } from '../cards/UploadDocsCard';
+import Link from 'next/link';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -324,6 +329,7 @@ export const Comment = () => {
 export const CommentCard = ({
 	application_end,
 	description,
+	comments,
 	job_type,
 	location,
 	ministry,
@@ -414,7 +420,7 @@ export const CommentCard = ({
 							className: 'w-[18px] h-[18px]',
 						}}
 					/>
-					<p className='text-time-color'>3</p>
+					<p className='text-time-color'>{comments.length}</p>
 				</div>
 			</div>
 		</div>
@@ -586,20 +592,6 @@ export const Comments = ({
 				</div>
 			) : null}
 			{comments.map(({ id, message, createdAt, replies }) => {
-				const providedDate = new Date(createdAt); // Use createdAt as the provided date
-				const currentDate = new Date();
-				const differenceMs: number =
-					currentDate.getTime() - providedDate.getTime();
-
-				const days = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
-				const hours = Math.floor(
-					(differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-				);
-				const minutes = Math.floor(
-					(differenceMs % (1000 * 60 * 60)) / (1000 * 60)
-				);
-				const seconds = Math.floor((differenceMs % (1000 * 60)) / 1000);
-
 				return (
 					<div key={id} className='flex flex-col gap-[6px]'>
 						<div className='flex gap-[6px] item-center'>
@@ -614,25 +606,11 @@ export const Comments = ({
 							{message}
 						</p>
 						<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-							{days} days, {hours} hours, {minutes} minutes, {seconds} seconds
-							ago
+							{formatDistance(new Date(), createdAt, { addSuffix: true })}
 						</p>
 
 						<div className='px-[32px]'>
 							{replies?.map(({ message, id, createdAt }) => {
-								const replyDate = new Date(createdAt); // Use createdAt as the provided date for replies
-								const differenceMs: number =
-									currentDate.getTime() - replyDate.getTime();
-
-								const days = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
-								const hours = Math.floor(
-									(differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-								);
-								const minutes = Math.floor(
-									(differenceMs % (1000 * 60 * 60)) / (1000 * 60)
-								);
-								const seconds = Math.floor((differenceMs % (1000 * 60)) / 1000);
-
 								return (
 									<div key={id} className='flex flex-col gap-[6px]'>
 										<div className='flex gap-[6px] items-center'>
@@ -647,8 +625,9 @@ export const Comments = ({
 											{message}
 										</p>
 										<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-											{days} days, {hours} hours, {minutes} minutes, {seconds}{' '}
-											seconds ago
+											{formatDistance(new Date(), createdAt, {
+												addSuffix: true,
+											})}
 										</p>
 									</div>
 								);
@@ -999,8 +978,8 @@ export const Profile = ({}: ProfilePropsTypes) => {
 	const [errMessage, setErrMsg] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const pathname = usePathname();
-	const router = useRouter();
 	const { t } = useTranslation();
+	const router = useRouter();
 
 	const userCookie = getCookie(COOKIE_KEYS.user);
 
@@ -1948,5 +1927,198 @@ export const JobContainer = () => {
 				</section>
 			</section>
 		</main>
+	);
+};
+
+export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
+	const { t } = useTranslation();
+
+	const userCookie = getCookie(COOKIE_KEYS.user);
+	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
+
+	const { isLoading, isError, data } = useQuery({
+		queryFn: useQueryCustomWrapper<TJob>,
+		queryKey: [
+			`jobs-data-${jobId}`,
+			{
+				url: `jobs/${jobId}`,
+				qFunc: fetchEndpointData,
+				options: {
+					sort: 'createdAt:desc',
+					populate: [
+						'applications',
+						'job_type',
+						'comments',
+						'ministry',
+						'files',
+					],
+					filter: {
+						applications: {
+							user: {
+								id: {
+									$eq: userInfo?.id,
+								},
+							},
+						},
+					},
+				},
+			},
+		],
+		enabled: !!jobId && !!userInfo?.id,
+	});
+
+	return (
+		<div className='w-full space-y-10'>
+			{isLoading ? (
+				<div className='w-full h-[400px] bg-light-Purple'>
+					<Loader />
+				</div>
+			) : isError ? (
+				<div className='w-full h-[400px] bg-light-Purple'>
+					<Loader {...{ title: 'Error loading data' }} />
+				</div>
+			) : (
+				<div>
+					<SloganWithCategory
+						{...{
+							comments: data?.data?.comments.length ?? 0,
+							category: data?.data?.ministry.name ?? '',
+							type: data?.data?.job_type?.name ?? '',
+							location: data?.data.location ?? '',
+							title: data?.data?.title ?? '',
+							datePosted: formatDistance(
+								new Date(),
+								data?.data?.application_end
+									? new Date(data.data?.application_end)
+									: new Date(),
+								{ addSuffix: true }
+							),
+							slogan: t(
+								'Make a real difference in your community by joining a vibrant team dedicated to serving the public good'
+							),
+						}}
+					/>
+				</div>
+			)}
+
+			<div className='px-[20px] pb-[20px] md:px-[100px] md:pb-[100px] space-y-10'>
+				<div className='flex flex-col md:flex-row w-full gap-[10px]'>
+					{isLoading ? (
+						<div className='w-full h-full'>
+							<Loader />
+						</div>
+					) : isError ? (
+						<div className='w-full h-full'>
+							<Loader {...{ title: 'Error loading data' }} />
+						</div>
+					) : (
+						<div className='md:w-[70%] space-y-10'>
+							{data?.data.about_job ? (
+								<div className='w-fit'>
+									<p className='text-[20px] font-semibold leading-[24px] tracking-[.5%] text-textTitle'>
+										About jobs
+									</p>
+									<p className='text-bodyText leading-[24px] text-[16px] font-normal'>
+										{data.data.about_job}
+									</p>
+								</div>
+							) : null}
+							<RichTexEditor {...{ value: data?.data?.description ?? '' }} />
+							{data?.data?.comments && (
+								<Comments comments={data.data?.comments} />
+							)}
+
+							{userInfo && userInfo.id ? (
+								<CommentForm {...{ jobId }} />
+							) : (
+								<div className='font-normal text-[16px] leading-[24px]'>
+									You must{' '}
+									<Link href={'/auth/signin'} className='text-main-Green'>
+										login
+									</Link>{' '}
+									to comment
+								</div>
+							)}
+						</div>
+					)}
+					<section className='md:w-[30%] space-y-10'>
+						{isLoading ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader />
+							</div>
+						) : isError ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader {...{ title: 'Error loading data' }} />
+							</div>
+						) : (
+							<UploadDocsCard
+								{...{
+									applyUrl: {
+										url:
+											data?.data?.applications &&
+											data?.data.applications?.length > 0
+												? '/jobs/shortlisted'
+												: `/jobs/${data?.data.id}/apply`,
+										title:
+											data?.data?.applications &&
+											data?.data.applications?.length > 0
+												? 'View Shortlisted Candidates'
+												: 'Apply Now',
+									},
+									data: data?.data,
+								}}
+							/>
+						)}
+					</section>
+				</div>
+				<section className='space-y-5'>
+					<div className='flex w-full justify-between'>
+						<p className='font-bold text-[20px] md:text-[30px] md:leading-[36px] md:tracking-[.75%] text-textTitle'>
+							{t('You May Also Be Interested In')}
+						</p>
+						<button className='flex space-x-2 items-center cursor-pointer'>
+							<p className='font-[600] text-[14px] leading-[20px] text-mainGreen'>
+								{t('See All Jobs')}
+							</p>
+							<ArrowRight
+								className='stroke-main-Green'
+								width={'24px'}
+								height={'24px'}
+							/>
+						</button>
+					</div>
+					<div className='flex  gap-[16px] overflow-x-auto'>
+						{isLoading ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader />
+							</div>
+						) : isError ? (
+							<div className='w-full md:w-[400px] flex flex-col border border-socialsColor rounded-[16px] px-[16px] py-[32px] gap-[16px] h-fit bg-white space-y-10'>
+								<Loader {...{ title: 'Error loading data' }} />
+							</div>
+						) : data?.data?.relatedjobs &&
+						  data?.data?.relatedjobs?.length > 0 ? (
+							data?.data?.relatedjobs?.map((job, index) => (
+								<CommentCard key={index} {...job} />
+							))
+						) : (
+							<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
+								No related jobs at the moment.
+							</div>
+						)}
+					</div>
+				</section>
+				<section>
+					<Alert
+						name={t('Never Miss Your Dream Job!')}
+						icon={''}
+						description={t(
+							'Sign up for job alerts and get notified straight to your inbox when openings matching your profession are posted. Dont wait, register today and take the first step towards your perfect career!'
+						)}
+						buttonText={t('Get Job Alerts Now!')}
+					/>
+				</section>
+			</div>
+		</div>
 	);
 };

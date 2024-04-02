@@ -1,94 +1,126 @@
-'use client'
+'use client';
+import { URL_SEARCH_PARAMS } from '@/constants';
+import { createResourceEndpointData } from '@/utils/server';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
+import { Button } from '../ui/button';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage,
+} from '../ui/form';
+import { Textarea } from '../ui/textarea';
+import { TSinglePageProps } from '@/types/types';
 
-export const CommentForm = () => {
-	const {t} = useTranslation();
-	const [checked, setChecked] = useState(false);
+export const CommentForm = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
+	const [errMessage, setErrMsg] = useState<string | null>(null);
+	const [loading, setLoading] = useState(false);
+	const pathname = usePathname();
+	const { t } = useTranslation();
+	const router = useRouter();
+
+	const FormSchema = z.object({
+		comment: z
+			.string()
+			.min(3, {
+				message: 'You must add a comment',
+			})
+			.max(255, {
+				message: 'A comment cannot exceed 255 characters',
+			})
+			.optional(),
+		job: z.string().optional(),
+	});
+
+	const form = useForm<z.infer<typeof FormSchema>>({
+		resolver: zodResolver(FormSchema),
+		defaultValues: {
+			job: jobId ? `${jobId}` : '',
+			comment: '',
+		},
+	});
+
+	function onSubmit(data: z.infer<typeof FormSchema>) {
+		setLoading(true);
+		createResourceEndpointData({ data, url: `comments` })
+			.then(({ data: res, err }) => {
+				if (err)
+					if (err.status === 400)
+						err.details.errors.map(({ path: [field_name], message, name }) =>
+							//@ts-ignore
+							form.setError(field_name, {
+								message: message.replace(field_name, 'This field '),
+							})
+						);
+					else if (err.status === 401)
+						router.push(
+							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+						);
+					else if (err.status === 403) setErrMsg('Permission denied');
+					else setErrMsg('Something went wrong');
+			})
+			.finally(() => setLoading(false));
+	}
+
 	return (
-    <div className='flex flex-col space-y-10'>
-      <div className='space-y-5'>
-        <p className='font-semibold text-[20px] leading-[28px] text-textTitle'>
-          {t('Leave a comment')}
-        </p>
-        <p className='font-[700] text-[16px] leading-[24px] text-commentsColor'>
-          {t(
-            'Your email address will not be published. Required fields are marked'
-          )}
-          *
-        </p>
-      </div>
+		<div className='flex flex-col gap-[6px]'>
+			<div className='space-y-5'>
+				<p className='font-semibold text-[20px] leading-[28px] text-textTitle'>
+					{t('Leave a comment')}
+				</p>
+				<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+					{t(
+						'Your email address will not be published. Required fields are marked'
+					)}
+					*
+				</p>
+			</div>
 
-      <form className='space-y-5'>
-        <div className='flex flex-col space-y-3 w-full'>
-          <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-            {t('Comment')}*
-          </label>
-          <textarea
-            placeholder='Your comment here'
-            className='h-[100px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
-            onChange={() => {}}
-            required
-          />
-        </div>
-        <div className='grid grid-cols-2 gap-[16px]'>
-          <div className='flex flex-col space-y-3 w-full'>
-            <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-              {t('Name')}*
-            </label>
-            <input
-              placeholder='e.g James Musyoka'
-              required
-              type='text'
-              className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
-              onChange={() => {}}
-            />
-          </div>
-          <div className='flex flex-col space-y-3 w-full'>
-            <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-              {t('Email')}*
-            </label>
-            <input
-              placeholder='e.g jamesmusyoka@gmail.com'
-              required
-              type='email'
-              className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
-              onChange={() => {}}
-            />
-          </div>
-        </div>
-        <div className='flex flex-col space-y-3 w-full'>
-          <label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-            {t('Website Link')}*
-          </label>
-          <input
-            placeholder=''
-            required
-            type='text'
-            className='h-[52px] rounded-[6px] border px-[14px] py-[12px] border-[#D1D5DB] bg-bodyBg'
-            onChange={() => {}}
-          />
-        </div>
-        <div className='flex space-x-3 w-full'>
-          <input
-            checked={checked}
-            id='remember-me'
-            type='checkbox'
-            required
-            onChange={() => setChecked(!checked)}
-          />
-          <label
-            className='font-[400] text-[14px] leading-[24px] text-textTitle cursor-pointer selection:bg-inherit'
-            htmlFor='remember-me'>
-            {t('Save my name,email and website for the next time I comment.')}
-          </label>
-        </div>
-        <button className='flex rounded-[8px] bg-mainGreen border gap-[8px] justify-center items-center px-[16px] py-[10px] border-mainGreen shadow-btnBoxShadow'>
-          <p className='text-white font-semibold text-[14px] leading-[20px] '>
-            {t('Post Comment')}
-          </p>
-        </button>
-      </form>
-    </div>
-  );
+			<p className='w-fit mx-auto text-red-700 font-normal text-[16px]'>
+				{errMessage}
+			</p>
+
+			<div className='w-full h-fit flex flex-wrap'>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className='w-2/3 space-y-6'>
+						<div className='flex flex-wrap gap-[24px] my-[6px]'>
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name={'comment'}
+									render={({ field }) => (
+										<FormItem>
+											<FormControl>
+												<Textarea placeholder='Your comment here' {...field} />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+						</div>
+
+						<div className='w-full justify-end flex my-[8px] gap-[32px]'>
+							<Button
+								className='flex rounded-[8px] bg-mainGreen border gap-[8px] justify-center items-center px-[16px] py-[10px] border-mainGreen shadow-btnBoxShadow'
+								type='submit'
+								{...(loading ? { disabled: true } : {})}>
+								<p className='text-white font-semibold text-[14px] leading-[20px]'>
+									{t(loading ? 'Posting...' : 'Comment')}
+								</p>
+							</Button>
+						</div>
+					</form>
+				</Form>
+			</div>
+		</div>
+	);
 };
