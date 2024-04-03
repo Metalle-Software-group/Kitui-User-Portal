@@ -4,8 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 import Link from 'next/link';
 import { z } from 'zod';
 
@@ -67,18 +66,16 @@ export const AuthScreen = ({}) => {
 
 	const { t } = useTranslation();
 	return (
-		<React.Fragment>
-			<div className='w-full flex items-center justify-center'>
-				<Image
+		<div className='py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shaow-page404Shadow w-12/12 md:w-7/12'>
+			<div className='w-fit flex items-center justify-center'>
+				<img
 					src={'/images/logo/logo.png'}
 					className='w-[100px] h-[100px]'
-					width={100}
-					height={100}
 					alt='Logo'
 				/>
 			</div>
 
-			<div className='w-full h-fit flex gap-[40px] p-[28px] flex-wrap justify-center items-center'>
+			<div className='w-full flex gap-[40px] p-[28px] flex-wrap justify-center items-center'>
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
@@ -188,7 +185,7 @@ export const AuthScreen = ({}) => {
 					</form>
 				</Form>
 			</div>
-		</React.Fragment>
+		</div>
 	);
 };
 
