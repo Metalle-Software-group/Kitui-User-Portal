@@ -28,9 +28,17 @@ export const UploadDocsCard = ({
 						</p>
 
 						<div className='w-full flex gap-[6px] flex-col'>
-							<UploadedDocument />
-							<UploadedDocument />
-							<UploadedDocument />
+							{data?.files?.length ? (
+								<>
+									<UploadedDocument />
+									<UploadedDocument />
+									<UploadedDocument />
+								</>
+							) : (
+								<div className='font-normal text-[16px] leading-[24px] text-gray-600 px-[20px]'>
+									No files where attached
+								</div>
+							)}
 						</div>
 					</div>
 				)}
@@ -59,7 +67,6 @@ export const UploadDocsCard = ({
 								svgElementClassName:
 									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
-								// className: '',
 							}}
 						/>
 
@@ -68,7 +75,6 @@ export const UploadDocsCard = ({
 								svgElementClassName:
 									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
-								// className: '',
 							}}
 						/>
 
@@ -77,7 +83,6 @@ export const UploadDocsCard = ({
 								svgElementClassName:
 									'stroke-black fill-transparent w-[50px] h-[50px]',
 								applyToSvgEl: true,
-								// className: '',
 							}}
 						/>
 
