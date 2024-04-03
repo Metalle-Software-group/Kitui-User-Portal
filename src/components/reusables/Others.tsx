@@ -616,12 +616,12 @@ export const Comments = ({
 				</p>
 
 				<div className='px-[32px]'>
-					{replies?.map(({ message, id, createdAt }) => {
+					{replies?.map(({ message, id, user, createdAt }) => {
 						return (
 							<div key={id} className='flex flex-col gap-[6px]'>
 								<div className='flex gap-[6px] items-center'>
 									<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-										{id}
+										{user?.username}
 									</p>
 									<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
 										responded
