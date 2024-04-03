@@ -56,14 +56,14 @@ export const AuthenticateUser = async ({
 		.then(({ user, jwt }) => {
 			cookies().set(COOKIE_KEYS.auth, jwt, {
 				httpOnly: true,
-				maxAge: 30000,
+				maxAge: 3600,
 				secure: true,
 				path: '/',
 			});
 
 			cookies().set(COOKIE_KEYS.user, JSON.stringify(user), {
 				httpOnly: false,
-				maxAge: 30000,
+				maxAge: 3600,
 				secure: true,
 				path: '/',
 			});
@@ -119,14 +119,14 @@ export const thirdPartyProviderSubmitToken = async <dataTypeExpected = any>({
 		.then(({ data: { user, jwt } }) => {
 			cookies().set(COOKIE_KEYS.auth, jwt, {
 				httpOnly: true,
-				maxAge: 30000,
+				maxAge: 3600,
 				secure: true,
 				path: '/',
 			});
 
 			cookies().set(COOKIE_KEYS.user, JSON.stringify(user), {
 				httpOnly: false,
-				maxAge: 30000,
+				maxAge: 3600,
 				secure: true,
 				path: '/',
 			});
