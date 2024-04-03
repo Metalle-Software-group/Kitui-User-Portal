@@ -461,5 +461,5 @@ export type TSinglePageProps = {
 };
 
 export type TAuthScreenProps = {
-	id_token: string;
+	qParams: string;
 };

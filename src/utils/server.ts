@@ -4,11 +4,7 @@ import Strapi, { StrapiOptions, StrapiRequestParams } from 'strapi-sdk-js';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-import {
-	BACKEND_BASE_URL,
-	COOKIE_KEYS,
-	THIRD_PARTY_TOKEN_NAME,
-} from '@/constants';
+import { BACKEND_BASE_URL, COOKIE_KEYS } from '@/constants';
 import {
 	SERVER_ERROR,
 	StrapiAuthenticationData,
@@ -110,7 +106,7 @@ export const fetchEndpointData = async <dataTypeExpected = any>({
 };
 
 export const thirdPartyProviderSubmitToken = async <dataTypeExpected = any>({
-	id_token,
+	qParams,
 	url,
 }: {
 	options: StrapiRequestParams;
@@ -118,22 +114,25 @@ export const thirdPartyProviderSubmitToken = async <dataTypeExpected = any>({
 } & TAuthScreenProps) => {
 	const strapi = await getStrapiConfiguredInstance();
 
-	const params = new URLSearchParams();
-	params.set(THIRD_PARTY_TOKEN_NAME, id_token);
-
-	console.log(
-		strapi.axios({
-			url: `${url}?${THIRD_PARTY_TOKEN_NAME}=${id_token}`,
-			method: 'GET',
-		})
-	);
-
 	return strapi
-		.axios({
-			url: `${url}?${THIRD_PARTY_TOKEN_NAME}=${id_token}`,
-			method: 'GET',
+		.axios({ url: `${url}?${qParams}`, method: 'GET' })
+		.then(({ data: { user, jwt } }) => {
+			cookies().set(COOKIE_KEYS.auth, jwt, {
+				httpOnly: true,
+				maxAge: 30000,
+				secure: true,
+				path: '/',
+			});
+
+			cookies().set(COOKIE_KEYS.user, JSON.stringify(user), {
+				httpOnly: false,
+				maxAge: 30000,
+				secure: true,
+				path: '/',
+			});
+
+			return { data: user, err: null };
 		})
-		.then(({ data }) => ({ data, err: null }))
 		.catch(
 			({
 				response: {
