@@ -111,7 +111,6 @@ export const fetchEndpointData = async <dataTypeExpected = any>({
 
 export const thirdPartyProviderSubmitToken = async <dataTypeExpected = any>({
 	id_token,
-	options,
 	url,
 }: {
 	options: StrapiRequestParams;
@@ -122,15 +121,31 @@ export const thirdPartyProviderSubmitToken = async <dataTypeExpected = any>({
 	const params = new URLSearchParams();
 	params.set(THIRD_PARTY_TOKEN_NAME, id_token);
 
-	console.log(params.toString());
+	console.log(
+		strapi.axios({
+			url: `${url}?${THIRD_PARTY_TOKEN_NAME}=${id_token}`,
+			method: 'GET',
+		})
+	);
 
 	return strapi
-		.axios({ url: `${url}?${params.toString()}`, method: 'GET' })
+		.axios({
+			url: `${url}?${THIRD_PARTY_TOKEN_NAME}=${id_token}`,
+			method: 'GET',
+		})
 		.then(({ data }) => ({ data, err: null }))
-		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
-			err: { message, status, details },
-			data: null,
-		}));
+		.catch(
+			({
+				response: {
+					data: {
+						error: { status, name, message, details },
+					},
+				},
+			}) => ({
+				err: { message, status, details },
+				data: null,
+			})
+		);
 };
 
 export const createResourceEndpointData = async <dataTypeExpected = any>({

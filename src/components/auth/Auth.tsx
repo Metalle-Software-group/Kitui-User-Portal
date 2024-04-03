@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { z } from 'zod';
 
@@ -40,6 +40,7 @@ import {
 export const AuthScreen = () => {
 	const [authLoading, setAuthLoading] = useState<boolean>(false);
 	const [authError, setAuthError] = useState<string | null>(null);
+	const [thirdPAuthError, setThirdPAuthError] = useState<string | null>(null);
 	const router = useRouter();
 
 	const params = useSearchParams();
@@ -76,24 +77,39 @@ export const AuthScreen = () => {
 			)
 			.finally(() => setAuthLoading(false));
 	}
-	const handleThirdPartyAuth = ({ id_token: token }: TAuthScreenProps) =>
-		thirdPartyProviderSubmitToken({
+
+	const handleThirdPartyAuth = ({ id_token: token }: TAuthScreenProps) => {
+		return thirdPartyProviderSubmitToken({
 			url: 'auth/google/callback',
-			id_token: authToken!,
+			id_token: token,
 			options: {},
 		})
-			.then((data) => {
-				console.log('response', data);
+			.then(({ err, data }) => {
+				if (err)
+					if (err.status === 400)
+						setThirdPAuthError('Missing or invalid auth token');
+					else setThirdPAuthError('Something went wrong');
+				else if (data)
+					router.push(params.get(URL_SEARCH_PARAMS.redirect) ?? '/profile');
 			})
 			.catch((err) => console.log(err));
+	};
 
 	const { t } = useTranslation();
 
+	useEffect(() => {
+		if (authToken) handleThirdPartyAuth({ id_token: authToken });
+	}, []);
+
 	return authToken ? (
-		<div
-			className='flex flex-col gap-[20px]'
-			onLoad={(e) => handleThirdPartyAuth({ id_token: authToken })}>
-			<Loader {...{ title: 'Authenticating' }} />
+		<div className='flex flex-col gap-[20px] text-black w-full h-[calc(100dvh-220px)] items-center'>
+			{thirdPAuthError ? (
+				<div className='text-red-700 text-center w-fit mx-auto h-full'>
+					<p>{thirdPAuthError}</p>
+				</div>
+			) : (
+				<Loader {...{ title: 'Authenticating...' }} />
+			)}
 		</div>
 	) : (
 		<div className='py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shaow-page404Shadow w-12/12 md:w-7/12'>
