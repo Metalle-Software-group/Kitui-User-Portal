@@ -445,7 +445,7 @@ export type TSeeMore = {
 };
 
 export type TDataApplyJobORUpdateProfile = {
-	user: string | number;
+	// user: string | number;
 	job: string | number;
 	comment?: string;
 	files?: any[];

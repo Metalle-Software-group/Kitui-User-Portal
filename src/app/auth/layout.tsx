@@ -1,8 +1,7 @@
-import { Nunito_Sans } from 'next/font/google';
-
-import { TNodes } from '@/types/types';
 import { Metadata } from 'next';
+
 import { PLATFORM_PREFIX_NAME, PLATFORM_SUFFIX_NAME } from '@/constants';
+import { TNodes } from '@/types/types';
 
 export const metadata: Metadata = {
 	title: `${PLATFORM_PREFIX_NAME} ${PLATFORM_SUFFIX_NAME} | Login`,
@@ -12,26 +11,10 @@ export const metadata: Metadata = {
 	description: 'Kitui county Job portal',
 };
 
-const entireFont = Nunito_Sans({
-	weight: ['200', '300', '400', '700', '900'],
-	subsets: ['latin'],
-});
-
 export default function DashboardLayout({ children }: TNodes) {
 	return (
-		
-			<div className='w-full h-[90dvh] text-login-screen-text-color bg-login-screen-text-color text-black'>
-				<div className='h-full inline-block align-top w-[50%]'>
-					<img
-						src={'/images/others/auth-screen.png'}
-						className='w-full h-full object-cover'
-						alt='Diversity'
-					/>
-				</div>
-
-				<div className='h-full inline-block align-top w-[50%] overflow-auto'>
-					{children}
-				</div>
-			</div>
+		<div className='w-full text-login-screen-text-color bg-login-screen-text-color text-black flex justify-center'>
+			<div className='w-full px-[60px]'>{children}</div>
+		</div>
 	);
 }

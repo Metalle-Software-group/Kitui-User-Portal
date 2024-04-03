@@ -24,8 +24,7 @@ import {
 import { TCreateEditJobProps } from '@/types/types';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { URL_SEARCH_PARAMS } from '@/constants';
-import { UploadFileCard } from '../reusables/Others';
-import { SuccessfulApplicationCard } from '../cards/TechnicalError';
+import { UploadFileCard, VerificationCodeCard } from '../reusables/Others';
 
 export const AuthScreen = ({}) => {
 	const [authLoading, setAuthLoading] = useState<boolean>(false);
@@ -419,27 +418,26 @@ export const CreateEditUser = ({
 	}
 
 	return (
-		<div className=' h-fit m-[10px] flex flex-col gap-[40px] justify-center items-center'>
-			{successFull && (
-				<SuccessfulApplicationCard
+		<div className=' h-fit py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shaow-page404Shadow w-7/12'>
+			{successFull ? (
+				<VerificationCodeCard
 					{...{
-						title: 'Your job application has been received.',
-						sentiment:
-							'Thank you for expressing your interest in joining our team. Shortlisted candidates shall be posted here. All the best.',
+						title: 'Verify your account.',
+						sentiment: `Kindly check your email, ${form
+							.getValues('email')
+							.substring(0, 3)}******com for a verification code.`,
 						link: {
 							text: 'Back To Home Page',
 							url: '/',
 						},
 					}}
 				/>
-			)}
-			{!successFull && (
-				<div className='gap-[4px] rounded-[20px]'>
+			) : (
+				<div className='gap-[4px] rounded-[20px] w-[80%]'>
 					<div className='flex flex-col gap-[14px] items-center justify-center my-[16px]'>
 						<p className='font-bold text-[30px] leading-[36px] tracking-[-.75%] text-title-text-color w-fit'>
 							{title}
 						</p>
-
 						<p className='text-gray-body-text text-[16px] leading-[24px] font-normal'>
 							{subtitle}
 						</p>
@@ -534,7 +532,7 @@ export const CreateEditUser = ({
 													</FormLabel>
 													<FormControl>
 														<Input
-															placeholder=''
+															placeholder='3401...'
 															{...field}
 															className='text-bodyText font-medium text-[14px]'
 														/>
