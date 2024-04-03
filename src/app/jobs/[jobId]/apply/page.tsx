@@ -27,8 +27,8 @@ const ApplyJob = () => {
 	const { t } = useTranslation();
 	const [job, setJob] = useState<TJob>();
 	const [errMessage, setErrMsg] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
 	const [successFull, setSuccessFull] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [url, setUrl] = useState<string[]>([]);
 	const router = useRouter();
 
@@ -101,7 +101,6 @@ const ApplyJob = () => {
 
 	const UploadDetails = (data2: TDataApplyJobORUpdateProfile) => {
 		const data = { ...data2, files: url };
-		console.log('submit', data);
 		createResourceEndpointData({ data, url: 'applications' })
 			.then(({ data: res, err }) => {
 				if (err)
@@ -118,16 +117,10 @@ const ApplyJob = () => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				else {
-					setSuccessFull(true);
-				}
+				else setSuccessFull(true);
 			})
-			.finally(() => {
-				setLoading(false);
-			});
+			.finally(() => setLoading(false));
 	};
-
-	console.log('array', url);
 
 	useEffect(() => {
 		const job: TJob = getLocalStorageItem<TJob>({
@@ -162,7 +155,6 @@ const ApplyJob = () => {
 						<div className='flex flex-col gap-[10px]'>
 							<div className='flex w-full justify-center space-x-5 items-center'>
 								<p className='font-bold leading-[24.55px] tracking-[.5%] text-[18px] text-textTitle'>
-									{/* {t('Public Health Officer')} */}
 									{job.title}
 								</p>
 								<div className='w-fit'>
@@ -252,10 +244,9 @@ const ApplyJob = () => {
 										handleUpdateJobProfile({
 											files: selectedFiles,
 											job: job.id,
-											user: '1',
 										}),
 								}}>
-								{t(loading ? 'Submitting...' : 'Update Job Profile')}
+								{t('Update Job Profile')}
 							</button>
 
 							<button
@@ -271,7 +262,6 @@ const ApplyJob = () => {
 									onClick: () =>
 										handleApply({
 											job: job.id.toString(),
-											user: '1',
 										}),
 								}}>
 								{t(loading ? 'Submitting...' : 'Submit Application')}

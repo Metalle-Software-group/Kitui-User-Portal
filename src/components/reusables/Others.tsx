@@ -53,9 +53,13 @@ import {
 	TMinistry,
 	TJobTypes,
 	TSinglePageProps,
+	TCommentType,
+	TDataApplyJobORUpdateProfile,
+	TSuccessProps,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import {
+	BASE_ASSET_URL,
 	COOKIE_KEYS,
 	FieldsToExcludeInFilter,
 	URL_SEARCH_PARAMS,
@@ -94,7 +98,11 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { fetchEndpointData, updateResourceEndpointData } from '@/utils/server';
+import {
+	fetchEndpointData,
+	updateResourceEndpointData,
+	uploadResourceEndpointData,
+} from '@/utils/server';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from 'react-query';
 import {
@@ -579,66 +587,62 @@ export const UploadedDocument = () => {
 
 export const Comments = ({
 	comments,
-}: Pick<JobDescriptionTypes, 'comments'>) => {
-	return (
-		<div className='flex flex-col gap-[6px]'>
-			<p className='font-semibold text-[20px] leading-[28px] tracking-[.5%] text-textTitle'>
-				Comments
-			</p>
+}: Pick<JobDescriptionTypes, 'comments'>) => (
+	<div className='flex flex-col gap-[6px]'>
+		<p className='font-semibold text-[20px] leading-[28px] tracking-[.5%] text-textTitle'>
+			Comments
+		</p>
 
-			{comments.length < 1 ? (
-				<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
-					No comments yet. Be the first one to leave a comment.
+		{comments.length < 1 ? (
+			<div className='font-normal text-[16px] leading-[24px] text-gray-600'>
+				No comments yet. Be the first one to leave a comment.
+			</div>
+		) : null}
+		{comments.map(({ id, message, user, createdAt, replies }) => (
+			<div key={id} className='flex flex-col gap-[6px]'>
+				<div className='flex gap-[6px] item-center'>
+					<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+						{user.username}
+					</p>
+					<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+						says
+					</p>
 				</div>
-			) : null}
-			{comments.map(({ id, message, createdAt, replies }) => {
-				return (
-					<div key={id} className='flex flex-col gap-[6px]'>
-						<div className='flex gap-[6px] item-center'>
-							<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-								{id}
-							</p>
-							<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
-								says
-							</p>
-						</div>
-						<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
-							{message}
-						</p>
-						<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-							{formatDistance(new Date(), createdAt, { addSuffix: true })}
-						</p>
+				<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+					{message}
+				</p>
+				<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+					{formatDistance(createdAt, new Date(), { addSuffix: true })}
+				</p>
 
-						<div className='px-[32px]'>
-							{replies?.map(({ message, id, createdAt }) => {
-								return (
-									<div key={id} className='flex flex-col gap-[6px]'>
-										<div className='flex gap-[6px] items-center'>
-											<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-												{id}
-											</p>
-											<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
-												responded
-											</p>
-										</div>
-										<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
-											{message}
-										</p>
-										<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-											{formatDistance(new Date(), createdAt, {
-												addSuffix: true,
-											})}
-										</p>
-									</div>
-								);
-							})}
-						</div>
-					</div>
-				);
-			})}
-		</div>
-	);
-};
+				<div className='px-[32px]'>
+					{replies?.map(({ message, id, createdAt }) => {
+						return (
+							<div key={id} className='flex flex-col gap-[6px]'>
+								<div className='flex gap-[6px] items-center'>
+									<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
+										{id}
+									</p>
+									<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
+										responded
+									</p>
+								</div>
+								<p className='text-bodyText font-normal text-[16px] leading-[24px]'>
+									{message}
+								</p>
+								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
+									{formatDistance(new Date(), createdAt, {
+										addSuffix: true,
+									})}
+								</p>
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		))}
+	</div>
+);
 
 export const DropDownWrapperCustomComponent = ({
 	components,
@@ -975,11 +979,58 @@ export const FileListDivider = () => (
 );
 
 export const Profile = ({}: ProfilePropsTypes) => {
+	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
 	const [errMessage, setErrMsg] = useState<string | null>(null);
+	const [successFull, setSuccessFull] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [url, setUrl] = useState<string[]>([]);
 	const pathname = usePathname();
 	const { t } = useTranslation();
 	const router = useRouter();
+
+	const handleDeleteItem = (file: File) =>
+		setSelectedFile(
+			selectedFiles.filter((currItem) => {
+				return currItem !== file;
+			})
+		);
+
+	const uploadFilesSequentially = async (
+		files: File[],
+		data2: TDataApplyJobORUpdateProfile,
+		index = 0
+	) => {
+		if (index >= files.length) return;
+
+		const frmData = new FormData();
+		frmData.append('files', files[index]);
+
+		const formDataEntries: [string, FormDataEntryValue][] = Array.from(
+			frmData.entries()
+		);
+
+		formDataEntries.forEach((entry) => {
+			console.log(entry[0], entry[1]);
+		});
+
+		setLoading(true);
+		uploadResourceEndpointData({ url: 'upload', data: frmData })
+			.then((res) => {
+				console.log(res);
+				setUrl((prevState) => [...prevState, res.data[0].url]);
+				uploadFilesSequentially(files, data2, index + 1);
+			})
+			.catch((err) => {
+				console.error(`Error uploading file ${index + 1}:`, err);
+				setLoading(false);
+			});
+	};
+
+	const handleApply = async (data: TDataApplyJobORUpdateProfile) => {
+		await uploadFilesSequentially(selectedFiles, data).then(() => {
+			// UploadDetails(data);
+		});
+	};
 
 	const userCookie = getCookie(COOKIE_KEYS.user);
 
@@ -1290,7 +1341,7 @@ export const MyApplications = () => {
 		queryKey: [
 			`my-applications-data`,
 			{
-				url: `applications`,
+				url: `myapplications`,
 				qFunc: fetchEndpointData,
 				options: {
 					populate: {
@@ -1301,13 +1352,13 @@ export const MyApplications = () => {
 						user: '',
 					},
 					sort: 'createdAt:desc',
-					filters: {
-						user: {
-							id: {
-								$eq: userInfo?.id,
-							},
-						},
-					},
+					// filters: {
+					// 	user: {
+					// 		id: {
+					// 			$eq: userInfo?.id,
+					// 		},
+					// 	},
+					// },
 				},
 			},
 		],
@@ -1931,6 +1982,8 @@ export const JobContainer = () => {
 };
 
 export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
+	const [chats, setChats] = useState<TCommentType[]>([]);
+
 	const { t } = useTranslation();
 
 	const userCookie = getCookie(COOKIE_KEYS.user);
@@ -1945,13 +1998,26 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 				qFunc: fetchEndpointData,
 				options: {
 					sort: 'createdAt:desc',
-					populate: [
-						'applications',
-						'job_type',
-						'comments',
-						'ministry',
-						'files',
-					],
+					populate: {
+						applications: true,
+						job_type: true,
+						comments: {
+							populate: {
+								user: true,
+								replies: {
+									populate: {
+										comment: true,
+										message: true,
+										user: true,
+										id: true,
+									},
+								},
+							},
+						},
+						ministry: true,
+						files: true,
+					},
+
 					filter: {
 						applications: {
 							user: {
@@ -2025,11 +2091,13 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							) : null}
 							<RichTexEditor {...{ value: data?.data?.description ?? '' }} />
 							{data?.data?.comments && (
-								<Comments comments={data.data?.comments} />
+								<Comments
+									comments={[...chats, ...(data.data?.comments ?? [])]}
+								/>
 							)}
 
 							{userInfo && userInfo.id ? (
-								<CommentForm {...{ jobId }} />
+								<CommentForm {...{ jobId, setChats }} />
 							) : (
 								<div className='font-normal text-[16px] leading-[24px]'>
 									You must{' '}
@@ -2118,6 +2186,46 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 						buttonText={t('Get Job Alerts Now!')}
 					/>
 				</section>
+			</div>
+		</div>
+	);
+};
+
+export const VerificationCodeCard = ({
+	sentiment,
+	title,
+}: Exclude<TSuccessProps, 'link'>) => {
+	return (
+		<div className='flex flex-col rounded-[20px] p-[40px] gap-[32px] bg-white shaow-page404Shadow w-6/12'>
+			<div className='w-full aspect-auto flex justify-center'>
+				<img
+					src={`${BASE_ASSET_URL}/others/email-verified.svg`}
+					className='object-cover w-[50%] h-full'
+					alt='mail sent'
+				/>
+			</div>
+
+			<div className='w-full'>
+				<div className='flex gap-[4px] flex-col'>
+					<p className='font-bold text-[30px] leading-[36px] tracking-[-.75%] text-center text-textTitle'>
+						{title}
+					</p>
+					<p className='font-normal text-[16px] leading-[24px] text-bodyText'>
+						{sentiment}
+					</p>
+				</div>
+			</div>
+
+			<div className='flex flex-col gap-[4px]'>
+				<p className='text-[16px] leading-[24px] font-bold text-textTitle'>
+					Verification code*
+				</p>
+
+				<input
+					type={'text'}
+					className='border border-gray-300 px-[12px] py-[14px] rounded-[6px] text-black'
+					onChange={(e) => {}}
+				/>
 			</div>
 		</div>
 	);

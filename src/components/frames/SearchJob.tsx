@@ -32,7 +32,7 @@ export const SearchJob = ({
 				className='outline-none border rounded-[20px] pl-[50px] pr-[140px] w-full h-[72px] shadow-searchShadow'
 				placeholder={placeholder}
 				{...{
-					onChange: (e) => onChange({ type, data: e.target.value.trim() }),
+					onChange: (e) => onChange({ type, data: e.target.value }),
 					value: currentValue,
 				}}
 			/>

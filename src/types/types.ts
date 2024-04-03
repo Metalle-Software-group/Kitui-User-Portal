@@ -89,7 +89,7 @@ export type SloganWithCategoryType = {
 };
 
 export type JobDescriptionTypes = {
-	comments: commentType[];
+	comments: TCommentType[];
 	responsibility: string[];
 	qualifications: string[];
 	benefits: string[];
@@ -245,6 +245,9 @@ export type TApiHandlerProps = {
 	id?: number | string;
 	data: any;
 	url: string;
+	options?: {
+		[key: string]: any;
+	};
 };
 
 export type TMinistry = {
@@ -329,12 +332,15 @@ export enum TApplicationStatus {
 	Rejected = 'rejected',
 }
 
-export type commentType = {
-	replies?: commentType[];
+export interface TReply {
+	comment?: TCommentType;
+	publishedAt?: Date;
+	createdAt: Date;
+	updatedAt: Date;
 	message: string;
-	createdAt: string;
-	id: string;
-};
+	user?: TUSER;
+	id: number;
+}
 
 export interface MediaFormat {
 	height: number;
@@ -375,16 +381,17 @@ export type Media = {
 };
 
 export type TCommentType = {
-	replies: TCommentType[];
 	createdBy: TUSER;
 	updatedBy: TUSER;
+	publishedAt?: Date;
 	createdAt: string;
-	updatedAt: string;
+	replies?: TReply[];
+	updatedAt: Date;
 	message: string;
 	hidden: boolean;
-	id: string;
 	user: TUSER;
 	job: TJob;
+	id: string;
 };
 
 export interface TJob<TMedia = any> {
@@ -438,7 +445,7 @@ export type TSeeMore = {
 };
 
 export type TDataApplyJobORUpdateProfile = {
-	user: string | number;
+	// user: string | number;
 	job: string | number;
 	comment?: string;
 	files?: any[];

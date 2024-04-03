@@ -3,7 +3,7 @@ import { URL_SEARCH_PARAMS } from '@/constants';
 import { createResourceEndpointData } from '@/utils/server';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
@@ -16,9 +16,14 @@ import {
 	FormMessage,
 } from '../ui/form';
 import { Textarea } from '../ui/textarea';
-import { TSinglePageProps } from '@/types/types';
+import { TCommentType, TSinglePageProps } from '@/types/types';
 
-export const CommentForm = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
+export const CommentForm = ({
+	setChats,
+	jobId,
+}: Pick<TSinglePageProps, 'jobId'> & {
+	setChats: Dispatch<SetStateAction<TCommentType[]>>;
+}) => {
 	const [errMessage, setErrMsg] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const pathname = usePathname();
@@ -26,7 +31,7 @@ export const CommentForm = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 	const router = useRouter();
 
 	const FormSchema = z.object({
-		comment: z
+		message: z
 			.string()
 			.min(3, {
 				message: 'You must add a comment',
@@ -42,13 +47,29 @@ export const CommentForm = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			job: jobId ? `${jobId}` : '',
-			comment: '',
+			message: '',
 		},
 	});
 
 	function onSubmit(data: z.infer<typeof FormSchema>) {
 		setLoading(true);
-		createResourceEndpointData({ data, url: `comments` })
+		createResourceEndpointData<TCommentType>({
+			data,
+			url: `comments`,
+			options: {
+				populate: {
+					user: true,
+					replies: {
+						populate: {
+							comment: true,
+							message: true,
+							user: true,
+							id: true,
+						},
+					},
+				},
+			},
+		})
 			.then(({ data: res, err }) => {
 				if (err)
 					if (err.status === 400)
@@ -64,6 +85,8 @@ export const CommentForm = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
+
+				if (data) setChats((prev) => [...prev, res?.data]);
 			})
 			.finally(() => setLoading(false));
 	}
@@ -95,7 +118,7 @@ export const CommentForm = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
-									name={'comment'}
+									name={'message'}
 									render={({ field }) => (
 										<FormItem>
 											<FormControl>

@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-	return <AuthScreen />;
+	return (
+		<div className='w-full'>
+			<AuthScreen />
+		</div>
+	);
 }
