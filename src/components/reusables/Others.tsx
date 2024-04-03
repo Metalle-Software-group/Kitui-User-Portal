@@ -1989,7 +1989,7 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 	const userCookie = getCookie(COOKIE_KEYS.user);
 	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
 
-	const { isLoading, isError, data } = useQuery({
+	const { isLoading, isError, data, error } = useQuery({
 		queryFn: useQueryCustomWrapper<TJob>,
 		queryKey: [
 			`jobs-data-${jobId}`,
@@ -2032,6 +2032,8 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 		],
 		enabled: !!jobId && !!userInfo?.id,
 	});
+
+	console.log(error, isLoading, data);
 
 	return (
 		<div className='w-full space-y-10'>
