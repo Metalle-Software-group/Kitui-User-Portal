@@ -8,7 +8,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { z } from 'zod';
 
-import { AuthenticateUser, createResourceEndpointData } from '@/utils/server';
+import {
+	AuthenticateUser,
+	createResourceEndpointData,
+	thirdPartyProviderSubmitToken,
+} from '@/utils/server';
 import { Checkbox } from '../ui/checkbox';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -20,17 +24,26 @@ import {
 	FormLabel,
 	FormMessage,
 } from '../ui/form';
-import { TCreateEditJobProps } from '@/types/types';
+import { TAuthScreenProps, TCreateEditJobProps } from '@/types/types';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
-import { URL_SEARCH_PARAMS } from '@/constants';
-import { UploadFileCard, VerificationCodeCard } from '../reusables/Others';
+import {
+	BACKEND_BASE_URL,
+	THIRD_PARTY_TOKEN_NAME,
+	URL_SEARCH_PARAMS,
+} from '@/constants';
+import {
+	Loader,
+	UploadFileCard,
+	VerificationCodeCard,
+} from '../reusables/Others';
 
-export const AuthScreen = ({}) => {
+export const AuthScreen = () => {
 	const [authLoading, setAuthLoading] = useState<boolean>(false);
 	const [authError, setAuthError] = useState<string | null>(null);
 	const router = useRouter();
 
 	const params = useSearchParams();
+	const authToken = params.get(THIRD_PARTY_TOKEN_NAME);
 
 	const FormSchema = z.object({
 		password: z.string().min(2, {
@@ -63,9 +76,26 @@ export const AuthScreen = ({}) => {
 			)
 			.finally(() => setAuthLoading(false));
 	}
+	const handleThirdPartyAuth = ({ id_token: token }: TAuthScreenProps) =>
+		thirdPartyProviderSubmitToken({
+			url: 'auth/google/callback',
+			id_token: authToken!,
+			options: {},
+		})
+			.then((data) => {
+				console.log('response', data);
+			})
+			.catch((err) => console.log(err));
 
 	const { t } = useTranslation();
-	return (
+
+	return authToken ? (
+		<div
+			className='flex flex-col gap-[20px]'
+			onLoad={(e) => handleThirdPartyAuth({ id_token: authToken })}>
+			<Loader {...{ title: 'Authenticating' }} />
+		</div>
+	) : (
 		<div className='py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shaow-page404Shadow w-12/12 md:w-7/12'>
 			<div className='w-fit flex items-center justify-center'>
 				<img
@@ -168,6 +198,23 @@ export const AuthScreen = ({}) => {
 									{...(authLoading ? { disabled: true } : {})}>
 									{t(authLoading ? 'Submitting...' : 'Sign in')}
 								</Button>
+
+								<div
+									className='rounded-[8px] bg-white hover:bg-white flex selection:bg-inherit  text-black border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-full items-center justify-center'
+									role='button'
+									{...{
+										disabled: authLoading,
+										onClick: (e) =>
+											router.push(`${BACKEND_BASE_URL}/api/connect/google`),
+									}}>
+									<img
+										src='/icons/google-auth.svg'
+										className='w-[24px] h-[24px]'
+									/>
+									<p className='text-inherit leading-[20px] text-[14px] font-semibold'>
+										Sign in with google
+									</p>
+								</div>
 							</div>
 
 							<div className='flex gap-[4px] justify-center'>
