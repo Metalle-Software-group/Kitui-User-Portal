@@ -334,3 +334,6 @@ export const initialFilterState: TFilterTypes = {
 };
 
 export const currentlySelectedJobKey = 'current_job';
+
+export const BACKEND_BASE_URL = 'https://kitui-jobs-portal.up.railway.app';
+export const THIRD_PARTY_TOKEN_NAME = 'id_token';

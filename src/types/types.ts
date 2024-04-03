@@ -459,3 +459,7 @@ export type TMoreSearchTypes = {
 export type TSinglePageProps = {
 	jobId: string | number;
 };
+
+export type TAuthScreenProps = {
+	id_token: string;
+};

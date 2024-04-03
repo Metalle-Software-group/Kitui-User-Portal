@@ -4,11 +4,16 @@ import Strapi, { StrapiOptions, StrapiRequestParams } from 'strapi-sdk-js';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-import { COOKIE_KEYS } from '@/constants';
+import {
+	BACKEND_BASE_URL,
+	COOKIE_KEYS,
+	THIRD_PARTY_TOKEN_NAME,
+} from '@/constants';
 import {
 	SERVER_ERROR,
 	StrapiAuthenticationData,
 	TApiHandlerProps,
+	TAuthScreenProps,
 } from '@/types/types';
 
 export const getCookie = ({ name }: { name: string }) => {
@@ -29,7 +34,7 @@ export const getStrapiConfiguredInstance = async (
 	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
 
 	return new Strapi({
-		url: 'https://kitui-jobs-portal.up.railway.app',
+		url: BACKEND_BASE_URL,
 		axiosOptions: {
 			...(auth
 				? {
@@ -102,6 +107,30 @@ export const fetchEndpointData = async <dataTypeExpected = any>({
 	return strapi.find<dataTypeExpected>(url, {
 		...options,
 	});
+};
+
+export const thirdPartyProviderSubmitToken = async <dataTypeExpected = any>({
+	id_token,
+	options,
+	url,
+}: {
+	options: StrapiRequestParams;
+	url: string;
+} & TAuthScreenProps) => {
+	const strapi = await getStrapiConfiguredInstance();
+
+	const params = new URLSearchParams();
+	params.set(THIRD_PARTY_TOKEN_NAME, id_token);
+
+	console.log(params.toString());
+
+	return strapi
+		.axios({ url: `${url}?${params.toString()}`, method: 'GET' })
+		.then(({ data }) => ({ data, err: null }))
+		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
+			err: { message, status, details },
+			data: null,
+		}));
 };
 
 export const createResourceEndpointData = async <dataTypeExpected = any>({
