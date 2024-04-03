@@ -1999,7 +1999,7 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 				options: {
 					sort: 'createdAt:desc',
 					populate: {
-						applications: true,
+						...(userInfo?.id ? { applications: true } : {}),
 						job_type: true,
 						comments: {
 							populate: {
@@ -2019,21 +2019,23 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 					},
 
 					filter: {
-						applications: {
-							user: {
-								id: {
-									$eq: userInfo?.id,
-								},
-							},
-						},
+						...(userInfo?.id
+							? {
+									applications: {
+										user: {
+											id: {
+												$eq: userInfo?.id,
+											},
+										},
+									},
+							  }
+							: {}),
 					},
 				},
 			},
 		],
-		enabled: !!jobId && !!userInfo?.id,
+		enabled: !!jobId,
 	});
-
-	console.log(error, isLoading, data);
 
 	return (
 		<div className='w-full space-y-10'>

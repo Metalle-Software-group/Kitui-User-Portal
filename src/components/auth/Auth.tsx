@@ -78,27 +78,26 @@ export const AuthScreen = () => {
 			.finally(() => setAuthLoading(false));
 	}
 
-	const handleThirdPartyAuth = ({ id_token: token }: TAuthScreenProps) => {
-		return thirdPartyProviderSubmitToken({
+	const handleThirdPartyAuth = ({ qParams }: TAuthScreenProps) =>
+		thirdPartyProviderSubmitToken({
 			url: 'auth/google/callback',
-			id_token: token,
+			qParams,
 			options: {},
 		})
 			.then(({ err, data }) => {
-				if (err)
+				if (err) {
 					if (err.status === 400)
-						setThirdPAuthError('Missing or invalid auth token');
+						setThirdPAuthError(err.message ?? 'Missing or invalid auth token');
 					else setThirdPAuthError('Something went wrong');
-				else if (data)
+				} else if (data)
 					router.push(params.get(URL_SEARCH_PARAMS.redirect) ?? '/profile');
 			})
 			.catch((err) => console.log(err));
-	};
 
 	const { t } = useTranslation();
 
 	useEffect(() => {
-		if (authToken) handleThirdPartyAuth({ id_token: authToken });
+		if (authToken) handleThirdPartyAuth({ qParams: params.toString() });
 	}, []);
 
 	return authToken ? (
@@ -140,6 +139,16 @@ export const AuthScreen = () => {
 							{authError ? (
 								<div className='text-red-700 text-center w-fit mx-auto'>
 									<p>{authError}</p>
+								</div>
+							) : null}
+
+							{authToken ? (
+								<div className='flex flex-col gap-[20px] text-black w-full h-[calc(100dvh-220px)] items-center'>
+									{thirdPAuthError ? (
+										<div className='text-red-700 text-center w-fit mx-auto h-full'>
+											<p>{thirdPAuthError}</p>
+										</div>
+									) : null}
 								</div>
 							) : null}
 
