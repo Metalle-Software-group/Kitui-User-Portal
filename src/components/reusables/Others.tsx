@@ -8,7 +8,7 @@ import {
 	PlusIcon,
 } from 'lucide-react';
 
-import { ChangeEvent, Fragment, useRef, useState } from 'react';
+import { ChangeEvent, Fragment, Suspense, useRef, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import Image from 'next/image';
 
@@ -1126,216 +1126,220 @@ export const Profile = ({}: ProfilePropsTypes) => {
 	}
 
 	return (
-		<div className='shadow-profileBoxShadow bg-white gap-[4px] md:p-[28px] p-3 rounded-[20px]'>
-			<p className='text-title-text-color tracking-[-.5%] md:leading-[28px] md:text-[24px] font-bold'>
-				Profile details
-			</p>
+		<Suspense>
+			<div className='shadow-profileBoxShadow bg-white gap-[4px] md:p-[28px] p-3 rounded-[20px]'>
+				<p className='text-title-text-color tracking-[-.5%] md:leading-[28px] md:text-[24px] font-bold'>
+					Profile details
+				</p>
 
-			<p className='w-fit mx-auto text-red-700 font-normal text-[16px]'>
-				{errMessage}
-			</p>
+				<p className='w-fit mx-auto text-red-700 font-normal text-[16px]'>
+					{errMessage}
+				</p>
 
-			<div className='w-full h-fit flex gap-[40px] md:p-[28px] flex-wrap'>
-				<Form {...form} {...{}}>
-					<form
-						onSubmit={form.handleSubmit(onSubmit)}
-						className='w-full space-y-6'>
-						<div className='flex flex-wrap gap-[24px]'>
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name='username'
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('Name')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='Name' {...field} className='' />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+				<div className='w-full h-fit flex gap-[40px] md:p-[28px] flex-wrap'>
+					<Form {...form} {...{}}>
+						<form
+							onSubmit={form.handleSubmit(onSubmit)}
+							className='w-full space-y-6'>
+							<div className='flex flex-wrap gap-[24px]'>
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name='username'
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('Name')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='Name' {...field} className='' />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										{...{ disabled: true }}
+										name='email'
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('Email')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='Email address' {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 							</div>
 
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									{...{ disabled: true }}
-									name='email'
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('Email')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='Email address' {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
-						</div>
+							<div className='flex flex-wrap gap-[24px]'>
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name='phone_number'
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('Phone')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='Phone' {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 
-						<div className='flex flex-wrap gap-[24px]'>
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name='phone_number'
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('Phone')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='Phone' {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
-
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name={'id_number'}
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('ID Number')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='' {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
-						</div>
-
-						<div className='flex flex-wrap gap-[24px]'>
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name='gender'
-									render={({ field }) => (
-										<FormItem className='space-y-3'>
-											<FormLabel>{t('Gender')}</FormLabel>
-											<FormControl>
-												<RadioGroup
-													onValueChange={field.onChange}
-													defaultValue={field.value}
-													className='flex flex-col space-y-1'>
-													<FormItem className='flex items-center space-x-3 space-y-0'>
-														<FormControl>
-															<RadioGroupItem value='female' />
-														</FormControl>
-														<FormLabel className='font-normal'>
-															Female
-														</FormLabel>
-													</FormItem>
-
-													<FormItem className='flex items-center space-x-3 space-y-0'>
-														<FormControl>
-															<RadioGroupItem value='male' />
-														</FormControl>
-														<FormLabel className='font-normal'>Male</FormLabel>
-													</FormItem>
-												</RadioGroup>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
-						</div>
-
-						<div className='flex flex-wrap gap-[24px] my-[6px]'>
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name={'county'}
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('County of residence')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='e.g Kitui' {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
-						</div>
-
-						<div className='flex flex-wrap gap-[24px]'>
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name={'sub_county'}
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('Sub county')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='e.g Kibati' {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name={'id_number'}
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('ID Number')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='' {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 							</div>
 
-							<div className='flex-[1]'>
-								<FormField
-									control={form.control}
-									name={'location'}
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel className='text-title-text-color'>
-												{t('Location')}
-											</FormLabel>
-											<FormControl>
-												<Input placeholder='e.g Mwingi' {...field} />
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+							<div className='flex flex-wrap gap-[24px]'>
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name='gender'
+										render={({ field }) => (
+											<FormItem className='space-y-3'>
+												<FormLabel>{t('Gender')}</FormLabel>
+												<FormControl>
+													<RadioGroup
+														onValueChange={field.onChange}
+														defaultValue={field.value}
+														className='flex flex-col space-y-1'>
+														<FormItem className='flex items-center space-x-3 space-y-0'>
+															<FormControl>
+																<RadioGroupItem value='female' />
+															</FormControl>
+															<FormLabel className='font-normal'>
+																Female
+															</FormLabel>
+														</FormItem>
+
+														<FormItem className='flex items-center space-x-3 space-y-0'>
+															<FormControl>
+																<RadioGroupItem value='male' />
+															</FormControl>
+															<FormLabel className='font-normal'>
+																Male
+															</FormLabel>
+														</FormItem>
+													</RadioGroup>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 							</div>
-						</div>
 
-						<div className=''>
-							<p className='font-bold leading-[24px] text-[16px] text-textTitle'>
-								{t('Upload files *')}
-							</p>
+							<div className='flex flex-wrap gap-[24px] my-[6px]'>
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name={'county'}
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('County of residence')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='e.g Kitui' {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+							</div>
 
-							<UploadFileCard
-								{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
-							/>
-						</div>
+							<div className='flex flex-wrap gap-[24px]'>
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name={'sub_county'}
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('Sub county')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='e.g Kibati' {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 
-						<div className='w-full justify-center flex my-[8px] gap-[32px]'>
-							<Button
-								className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-fit items-center justify-center'
-								type='submit'
-								{...(loading ? { disabled: true } : {})}>
-								<p className='text-inherit'>
-									{t(loading ? 'Updating...' : 'Update details')}
+								<div className='flex-[1]'>
+									<FormField
+										control={form.control}
+										name={'location'}
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className='text-title-text-color'>
+													{t('Location')}
+												</FormLabel>
+												<FormControl>
+													<Input placeholder='e.g Mwingi' {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+							</div>
+
+							<div className=''>
+								<p className='font-bold leading-[24px] text-[16px] text-textTitle'>
+									{t('Upload files *')}
 								</p>
-							</Button>
-						</div>
-					</form>
-				</Form>
+
+								<UploadFileCard
+									{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
+								/>
+							</div>
+
+							<div className='w-full justify-center flex my-[8px] gap-[32px]'>
+								<Button
+									className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-fit items-center justify-center'
+									type='submit'
+									{...(loading ? { disabled: true } : {})}>
+									<p className='text-inherit'>
+										{t(loading ? 'Updating...' : 'Update details')}
+									</p>
+								</Button>
+							</div>
+						</form>
+					</Form>
+				</div>
 			</div>
-		</div>
+		</Suspense>
 	);
 };
 
