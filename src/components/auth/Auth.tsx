@@ -494,7 +494,7 @@ export const CreateEditUser = ({
 						title: 'Verify your account.',
 						sentiment: `Kindly check your email, ${form
 							.getValues('email')
-							.substring(0, 3)}******com for a verification code.`,
+							.substring(0, 3)}******com for an activation link.`,
 						link: {
 							text: 'Back To Home Page',
 							url: '/',

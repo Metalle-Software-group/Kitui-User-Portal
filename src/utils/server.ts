@@ -171,6 +171,15 @@ export const updateResourceEndpointData = async ({
 
 	return strapi
 		.axios({ url, method: 'PUT', data })
+		.then((res) => {
+			cookies().set(COOKIE_KEYS.user, JSON.stringify(res.data), {
+				httpOnly: false,
+				maxAge: 3600,
+				secure: true,
+				path: '/',
+			});
+			return data;
+		})
 		.then(({ data }) => ({ data, err: null }))
 		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
 			err: { message, status, details },

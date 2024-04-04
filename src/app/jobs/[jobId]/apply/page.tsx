@@ -22,14 +22,14 @@ import { getLocalStorageItem } from '@/utils';
 import { formatDistance } from 'date-fns';
 
 const ApplyJob = () => {
-	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
-	const pathname = usePathname();
-	const { t } = useTranslation();
-	const [job, setJob] = useState<TJob>();
 	const [errMessage, setErrMsg] = useState<string | null>(null);
+	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
 	const [successFull, setSuccessFull] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [url, setUrl] = useState<string[]>([]);
+	const [job, setJob] = useState<TJob>();
+	const pathname = usePathname();
+	const { t } = useTranslation();
 	const router = useRouter();
 
 	const handleDeleteItem = (file: File) =>

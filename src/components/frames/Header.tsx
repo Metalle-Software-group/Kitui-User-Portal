@@ -4,7 +4,12 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { COOKIE_KEYS, NavUrls } from '@/constants';
+import {
+	COOKIE_KEYS,
+	NavUrls,
+	PROFILE_TAB,
+	PROFILE_TAB_ENUM,
+} from '@/constants';
 import LanguageSelector from '../translation/LanguageSelect';
 import { useTranslation } from 'react-i18next';
 import { getCookie } from 'cookies-next';
@@ -42,7 +47,7 @@ export const Header = () => {
 									href:
 										url === '/auth/signin'
 											? userCookie
-												? '/profile'
+												? `/profile?=${PROFILE_TAB}=${PROFILE_TAB_ENUM.PROFILE}`
 												: url
 											: url,
 								}}>

@@ -86,7 +86,7 @@ export const CommentForm = ({
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
 
-				if (data) setChats((prev) => [...prev, res?.data]);
+				if (res?.data) setChats((prev) => [...prev, res?.data]);
 			})
 			.finally(() => setLoading(false));
 	}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { ApplicantsColumns, actionsColumn } from '@/components/table/Columns';
+import { ApplicantsColumns } from '@/components/table/Columns';
 import AlertDialogComponent from '@/components/reusables/AlertDialog';
 import { Slogan } from '@/components/reusables/Slogan';
 import { Alert } from '@/components/cards/Alert';
@@ -23,18 +23,6 @@ const ShortListedCandidatesPage = () => {
 	const updateFilter = getFilterUpdateFunction({ setFilters });
 	const [action, setAction] = useState<string | null>(null);
 	const { t } = useTranslation();
-
-	const ActionsHandlerMapping = [
-		{
-			label: 'Edit Job',
-			onChangeHandler: (value: string) => setAction(value),
-		},
-
-		{
-			label: 'Close Job',
-			onChangeHandler: (value: string) => setAction(value),
-		},
-	];
 
 	const { isLoading, isError, data } = useQuery({
 		queryFn: useQueryCustomWrapper<Application[]>,
@@ -108,10 +96,8 @@ const ShortListedCandidatesPage = () => {
 												/>
 											</div>
 										),
-										columns: [
-											...ApplicantsColumns,
-											actionsColumn({ ActionsHandlerMapping }),
-										],
+										columns: [...ApplicantsColumns],
+										searchColumn: 'position',
 										showPagination: true,
 										isSearchAtEnd: true,
 										data: data?.data ?? [],
