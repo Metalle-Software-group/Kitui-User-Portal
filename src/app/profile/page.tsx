@@ -8,6 +8,7 @@ import { ProfileIcon, WorkIcon } from '@/components/icons';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { PROFILE_TAB, PROFILE_TAB_ENUM } from '@/constants';
+import { Suspense } from 'react';
 
 const UserProfile = dynamic(
 	() => import('@/components/reusables/Others').then((mod) => mod.UserProfile),
@@ -115,7 +116,9 @@ export default function () {
 					</TabsContent>
 
 					<TabsContent value={PROFILE_TAB_ENUM.PROFILE}>
-						<Profile />
+						<Suspense>
+							<Profile />
+						</Suspense>
 					</TabsContent>
 				</Tabs>
 			</div>
