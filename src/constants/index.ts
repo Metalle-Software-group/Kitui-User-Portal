@@ -337,3 +337,9 @@ export const currentlySelectedJobKey = 'current_job';
 
 export const BACKEND_BASE_URL = 'https://kitui-jobs-portal.up.railway.app';
 export const THIRD_PARTY_TOKEN_NAME = 'id_token';
+
+export enum PROFILE_TAB_ENUM {
+	'MY_JOBS' = 'myjobs',
+	'PROFILE' = 'profile',
+}
+export const PROFILE_TAB = 'active';

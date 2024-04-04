@@ -3,35 +3,19 @@
 import { useRouter } from 'next/navigation';
 import { formatDistance } from 'date-fns';
 
+import { ArrowRight } from 'lucide-react';
 import { TJob } from '@/types/types';
+import { MessageIcon } from '../icons';
 import {
 	JobMinistryTag,
 	JobType,
-	Loader,
 	LocationLabel,
 	TimeLimitLabel,
 } from '../reusables/Others';
-import { MessageIcon } from '../icons';
-import dynamic from 'next/dynamic';
-import { ArrowRight } from 'lucide-react';
-
-const RichTexEditor = dynamic(() => import('@/components/editor/RichText'), {
-	ssr: false,
-	loading: () => (
-		<div className='dark:text-white w-[98%] h-[70px] selection:bg-inherit rounded-[12px] bg-sidebar-bg-light dark:bg-sidebar-bg text-body-bg dark:text-foundation flex items-center justify-self-center py-[10px] ml-4 mr-2'>
-			<Loader
-				{...{
-					title: 'Loading...',
-				}}
-			/>
-		</div>
-	),
-});
 
 export const FindJobsCard = ({
-	description,
+	application_end,
 	about_job,
-	createdAt,
 	comments,
 	job_type,
 	location,
@@ -78,8 +62,8 @@ export const FindJobsCard = ({
 					<TimeLimitLabel
 						{...{
 							name: formatDistance(
+								application_end ? new Date(application_end) : new Date(),
 								new Date(),
-								createdAt ? new Date(createdAt) : new Date(),
 								{ addSuffix: true }
 							),
 						}}

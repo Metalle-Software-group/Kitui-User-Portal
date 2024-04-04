@@ -6,6 +6,8 @@ import { Loader } from '@/components/reusables/Others';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProfileIcon, WorkIcon } from '@/components/icons';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import { PROFILE_TAB, PROFILE_TAB_ENUM } from '@/constants';
 
 const UserProfile = dynamic(
 	() => import('@/components/reusables/Others').then((mod) => mod.UserProfile),
@@ -44,8 +46,9 @@ const MyApplications = dynamic(
 	}
 );
 
-const ProfilePage = () => {
+export default function () {
 	const { t } = useTranslation();
+	const params = useSearchParams();
 
 	return (
 		<div className='md:mx-[50px] md:my-[85px] flex flex-col gap-[40px] md:px-[16px] md:py-[24px] px-[20px] pt-[20px] pb-[20px]'>
@@ -61,10 +64,16 @@ const ProfilePage = () => {
 			<UserProfile />
 
 			<div className='md:p-[20px] md:py-[16px] mx-auto shadow-applicantBoxDetailsShadow rounded-[8px] w-full'>
-				<Tabs defaultValue='my_applications' className='w-full'>
+				<Tabs
+					defaultValue={
+						params.get(PROFILE_TAB) === PROFILE_TAB_ENUM.MY_JOBS
+							? PROFILE_TAB_ENUM.MY_JOBS
+							: PROFILE_TAB_ENUM.PROFILE
+					}
+					className='w-full'>
 					<TabsList className='border-b-[1px] md:px-[8px] h-[52px] w-full justify-start gap-[10px]'>
 						<TabsTrigger
-							value='my_applications'
+							value={PROFILE_TAB_ENUM.MY_JOBS}
 							className='flex flex-col gap-[4px]'>
 							<WorkIcon
 								{...{
@@ -83,7 +92,7 @@ const ProfilePage = () => {
 						</TabsTrigger>
 
 						<TabsTrigger
-							value='profile_info'
+							value={PROFILE_TAB_ENUM.PROFILE}
 							className='flex flex-col gap-[4px]'>
 							<ProfileIcon
 								{...{
@@ -101,17 +110,15 @@ const ProfilePage = () => {
 						</TabsTrigger>
 					</TabsList>
 
-					<TabsContent value='my_applications'>
+					<TabsContent value={PROFILE_TAB_ENUM.MY_JOBS}>
 						<MyApplications />
 					</TabsContent>
 
-					<TabsContent value='profile_info'>
+					<TabsContent value={PROFILE_TAB_ENUM.PROFILE}>
 						<Profile />
 					</TabsContent>
 				</Tabs>
 			</div>
 		</div>
 	);
-};
-
-export default ProfilePage;
+}

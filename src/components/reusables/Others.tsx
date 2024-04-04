@@ -54,8 +54,8 @@ import {
 	TJobTypes,
 	TSinglePageProps,
 	TCommentType,
-	TDataApplyJobORUpdateProfile,
 	TSuccessProps,
+	JobStatusEnum,
 } from '@/types/types';
 import { Checkbox } from '../ui/checkbox';
 import {
@@ -152,11 +152,7 @@ export const TimeLimitLabel = ({
 				svgElementClassName: 'stroke-gray-body-text',
 			}}
 		/>
-		<p className='text-time-color'>
-			{`${name} ${parseInt(name) < 0 ? 'Closed' : ''}${
-				parseInt(name) === 0 ? 'Closes today' : ''
-			}`}
-		</p>
+		<p className='text-time-color'>{name}</p>
 	</div>
 );
 
@@ -997,7 +993,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 
 	const uploadFilesSequentially = async (
 		files: File[],
-		data2: TDataApplyJobORUpdateProfile,
+		data2: z.infer<typeof FormSchema>,
 		index = 0
 	) => {
 		if (index >= files.length) return;
@@ -1016,7 +1012,6 @@ export const Profile = ({}: ProfilePropsTypes) => {
 		setLoading(true);
 		uploadResourceEndpointData({ url: 'upload', data: frmData })
 			.then((res) => {
-				console.log(res);
 				setUrl((prevState) => [...prevState, res.data[0].url]);
 				uploadFilesSequentially(files, data2, index + 1);
 			})
@@ -1026,15 +1021,11 @@ export const Profile = ({}: ProfilePropsTypes) => {
 			});
 	};
 
-	const handleApply = async (data: TDataApplyJobORUpdateProfile) => {
-		await uploadFilesSequentially(selectedFiles, data).then(() => {
-			// UploadDetails(data);
-		});
-	};
-
 	const userCookie = getCookie(COOKIE_KEYS.user);
 
-	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
+	const [userInfo, setUserInfo] = useState<TUSER | null>(
+		userCookie ? JSON.parse(userCookie) : null
+	);
 
 	const FormSchema = z.object({
 		username: z
@@ -1105,27 +1096,33 @@ export const Profile = ({}: ProfilePropsTypes) => {
 
 	function onSubmit(data: z.infer<typeof FormSchema>) {
 		setLoading(true);
-		updateResourceEndpointData({ data, url: `users/${userInfo?.id}` })
-			.then(({ data: res, err }) => {
-				if (err) {
-					if (err.status === 400)
-						err.details.errors.map(({ path: [field_name], message, name }) =>
-							//@ts-ignore
-							form.setError(field_name, {
-								message: message.replace(field_name, 'This field '),
-							})
-						);
-					else if (err.status === 401)
-						router.push(
-							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
-						);
-					else if (err.status === 403) setErrMsg('Permission denied');
-					else setErrMsg('Something went wrong');
-				} else {
-					console.log(res);
-				}
-			})
-			.finally(() => setLoading(false));
+
+		uploadFilesSequentially(selectedFiles, data).then(() => {
+			updateResourceEndpointData({ data, url: `users/${userInfo?.id}` })
+				.then(({ data: res, err }) => {
+					if (err) {
+						if (err.status === 400)
+							err.details.errors.map(({ path: [field_name], message, name }) =>
+								//@ts-ignore
+								form.setError(field_name, {
+									message: message.replace(field_name, 'This field '),
+								})
+							);
+						else if (err.status === 401)
+							router.push(
+								`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(
+									pathname
+								)}`
+							);
+						else if (err.status === 403) setErrMsg('Permission denied');
+						else setErrMsg('Something went wrong');
+					}
+
+					if (res) setUserInfo(res);
+				})
+				.catch(console.log)
+				.finally(() => setLoading(false));
+		});
 	}
 
 	return (
@@ -1165,6 +1162,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 							<div className='flex-[1]'>
 								<FormField
 									control={form.control}
+									{...{ disabled: true }}
 									name='email'
 									render={({ field }) => (
 										<FormItem>
@@ -1312,6 +1310,16 @@ export const Profile = ({}: ProfilePropsTypes) => {
 									)}
 								/>
 							</div>
+						</div>
+
+						<div className=''>
+							<p className='font-bold leading-[24px] text-[16px] text-textTitle'>
+								{t('Upload files *')}
+							</p>
+
+							<UploadFileCard
+								{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
+							/>
 						</div>
 
 						<div className='w-full justify-center flex my-[8px] gap-[32px]'>
@@ -1703,6 +1711,7 @@ export const FeaturedJobs = () => {
 
 export const JobContainer = () => {
 	const params = useSearchParams();
+	const router = useRouter();
 
 	const [filters, setFilters] = useState<TFilterTypes>({
 		...initialFilterState,
@@ -1761,6 +1770,7 @@ export const JobContainer = () => {
 										},
 								  ]
 								: []),
+							...[{ status: JobStatusEnum.Open }],
 						],
 					},
 				},
@@ -2057,10 +2067,10 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							location: data?.data.location ?? '',
 							title: data?.data?.title ?? '',
 							datePosted: formatDistance(
-								new Date(),
 								data?.data?.application_end
 									? new Date(data.data?.application_end)
 									: new Date(),
+								new Date(),
 								{ addSuffix: true }
 							),
 							slogan: t(
@@ -2220,7 +2230,7 @@ export const VerificationCodeCard = ({
 				</div>
 			</div>
 
-			<div className='flex flex-col gap-[4px]'>
+			{/* <div className='flex flex-col gap-[4px]'>
 				<p className='text-[16px] leading-[24px] font-bold text-textTitle'>
 					Verification code*
 				</p>
@@ -2230,7 +2240,9 @@ export const VerificationCodeCard = ({
 					className='border border-gray-300 px-[12px] py-[14px] rounded-[6px] text-black'
 					onChange={(e) => {}}
 				/>
-			</div>
+			</div> */}
 		</div>
 	);
 };
+
+export const data = '';
