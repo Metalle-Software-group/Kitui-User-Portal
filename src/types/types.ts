@@ -261,13 +261,15 @@ export type TMinistry = {
 export type TUSER = {
 	phone_number: null | string;
 	ministry?: TMinistry;
-	confirmed: boolean;
 	accessType: string;
 	gender: null | string;
-	username: string;
-	staff_role: Role;
+	confirmed: boolean;
+	firstname: string;
 	createdAt: Date;
 	updatedAt: Date;
+	username: string;
+	staff_role: Role;
+	lastname: string;
 	blocked: boolean;
 	provider: string;
 	sub_county: null;
