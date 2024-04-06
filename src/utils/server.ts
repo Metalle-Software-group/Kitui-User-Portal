@@ -181,10 +181,20 @@ export const updateResourceEndpointData = async ({
 			return data;
 		})
 		.then(({ data }) => ({ data, err: null }))
-		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
-			err: { message, status, details },
-			data: null,
-		}));
+		.catch(
+			({
+				response: {
+					data: {
+						error: { message, details, status },
+					},
+				},
+			}: {
+				response: { data: SERVER_ERROR };
+			}) => ({
+				err: { message, status, details },
+				data: null,
+			})
+		);
 };
 
 export const uploadResourceEndpointData = async ({

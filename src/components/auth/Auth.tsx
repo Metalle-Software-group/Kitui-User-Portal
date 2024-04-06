@@ -423,6 +423,14 @@ export const CreateEditUser = ({
 		username: z.string().min(2, {
 			message: 'Name must be at least 2 characters.',
 		}),
+
+		firstname: z.string().min(2, {
+			message: 'First name must be at least 2 characters.',
+		}),
+		lastname: z.string().min(2, {
+			message: 'Last name must be at least 2 characters.',
+		}),
+
 		phone_number: z.string().min(2, {
 			message: 'Phone number must be at least 2 characters.',
 		}),
@@ -454,6 +462,8 @@ export const CreateEditUser = ({
 		defaultValues: {
 			phone_number: '',
 			sub_county: '',
+			firstname: '',
+			lastname: '',
 			id_number: '',
 			username: '',
 			location: '',
@@ -521,6 +531,47 @@ export const CreateEditUser = ({
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
 								className='w-full space-y-6'>
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name={'firstname'}
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-title-text-color'>
+														{t('First name')}
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='First name'
+															{...field}
+															className=''
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name={'lastname'}
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-title-text-color'>
+														{t('Last name')}
+													</FormLabel>
+													<FormControl>
+														<Input placeholder='Last name' {...field} />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
 								<div className='flex flex-wrap gap-[24px]'>
 									<div className='flex-[1]'>
 										<FormField
