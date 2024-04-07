@@ -1123,7 +1123,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 		setLoading(true);
 
 		uploadFilesSequentially(selectedFiles, data).then(() => {
-			updateResourceEndpointData({ data, url: `auth/update` })
+			updateResourceEndpointData({ data, url: `auth/users` })
 				.then(({ data: res, err }) => {
 					if (err) {
 						if (err.status === 400)
