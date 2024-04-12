@@ -251,11 +251,12 @@ export type TApiHandlerProps = {
 };
 
 export type TMinistry = {
-	id: number;
-	name: string;
+	publishedAt: Date;
 	createdAt: Date;
 	updatedAt: Date;
-	publishedAt: Date;
+	name: string;
+	icon: Media;
+	id: number;
 };
 
 export type TUSER = {
@@ -358,28 +359,26 @@ export interface MediaFormat {
 
 export type Media = {
 	id: number;
-	attributes: {
-		formats: {
-			thumbnail: MediaFormat;
-			small: MediaFormat;
-			medium: MediaFormat;
-			large: MediaFormat;
-		};
-		alternativeText: string;
-		previewUrl: string;
-		updatedAt: Date;
-		createdAt: Date;
-		provider: string;
-		caption: string;
-		height: number;
-		width: number;
-		name: string;
-		size: number;
-		mime: string;
-		hash: string;
-		ext: string;
-		url: string;
+	formats: {
+		thumbnail: MediaFormat;
+		small: MediaFormat;
+		medium: MediaFormat;
+		large: MediaFormat;
 	};
+	alternativeText: string;
+	previewUrl: string;
+	updatedAt: Date;
+	createdAt: Date;
+	provider: string;
+	caption: string;
+	height: number;
+	width: number;
+	name: string;
+	size: number;
+	mime: string;
+	hash: string;
+	ext: string;
+	url: string;
 };
 
 export type TCommentType = {

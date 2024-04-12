@@ -6,10 +6,12 @@ import { cookies } from 'next/headers';
 
 import { BACKEND_BASE_URL, COOKIE_KEYS } from '@/constants';
 import {
+	Details,
 	SERVER_ERROR,
 	StrapiAuthenticationData,
 	TApiHandlerProps,
 	TAuthScreenProps,
+	TError,
 } from '@/types/types';
 
 export const getCookie = ({ name }: { name: string }) => {
@@ -24,10 +26,10 @@ export const getCookieAsync = async ({ name }: { name: string }) => {
 	return cookieStore.get(name)?.value;
 };
 
-export const getStrapiConfiguredInstance = async (
+export const getStrapiConfiguredInstance = (
 	props: Partial<StrapiOptions> = {}
 ) => {
-	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
+	const auth = getCookieAsync({ name: COOKIE_KEYS.auth });
 
 	return new Strapi({
 		url: BACKEND_BASE_URL,
@@ -172,6 +174,7 @@ export const updateResourceEndpointData = async ({
 	return strapi
 		.axios({ url, method: 'PUT', data })
 		.then((res) => {
+			console.log(res);
 			cookies().set(COOKIE_KEYS.user, JSON.stringify(res.data), {
 				httpOnly: false,
 				maxAge: 3600,
@@ -217,3 +220,18 @@ export const uploadResourceEndpointData = async ({
 			data: null,
 		}));
 };
+
+export const ResetPasswordHandler = ({ data, url }: TApiHandlerProps) =>
+	getStrapiConfiguredInstance()
+		.axios({ method: 'POST', data, url })
+		.then(({ data }) => ({ data, err: null }))
+		.catch(
+			({
+				response: { status, data, message },
+			}: {
+				response: TError & { data: Details };
+			}) => ({
+				err: { status, details: data, message },
+				data: null,
+			})
+		);
