@@ -9,16 +9,14 @@ import {
 	FeaturedJobs,
 } from '@/components/reusables/Others';
 
-import {
-	ExploreCategoryCards,
-	HowItWorksSteps,
-	initialFilterState,
-} from '@/constants';
-import { TFilterTypes } from '@/types/types';
+import { HowItWorksSteps, initialFilterState } from '@/constants';
+import { TFilterTypes, TMinistry } from '@/types/types';
 import { useState } from 'react';
-import { getFilterUpdateFunction } from '@/utils';
+import { getFilterUpdateFunction, useQueryCustomWrapper } from '@/utils';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
+import { useQuery } from 'react-query';
+import { fetchEndpointData } from '@/utils/server';
 
 // export const metadata: Metadata = { title: 'Home' };
 
@@ -27,6 +25,24 @@ export default function () {
 	const updateFilter = getFilterUpdateFunction({ setFilters });
 	const { t } = useTranslation();
 	const router = useRouter();
+
+	const {
+		isLoading: isMinistryLoading,
+		isError: isMinistryError,
+		data: ministries,
+	} = useQuery({
+		queryFn: useQueryCustomWrapper<TMinistry[]>,
+		queryKey: [
+			`ministry-data`,
+			{
+				url: `ministries`,
+				qFunc: fetchEndpointData,
+				options: {
+					fields: ['name'],
+				},
+			},
+		],
+	});
 
 	return (
 		// 1440px -> px-[100px], 1300px below px-[80px], px-[16px]->686px and below
@@ -90,7 +106,7 @@ export default function () {
 				</div>
 
 				<div className='grid grid-cols-1 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
-					{ExploreCategoryCards.map((category, index) => (
+					{ministries?.data.map((category, index) => (
 						<div key={index}>
 							<DepartmentCard {...category} />
 						</div>
