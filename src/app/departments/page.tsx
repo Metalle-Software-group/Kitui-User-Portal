@@ -2,7 +2,6 @@
 
 import { Alert } from '@/components/cards/Alert';
 import { DepartmentCard, Loader } from '@/components/reusables/Others';
-import { ExploreCategoryCards } from '@/constants';
 import { TMinistry } from '@/types/types';
 import { useQueryCustomWrapper } from '@/utils';
 import { fetchEndpointData } from '@/utils/server';
@@ -27,8 +26,6 @@ export default function () {
 			},
 		],
 	});
-
-	console.log(ministries);
 
 	const { t } = useTranslation();
 	return (
@@ -61,14 +58,7 @@ export default function () {
 					</div>
 				) : (
 					<>
-						{ExploreCategoryCards.filter((category) =>
-							ministries?.data?.some((ministry) =>
-								category.title
-									.toLowerCase()
-									.trim()
-									.includes(ministry.name.toLowerCase().trim())
-							)
-						).map((category, index) => (
+						{ministries?.data.map((category, index) => (
 							<div key={index}>
 								<DepartmentCard {...category} />
 							</div>

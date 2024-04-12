@@ -33,7 +33,6 @@ import {
 	TDropdownCustomComponent,
 	THowItWorksCardProps,
 	TComponentBasicProps,
-	TDepartmentCardProps,
 	JobDescriptionTypes,
 	TComponentsType,
 	FilterJobsTypes,
@@ -257,35 +256,30 @@ export const Loader = ({
 	align?: string;
 }) => <div className={`w-full h-full flex ${align} items-center`}>{title}</div>;
 
-export const DepartmentCard = ({
-	subtitle,
-	Icon,
-	title,
-}: TDepartmentCardProps) => (
-	<div className='md:w-[265px] md:h-[202px] gap-[24px] rounded-[20px] md:p-[20px] border border-gray-300 flex flex-col items-center justify-around'>
-		<div className=''>
-			{Icon ? (
-				<Icon
-					{...{
-						styles: {
-							width: '61px',
-							height: '60px',
-						},
-						svgElementClassName: 'fill-main-Green',
-					}}
-				/>
-			) : null}
+export const DepartmentCard = ({ name, icon, id }: TMinistry) => {
+	return (
+		<div className='h-[84px] min-w-[286px] flex-grow gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
+			<div className='flex-[1]'>
+				{icon ? (
+					<img
+						src={icon.url}
+						alt={icon.alternativeText}
+						className='w-full h-auto'
+					/>
+				) : null}
+			</div>
+
+			<div className='flex flex-col gap-[6px] flex-[8]'>
+				<p className='font-bold leading-[24px] tracking-[.5%] text-[20px] text-title-text-color'>
+					{name}
+				</p>
+				<p className='font-normal leading-[24px] text-gray-body-text text-[14px]'>
+					{id} open position
+				</p>
+			</div>
 		</div>
-		<div className='flex flex-col gap-[6px]'>
-			<p className='font-bold text-center leading-[15px] md:leading-[28px] md:text-[20px] text-title-text-color'>
-				{title}
-			</p>
-			<p className='font-normal leading-[24px] text-gray-body-text text-center text-[16px]'>
-				{subtitle}
-			</p>
-		</div>
-	</div>
-);
+	);
+};
 
 export const Comment = () => {
 	return (
@@ -1123,7 +1117,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 		setLoading(true);
 
 		uploadFilesSequentially(selectedFiles, data).then(() => {
-			updateResourceEndpointData({ data, url: `auth/users` })
+			updateResourceEndpointData({ data: { ...data, url }, url: `auth/users` })
 				.then(({ data: res, err }) => {
 					if (err) {
 						if (err.status === 400)
@@ -2287,7 +2281,7 @@ export const VerificationCodeCard = ({
 	title,
 }: Exclude<TSuccessProps, 'link'>) => {
 	return (
-		<div className='flex flex-col rounded-[20px] p-[40px] gap-[32px] bg-white shaow-page404Shadow w-6/12'>
+		<div className='flex flex-col rounded-[20px] gap-[32px] w-6/12'>
 			<div className='w-full aspect-auto flex justify-center'>
 				<img
 					src={`${BASE_ASSET_URL}/others/email-verified.svg`}

@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import {
 	AuthenticateUser,
+	ResetPasswordHandler,
 	createResourceEndpointData,
 	thirdPartyProviderSubmitToken,
 } from '@/utils/server';
@@ -31,11 +32,7 @@ import {
 	THIRD_PARTY_TOKEN_NAME,
 	URL_SEARCH_PARAMS,
 } from '@/constants';
-import {
-	Loader,
-	UploadFileCard,
-	VerificationCodeCard,
-} from '../reusables/Others';
+import { Loader, VerificationCodeCard } from '../reusables/Others';
 
 export const AuthScreen = () => {
 	const [authLoading, setAuthLoading] = useState<boolean>(false);
@@ -101,7 +98,14 @@ export const AuthScreen = () => {
 	}, []);
 
 	return authToken ? (
-		<div className='flex flex-col gap-[20px] text-black w-full h-[calc(100dvh-220px)] items-center'>
+		<div className='py-[20px] mx-auto flex flex-col gap-[24px] justify-center items-center w-fit h-[calc(100dvh-220px)]'>
+			<div className='w-fit flex items-center justify-center'>
+				<img
+					src={'/images/logo/logo.png'}
+					className='w-[100px] h-[100px]'
+					alt='Logo'
+				/>
+			</div>
 			{thirdPAuthError ? (
 				<div className='text-red-700 text-center w-fit mx-auto h-full'>
 					<p>{thirdPAuthError}</p>
@@ -111,7 +115,7 @@ export const AuthScreen = () => {
 			)}
 		</div>
 	) : (
-		<div className='py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shaow-page404Shadow w-12/12 md:w-7/12'>
+		<div className='py-[20px] mx-auto flex flex-col gap-[24px] justify-center items-center w-fit h-full'>
 			<div className='w-fit flex items-center justify-center'>
 				<img
 					src={'/images/logo/logo.png'}
@@ -120,12 +124,12 @@ export const AuthScreen = () => {
 				/>
 			</div>
 
-			<div className='w-full flex gap-[40px] p-[28px] flex-wrap justify-center items-center'>
+			<div className='w-full flex gap-[40px] p-[32px] flex-wrap justify-center items-center flex-col rounded-[16px] bg-white shadow-page404Shadow'>
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
 						className='w-full space-y-6 flex items-center justify-center'>
-						<div className='flex flex-col gap-[24px] px-[32px] w-[450px]'>
+						<div className='flex flex-col gap-[24px] px-[32px] w-fit'>
 							{/* form header  */}
 							<div className='flex gap-[12px] flex-col'>
 								<p className='font-bold text-[30px] leading-[36px] tracking-[.75%] text-title-text-color'>
@@ -209,7 +213,7 @@ export const AuthScreen = () => {
 								</div>
 								<div className='w-fit'>
 									<Link
-										href={'/'}
+										href={'/auth/reset-password'}
 										className='text-[14px] font-bold leading-[20px] text-purple-800'>
 										{t('Forgot password')}
 									</Link>
@@ -261,140 +265,6 @@ export const AuthScreen = () => {
 	);
 };
 
-export const Registration = () => {
-	return (
-		<form className='flex flex-col w-full h-auto rounded-[20px] space-y-[32px] justify-center items-center'>
-			<p className='font-bold text-[30px] leading-[36px] text-textTitle'>
-				Create an account
-			</p>
-			<p className='font-normal text-[16px] leading-[24px] text-bodyText'>
-				Please complete the form below to create your job profile
-			</p>
-			<div className='w-full h-[630px]'>
-				<div className='grid grid-cols-2 space-y-[32px]'>
-					<div>
-						<label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-							Name *
-						</label>
-						<input
-							className='w-fit rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-							placeholder='Jane Pendo'
-							type='text'
-							required
-						/>
-					</div>
-					<div>
-						<label className='font-bold text-[16px] leading-[24px] text-textTitle'>
-							Email *
-						</label>
-						<input
-							type='email'
-							required
-							placeholder='e.g jane@gmail.com'
-							className='w-fit rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-						/>
-					</div>
-					<div>
-						<label className='font-bold text-[16px] leading-[24px] text-textTitle'>
-							Phone Number *
-						</label>
-						<input
-							type='number'
-							placeholder='0712345678'
-							min={10}
-							max={10}
-							required
-							className='w-fit rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-						/>
-					</div>
-					<div>
-						<label className='font-bold text-[16px] leading-[24px] text-textTitle'>
-							ID Number *
-						</label>
-						<input
-							type='text'
-							required
-							className='w-fit rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-						/>
-					</div>
-				</div>
-				<div>
-					<label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-						Gender *
-					</label>
-					<div className='space-y-3'>
-						<input
-							type='radio'
-							value='male'
-							checked={true}
-							className='focus:ring-purple-500'
-						/>
-						<input
-							type='radio'
-							value='female'
-							className='focus:ring-purple-500'
-						/>
-					</div>
-				</div>
-				<div>
-					<label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-						County Of Residence *
-					</label>
-					<input
-						type='text'
-						required
-						placeholder='e.g Kitui'
-						className='w-full rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-					/>
-				</div>
-				<div className='grid grid-cols-2'>
-					<div>
-						<label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-							Sub County *
-						</label>
-						<input
-							type='text'
-							required
-							placeholder='e.g Kitui-West'
-							className='w-[350px] rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-						/>
-					</div>
-					<div>
-						<label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-							Location *
-						</label>
-						<input
-							type='text'
-							required
-							placeholder='e.g Kabati'
-							className='w-[350px] rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-						/>
-					</div>
-				</div>
-				<div>
-					<label className='font-[700] text-[16px] leading-[24px] text-textTitle'>
-						Upload Files *
-					</label>
-					<input
-						type='file'
-						required
-						placeholder='e.g Kitui-West'
-						className='w-[350px] rounded-[6px] border border-[#D1D5DB] px-[12px] py-[14px] bg-bodyBg'
-					/>
-					<label className='font-bold text-[16px] leading-[24px] text-search-iconColor'>
-						Kindly attach the following files: Resumes, cover letter.
-					</label>
-				</div>
-				<button className='flex w-full h-[40px] rounded-[8px] bg-mainGreen border justify-center items-center'>
-					<p className='text-white font-[600] text-[14px] leading-[20px] '>
-						Register
-					</p>
-				</button>
-			</div>
-		</form>
-	);
-};
-
 export const CreateEditUser = ({
 	successBtn,
 	subtitle,
@@ -403,19 +273,12 @@ export const CreateEditUser = ({
 	TCreateEditJobProps,
 	'ministries' | 'jobTypes' | 'successBtn' | 'title'
 > & { subtitle: string }) => {
+	const [agreeToTAndCs, setAgreeToTAndCs] = useState<boolean>(false);
 	const [errMessage, setErrMsg] = useState<string | null>(null);
-	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
 	const [successFull, setSuccessFull] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const { t } = useTranslation();
 	const router = useRouter();
-
-	const handleDeleteItem = (file: File) =>
-		setSelectedFile(
-			selectedFiles.filter((currItem) => {
-				return currItem !== file;
-			})
-		);
 
 	const pathname = usePathname();
 
@@ -497,7 +360,7 @@ export const CreateEditUser = ({
 	}
 
 	return (
-		<div className=' h-fit py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shaow-page404Shadow w-7/12'>
+		<div className=' h-fit py-[20px] rounded-[20px] mx-auto flex flex-col gap-[40px] justify-center items-center bg-white shadow-page404Shadow px-[40px]'>
 			{successFull ? (
 				<VerificationCodeCard
 					{...{
@@ -512,7 +375,7 @@ export const CreateEditUser = ({
 					}}
 				/>
 			) : (
-				<div className='gap-[4px] rounded-[20px] w-[80%]'>
+				<div className='gap-[4px] rounded-[20px] w-fit'>
 					<div className='flex flex-col gap-[14px] items-center justify-center my-[16px]'>
 						<p className='font-bold text-[30px] leading-[36px] tracking-[-.75%] text-title-text-color w-fit'>
 							{title}
@@ -530,7 +393,7 @@ export const CreateEditUser = ({
 						<Form {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
-								className='w-full space-y-6'>
+								className='w-fit space-y-6'>
 								<div className='flex flex-wrap gap-[24px]'>
 									<div className='flex-[1]'>
 										<FormField
@@ -545,7 +408,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='First name'
 															{...field}
-															className=''
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color  text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -564,7 +427,11 @@ export const CreateEditUser = ({
 														{t('Last name')}
 													</FormLabel>
 													<FormControl>
-														<Input placeholder='Last name' {...field} />
+														<Input
+															placeholder='Last name'
+															{...field}
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-black leading-[24px] text-[14px] font-normal flex items-center'
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>
@@ -586,7 +453,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='Name'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -608,7 +475,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='Email address'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -632,7 +499,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='Phone'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -654,7 +521,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='3401...'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -719,7 +586,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='e.g Kitui'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -743,7 +610,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='e.g Kitui West'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -765,7 +632,7 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='e.g Kabati'
 															{...field}
-															className='text-bodyText font-medium text-[14px]'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
 													<FormMessage />
@@ -775,19 +642,26 @@ export const CreateEditUser = ({
 									</div>
 								</div>
 
-								<div className='flex flex-wrap gap-[24px]'>
-									<div className='flex-[1]'>
-										<p className='font-bold leading-[24px] text-[16px] text-textTitle'>
-											{t('Upload files *')}
-										</p>
-
-										<UploadFileCard
-											{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
+								<div className='flex items-center justify-start'>
+									<div className='flex gap-[8px] items-center'>
+										<Checkbox
+											id='t&C'
+											{...{
+												checked: agreeToTAndCs,
+												onCheckedChange: (checked) =>
+													setAgreeToTAndCs(checked === true ? true : false),
+											}}
 										/>
-
-										<p className='font-normal text-[14px] leading-[24px] text-gray-400'>
-											Kindly attach the following files: Resume, cover letter
-										</p>
+										<label
+											htmlFor='t&C'
+											className='font-medium text-[14px] leading-[20px] text-filter-stroke-color selection:bg-inherit'>
+											I agree to the{' '}
+											<Link
+												href={'/terms-and-conditions'}
+												className='text-[14px] font-bold leading-[20px] text-purple-800'>
+												terms & conditions
+											</Link>
+										</label>
 									</div>
 								</div>
 
@@ -796,12 +670,21 @@ export const CreateEditUser = ({
 										className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[40px] py-[12px] gap-[8px] shadow-btnBoxShadow w-full items-center justify-center'
 										type='submit'
 										{...{
-											disabled: loading,
+											disabled: loading || !agreeToTAndCs,
 										}}>
 										<p className='text-inherit leading-[20px] text-[14px] font-semibold'>
 											{loading ? 'Submitting...' : successBtn.text}
 										</p>
 									</Button>
+								</div>
+
+								<div className='w-fit flex text-black items-center gap-[4px]'>
+									Have an account?
+									<Link
+										href={'/auth/signin'}
+										className='text-[14px] font-bold leading-[20px] text-purple-800'>
+										Signin instead
+									</Link>
 								</div>
 							</form>
 						</Form>
@@ -825,6 +708,137 @@ export const CreateUser = () => {
 					},
 				}}
 			/>
+		</div>
+	);
+};
+
+export const ResetPassword = () => {
+	const [authLoading, setAuthLoading] = useState<boolean>(false);
+	const [authError, setAuthError] = useState<string | null>(null);
+	const [success, setSuccess] = useState('');
+
+	const FormSchema = z.object({
+		email: z
+			.string()
+			.email({ message: 'Email field must contain a valid email' }),
+	});
+
+	const form = useForm<z.infer<typeof FormSchema>>({
+		resolver: zodResolver(FormSchema),
+		defaultValues: {
+			email: '',
+		},
+	});
+
+	function onSubmit(data: z.infer<typeof FormSchema>) {
+		setAuthLoading(true);
+		setAuthError('');
+
+		ResetPasswordHandler({
+			url: 'auth/forgot-password',
+			data,
+		})
+			.then(({ data: res, err }) => {
+				if (err)
+					if (err.status === 400)
+						err.details.errors.map(({ message }) =>
+							form.setError('email', {
+								message,
+							})
+						);
+					else setAuthError('Something went wrong');
+				if (data) setSuccess('Check your email for the reset password link');
+			})
+			.finally(() => setAuthLoading(false));
+	}
+
+	return (
+		<div className='mx-auto flex flex-col gap-[24px] justify-center items-center w-fit h-full'>
+			<div className='w-fit flex items-center justify-center'>
+				<img
+					src={'/images/logo/logo.png'}
+					className='w-[100px] h-[100px]'
+					alt='Logo'
+				/>
+			</div>
+
+			<div className='w-full flex gap-[40px] p-[32px] flex-wrap justify-center items-center flex-col rounded-[16px] bg-white shadow-page404Shadow max-w-[514px]'>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className='w-full space-y-6 flex items-center justify-center'>
+						<div className='flex flex-col gap-[24px] px-[32px] w-fit'>
+							{/* form header  */}
+							<div className='flex gap-[12px] flex-col'>
+								<p className='font-bold text-[30px] leading-[36px] tracking-[.75%] text-title-text-color'>
+									Reset your password
+								</p>
+								<p className='text-gray-body-text leading-[24px] text-[16px] font-normal text-wrap'>
+									Enter your email address and we will send you a link to reset
+									your password.
+								</p>
+							</div>
+
+							<div className='flex flex-col gap-[24px] px-[16px] w-fit'>
+								{authError ? (
+									<div className='text-red-700 text-center w-fit mx-auto'>
+										<p>{authError}</p>
+									</div>
+								) : null}
+								{success ? (
+									<div className='text-green-700 text-center w-fit mx-auto'>
+										<p>{success}</p>
+									</div>
+								) : null}
+							</div>
+
+							<div className='flex-[1]'>
+								<FormField
+									control={form.control}
+									name='email'
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel className='text-title-text-color'>
+												Email
+											</FormLabel>
+											<FormControl>
+												<Input
+													placeholder={'Email address'}
+													{...field}
+													{...(success ? { disabled: true } : {})}
+													className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-black leading-[24px] text-[14px] font-normal flex items-center'
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							{/* forgot pass section  */}
+							<div className='flex flex-wrap gap-[24px] py-[0px] text-filter-stroke-color justify-between'>
+								<div className='w-fit flex gap-[2px] items-center'>
+									<p className=''>Back to login</p>
+									<Link
+										href={'/auth/signin'}
+										className='text-[14px] font-bold leading-[20px] text-purple-800'>
+										Signin
+									</Link>
+								</div>
+							</div>
+
+							<div className='w-full justify-center flex-col flex my-[8px] gap-[32px]'>
+								<Button
+									className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[10px] py-[16px] gap-[8px] shadow-btnBoxShadow items-center justify-center w-full leading-[24px] text-[16px] font-bold'
+									type='submit'
+									{...(authLoading || success ? { disabled: true } : {})}>
+									{authLoading ? 'Submitting...' : 'Sign in'}
+								</Button>
+							</div>
+						</div>
+					</form>
+				</Form>
+			</div>
 		</div>
 	);
 };

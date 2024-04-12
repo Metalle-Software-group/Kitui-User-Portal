@@ -9,10 +9,11 @@
 		--commentCardTextColor: #717171;
 		--chooseFileTextColor: #1b2b41b0;
 		--chooseFileBgColor: #193b670d;
-		--filtertTagColor: #6b21a8;
+		--boxBorder-color: #e9e9e9;
 		--checkboxColor1: #9333ea;
 		--commentsColor: #333333;
-		--boxBorder-color: #e9e9e9;
+		--filtertTagColor: #6b21a8;
+		--gray-border: #d1d5db;
 		--bodyText: #4b5563;
 		--downloadBtnColor: #b5e0c7;
 		--socialsColor: #ececec;

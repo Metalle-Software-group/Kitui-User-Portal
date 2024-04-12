@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 
 export default function DashboardLayout({ children }: TNodes) {
 	return (
-		<div className='w-full text-login-screen-text-color bg-login-screen-text-color text-black flex justify-center'>
-			<div className='w-full px-[60px] my-[50px]'>{children}</div>
+		<div className="w-full text-login-screen-text-color bg-login-screen-text-color text-black flex justify-center bg-[url('/images/others/login.svg')]">
+			<div className='w-full px-[60px]'>{children}</div>
 		</div>
 	);
 }
