@@ -44,8 +44,6 @@ export default function () {
 		],
 	});
 
-	console.log(ministries, 'error');
-
 	return (
 		// 1440px -> px-[100px], 1300px below px-[80px], px-[16px]->686px and below
 		<main className='w-full  md:mb-0 space-y-10'>

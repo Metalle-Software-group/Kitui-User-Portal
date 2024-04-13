@@ -26,7 +26,6 @@ const ApplyJob = () => {
 	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
 	const [successFull, setSuccessFull] = useState(false);
 	const [loading, setLoading] = useState(false);
-	const [url, setUrl] = useState<string[]>([]);
 	const [job, setJob] = useState<TJob>();
 	const pathname = usePathname();
 	const { t } = useTranslation();
@@ -45,7 +44,7 @@ const ApplyJob = () => {
 			.then(({ data: res, err }) => {
 				if (err) {
 					if (err.status === 400)
-						err.details.errors.map(({ path: [field_name], message, name }) =>
+						err.details.errors.map(({ path: [field_name], message }) =>
 							//@ts-ignore
 							form.setError(field_name, {
 								message: message.replace(field_name, 'This field '),
@@ -62,48 +61,22 @@ const ApplyJob = () => {
 			.finally(() => setLoading(false));
 	};
 
-	const uploadFilesSequentially = async (
-		files: File[],
-		data2: TDataApplyJobORUpdateProfile,
-		index = 0
-	) => {
-		if (index >= files.length) return;
-
-		const frmData = new FormData();
-		frmData.append('files', files[index]);
-
-		const formDataEntries: [string, FormDataEntryValue][] = Array.from(
-			frmData.entries()
-		);
-
-		formDataEntries.forEach((entry) => {
-			console.log(entry[0], entry[1]);
-		});
-
-		setLoading(true);
-		uploadResourceEndpointData({ url: 'upload', data: frmData })
-			.then((res) => {
-				console.log(res);
-				setUrl((prevState) => [...prevState, res.data[0].url]);
-				uploadFilesSequentially(files, data2, index + 1);
-			})
-			.catch((err) => {
-				console.error(`Error uploading file ${index + 1}:`, err);
-				setLoading(false);
-			});
-	};
-
 	const handleApply = async (data: TDataApplyJobORUpdateProfile) => {
-		await uploadFilesSequentially(selectedFiles, data).then(() => {
-			UploadDetails(data);
-		});
-	};
+		const frmData = new FormData();
 
-	const UploadDetails = (data2: TDataApplyJobORUpdateProfile) => {
-		const data = { ...data2, files: url };
-		createResourceEndpointData({ data, url: 'applications' })
-			.then(({ data: res, err }) => {
-				if (err)
+		selectedFiles.map((file) => frmData.append('files.files', file));
+		console.log(data, 'Morph');
+
+		frmData.append('data', `${JSON.stringify(data)}`);
+		setLoading(true);
+
+		uploadResourceEndpointData({
+			method: 'POST',
+			url: 'applications',
+			data: frmData,
+		})
+			.then(({ data, err }) => {
+				if (err) {
 					if (err.status === 400)
 						err.details.errors.map(({ path: [field_name], message, name }) =>
 							//@ts-ignore
@@ -117,7 +90,7 @@ const ApplyJob = () => {
 						);
 					else if (err.status === 403) setErrMsg('Permission denied');
 					else setErrMsg('Something went wrong');
-				else setSuccessFull(true);
+				} else setSuccessFull(true);
 			})
 			.finally(() => setLoading(false));
 	};
@@ -138,8 +111,8 @@ const ApplyJob = () => {
 						sentiment:
 							'Thank you for expressing your interest in joining our team. Shortlisted candidates shall be posted here. All the best.',
 						link: {
-							text: 'Back To Home Page',
-							url: '/',
+							text: 'Back To Jobs Page',
+							url: '/jobs',
 						},
 					}}
 				/>
