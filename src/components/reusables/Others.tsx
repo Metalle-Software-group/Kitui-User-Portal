@@ -1042,8 +1042,6 @@ export const Profile = ({}: ProfilePropsTypes) => {
     userCookie ? JSON.parse(userCookie) : null
   );
 
-  console.log(userInfo);
-
   const FormSchema = z.object({
     username: z
       .string()
@@ -1423,6 +1421,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
                 </p>
 
                 <UploadFileCard
+                  setError={() => {}}
                   {...{ selectedFiles, setSelectedFile, handleDeleteItem }}
                 />
               </div>
@@ -1583,12 +1582,14 @@ export const UploadFileCard = ({
   handleDeleteItem,
   setSelectedFile,
   selectedFiles,
+  setError,
 }: FileSelectorPropsType) => {
   const inputFieldRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const triggerFileSelectorDialog = (e: any) => inputFieldRef.current?.click();
 
   const handleSelectedFile = (e: ChangeEvent<HTMLInputElement>) => {
+    setError();
     setSelectedFile((prev) =>
       e.currentTarget?.files
         ? [...prev, ...Array.from(e.currentTarget?.files)]
