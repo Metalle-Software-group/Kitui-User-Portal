@@ -29,11 +29,9 @@ export const UploadDocsCard = ({
 
 						<div className='w-full flex gap-[6px] flex-col'>
 							{data?.files?.length ? (
-								<>
-									<UploadedDocument />
-									<UploadedDocument />
-									<UploadedDocument />
-								</>
+								data?.files.map((file, index) => (
+									<UploadedDocument {...{ file }} key={index} />
+								))
 							) : (
 								<div className='font-normal text-[16px] leading-[24px] text-gray-600 px-[20px]'>
 									No files where attached
