@@ -112,7 +112,7 @@ export const Header = () => {
                   ? userInfo?.firstname &&
                     userInfo?.firstname.charAt(0) + userInfo?.lastname &&
                     userInfo?.lastname.charAt(0)
-                  : 'JM'}
+                  : 'KE'}
               </div>
               <button onClick={() => setModal(!modal)}>
                 <svg
