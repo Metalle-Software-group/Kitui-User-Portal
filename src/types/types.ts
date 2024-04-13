@@ -242,6 +242,7 @@ export type TUploadDocsCardProps = {
 };
 
 export type TApiHandlerProps = {
+	method?: THttpMethods;
 	id?: number | string;
 	data: any;
 	url: string;
@@ -282,9 +283,9 @@ export type TUSER = {
 	id: number;
 };
 
-export type SERVER_ERROR = {
-	error: TError;
-	data: {};
+export type SERVER_ERROR<TErrData = TError> = {
+	error: TErrData;
+	data: null | any;
 };
 
 export type ResponseMeta = {
@@ -395,7 +396,7 @@ export type TCommentType = {
 	id: string;
 };
 
-export interface TJob<TMedia = any> {
+export interface TJob<TMedia = Media[]> {
 	comments: TCommentType[];
 	applications: Application[];
 	application_start: string;
