@@ -1,12 +1,13 @@
 'use client';
-import { URL_SEARCH_PARAMS } from '@/constants';
+
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { createResourceEndpointData } from '@/utils/server';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { URL_SEARCH_PARAMS } from '@/constants';
 import { Button } from '../ui/button';
 import {
 	Form,
@@ -17,6 +18,8 @@ import {
 } from '../ui/form';
 import { Textarea } from '../ui/textarea';
 import { TCommentType, TSinglePageProps } from '@/types/types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CommentForm = ({
 	setChats,
@@ -83,10 +86,18 @@ export const CommentForm = ({
 						router.push(
 							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
 						);
-					else if (err.status === 403) setErrMsg('Permission denied');
-					else setErrMsg('Something went wrong');
+					else if (err.status === 403) {
+						setErrMsg('Permission denied');
+						toast.error('Permission denied', {
+							position: 'top-right',
+						});
+					} else setErrMsg('Something went wrong');
 
 				if (res?.data) setChats((prev) => [...prev, res?.data]);
+				toast.success('Comment Saved', {
+					position: 'top-right',
+				});
+				form.reset();
 			})
 			.finally(() => setLoading(false));
 	}
@@ -144,6 +155,7 @@ export const CommentForm = ({
 					</form>
 				</Form>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };

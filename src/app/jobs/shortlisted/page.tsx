@@ -38,6 +38,9 @@ const ShortListedCandidatesPage = () => {
           filters: {
             status: { $eq: 'shortlisted' },
           },
+          pagination: {
+            page: page,
+          },
         },
       },
     ],

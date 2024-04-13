@@ -7,6 +7,7 @@ import {
 	SeeMore,
 	FeaturedJobs,
 	Loader,
+	DepartmentCard,
 } from '@/components/reusables/Others';
 
 import { HowItWorksSteps, initialFilterState } from '@/constants';
@@ -43,8 +44,6 @@ export default function () {
 			},
 		],
 	});
-
-	console.log(ministries, 'error');
 
 	return (
 		// 1440px -> px-[100px], 1300px below px-[80px], px-[16px]->686px and below
@@ -118,11 +117,11 @@ export default function () {
 					</div>
 				) : (
 					<div className='grid grid-cols-1 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
-						{/* {ministries?.data.map((category, index) => (
+						{ministries?.data.map((category, index) => (
 							<div key={index}>
 								<DepartmentCard {...category} />
 							</div>
-						))} */}
+						))}
 					</div>
 				)}
 			</div>

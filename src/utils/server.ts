@@ -102,6 +102,7 @@ export const fetchEndpointData = async <dataTypeExpected = any>({
 	url: string;
 }) => {
 	const strapi = await getStrapiConfiguredInstance();
+
 	return strapi.find<dataTypeExpected>(url, {
 		...options,
 	});
@@ -201,20 +202,24 @@ export const updateResourceEndpointData = async ({
 };
 
 export const uploadResourceEndpointData = async ({
+	method = 'POST',
 	data,
 	url,
 }: TApiHandlerProps) => {
 	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
 
-	return fetch(`https://kitui-jobs-portal.up.railway.app/api/${url}`, {
-		method: 'post',
+	return fetch(`${BACKEND_BASE_URL}/api/${url}`, {
 		body: data,
+		method,
 		headers: {
 			Authorization: `Bearer ${auth}`,
 		},
 	})
 		.then((data) => data.json())
-		.then((data: any) => ({ data, err: null }))
+		.then(({ data, error }: SERVER_ERROR<TError | null>) =>
+			error ? { data: null, err: error } : { data, err: null }
+		)
+
 		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
 			err: { message, status, details },
 			data: null,

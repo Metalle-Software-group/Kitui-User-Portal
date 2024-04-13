@@ -33,6 +33,8 @@ import {
   URL_SEARCH_PARAMS,
 } from '@/constants';
 import { Loader, VerificationCodeCard } from '../reusables/Others';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AuthScreen = () => {
   const [authLoading, setAuthLoading] = useState<boolean>(false);
@@ -352,9 +354,16 @@ export const CreateEditUser = ({
             router.push(
               `/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
             );
-          else if (err.status === 403) setErrMsg('Permission denied');
-          else setErrMsg('Something went wrong');
+          else if (err.status === 403) {
+            setErrMsg('Permission denied');
+            toast.error('Permission denied', {
+              position: 'top-right',
+            });
+          } else setErrMsg('Something went wrong');
         else setSuccessFull(true);
+        toast.success('Kindly check your email', {
+          position: 'top-right',
+        });
       })
       .finally(() => setLoading(false));
   }
@@ -691,6 +700,7 @@ export const CreateEditUser = ({
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
