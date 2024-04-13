@@ -25,6 +25,8 @@ export const Header = () => {
   const [userInfo, setUserInfo] = useState<TUSER | null>(
     userCookie ? JSON.parse(userCookie) : null
   );
+  const name = userInfo?.username || 'K E';
+  const [fname, lname] = name.split(' ');
 
   return (
     // shadow-headerShadow
@@ -108,11 +110,8 @@ export const Header = () => {
           <div className='flex flex-col w-[88px] h-[44px]'>
             <div className='flex  rounded-[50px] bg-mainGreen px-[14px] py-[6px] gap-[10px] items-center'>
               <div className='flex w-[32px] h-[32px] rounded-full bg-white text-black font-bold items-center justify-center'>
-                {(userInfo?.firstname && userInfo?.lastname) !== null
-                  ? userInfo?.firstname &&
-                    userInfo?.firstname.charAt(0) + userInfo?.lastname &&
-                    userInfo?.lastname.charAt(0)
-                  : 'KE'}
+                {fname?.at(0)?.toUpperCase()}
+                {lname?.at(0)?.toUpperCase()}
               </div>
               <button onClick={() => setModal(!modal)}>
                 <svg

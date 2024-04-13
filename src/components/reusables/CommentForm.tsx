@@ -96,6 +96,7 @@ export const CommentForm = ({
         toast.success('Comment Saved', {
           position: 'top-right',
         });
+        form.reset();
       })
       .finally(() => setLoading(false));
   }

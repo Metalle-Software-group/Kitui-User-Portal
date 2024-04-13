@@ -3,7 +3,8 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { currentlySelectedJobKey, URL_SEARCH_PARAMS } from '@/constants';
 import {
   JobMinistryTag,
@@ -20,15 +21,12 @@ import {
 import { SuccessfulApplicationCard } from '@/components/cards/TechnicalError';
 import { getLocalStorageItem } from '@/utils';
 import { formatDistance } from 'date-fns';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const ApplyJob = () => {
   const [errMessage, setErrMsg] = useState<string | null>(null);
   const [selectedFiles, setSelectedFile] = useState<File[]>([]);
   const [successFull, setSuccessFull] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [url, setUrl] = useState<string[]>([]);
   const [job, setJob] = useState<TJob>();
   const pathname = usePathname();
   const { t } = useTranslation();
@@ -41,112 +39,102 @@ const ApplyJob = () => {
       })
     );
 
-  const handleUpdateJobProfile = async (data: TDataApplyJobORUpdateProfile) => {
-    setUrl([]);
+  const handleUpdateJobProfile = (data: TDataApplyJobORUpdateProfile) => {
     setLoading(true);
-    await uploadFilesSequentially(selectedFiles, data).then(() => {
-      const data2 = { ...data, files: url };
-      createResourceEndpointData({ data: data2, url: `users/1` })
-        .then(({ data: res, err }) => {
-          if (err) {
-            if (err.status === 400)
-              err.details.errors.map(({ path: [field_name], message, name }) =>
-                //@ts-ignore
-                form.setError(field_name, {
-                  message: message.replace(field_name, 'This field '),
-                })
-              );
-            else if (err.status === 401)
-              router.push(
-                `/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(
-                  pathname
-                )}`
-              );
-            else if (err.status === 403) {
-              setErrMsg('Permission denied');
-              toast.error('Permission denied', {
-                position: 'top-right',
-              });
-            }
-          } else {
-            toast.success('Profile Updated Successfully', {
-              position: 'top-right',
-            });
-          }
-        })
-        .finally(() => setLoading(false));
-      setSelectedFile([]);
-    });
-  };
-
-  const uploadFilesSequentially = async (
-    files: File[],
-    data2: TDataApplyJobORUpdateProfile,
-    index = 0
-  ) => {
-    if (index >= files.length) return;
-
-    const frmData = new FormData();
-    frmData.append('files', files[index]);
-
-    const formDataEntries: [string, FormDataEntryValue][] = Array.from(
-      frmData.entries()
-    );
-
-    formDataEntries.forEach((entry) => {
-      console.log(entry[0], entry[1]);
-    });
-
-    setLoading(true);
-    await uploadResourceEndpointData({ url: 'upload', data: frmData })
-      .then((res) => {
-        console.log(res);
-        setUrl((prevState) => [...prevState, res.data[0].url]);
-        uploadFilesSequentially(files, data2, index + 1);
-      })
-      .catch((err) => {
-        console.error(`Error uploading file ${index + 1}:`, err);
-        setLoading(false);
-      });
-  };
-
-  const handleApply = async (data: TDataApplyJobORUpdateProfile) => {
-    setUrl([]);
-    await uploadFilesSequentially(selectedFiles, data).then(() => {
-      UploadDetails(data);
-    });
-  };
-
-  const UploadDetails = async (data2: TDataApplyJobORUpdateProfile) => {
-    const data = { ...data2, files: url };
-    await createResourceEndpointData({ data, url: 'applications' })
+    createResourceEndpointData({ data, url: `users/1` })
       .then(({ data: res, err }) => {
-        if (err)
+        if (err) {
           if (err.status === 400)
-            err.details.errors.map(({ path: [field_name], message, name }) =>
-              //@ts-ignore
-              form.setError(field_name, {
-                message: message.replace(field_name, 'This field '),
-              })
+            err.details.errors.map(
+              ({ path: [field_name], message, name }) => {}
             );
           else if (err.status === 401)
             router.push(
               `/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
             );
           else if (err.status === 403) {
-            setErrMsg('Permission denied');
             toast.error('Permission denied', {
               position: 'top-right',
             });
-          } else {
-            toast.success('Job Applied Successfully...', {
-              position: 'top-right',
-            });
-            setSuccessFull(true);
-          }
+            setErrMsg('Permission denied');
+          } else setErrMsg('Something went wrong');
+        } else {
+          toast.success('Profile Update', {
+            position: 'top-right',
+          });
+        }
       })
       .finally(() => setLoading(false));
-    setSelectedFile([]);
+  };
+
+  const uploadFilesSequentially = async (
+    files: File[],
+    data2: TDataApplyJobORUpdateProfile
+  ) => {
+    if (!files) return;
+
+    let successfulUploads = 0;
+    let urls: any = [];
+
+    for (let index = 0; index < files.length; index++) {
+      const frmData = new FormData();
+      frmData.append('files', files[index]);
+
+      setLoading(true);
+      try {
+        const res = await uploadResourceEndpointData({
+          url: 'upload',
+          data: frmData,
+        });
+        urls.push(res.data[0].url);
+        successfulUploads++;
+      } catch (err) {
+        setLoading(false);
+      }
+    }
+
+    if (successfulUploads === files.length) {
+      let data = { ...data2, files: urls };
+      UploadDetails(data);
+    }
+  };
+
+  const handleApply = async (data: TDataApplyJobORUpdateProfile) => {
+    await uploadFilesSequentially(selectedFiles, data);
+  };
+
+  const UploadDetails = (data: TDataApplyJobORUpdateProfile) => {
+    createResourceEndpointData({ data, url: 'applications' })
+      .then(({ data: res, err }) => {
+        if (err)
+          if (err.status === 400)
+            err.details.errors.map(
+              ({ path: [field_name], message, name }) => {}
+            );
+          else if (err.status === 401)
+            router.push(
+              `/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+            );
+          else if (err.status === 403) {
+            toast.error('Permission denied', {
+              position: 'top-right',
+            });
+            setErrMsg('Permission denied');
+          } else setErrMsg('Something went wrong');
+        else {
+          setSelectedFile([]);
+          toast.success('Application Sent', {
+            position: 'top-right',
+            // autoClose: 2000,
+          });
+          setTimeout(() => {
+            setSuccessFull(true);
+          }, 2500);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -265,7 +253,6 @@ const ApplyJob = () => {
 
             <div className='flex gap-[32px]'>
               <button
-                disabled={loading || selectedFiles.length < 1}
                 className='rounded-[8px] border px-[20px] py-[12px] bg-white border-jobApplicationBtnColor shadow-btnBoxShadow text-bodyText leading-[24px] text-[16px] font-semibold'
                 {...{
                   ...(loading ? { disabled: true } : {}),
@@ -279,7 +266,6 @@ const ApplyJob = () => {
               </button>
 
               <button
-                disabled={loading || selectedFiles.length < 1}
                 className={`rounded-[8px] ${
                   loading || selectedFiles.length < 1
                     ? ''
@@ -294,7 +280,7 @@ const ApplyJob = () => {
                       job: job.id.toString(),
                     }),
                 }}>
-                {t('Submit Application')}
+                {t(loading ? 'Submitting...' : 'Submit Application')}
               </button>
             </div>
           </div>

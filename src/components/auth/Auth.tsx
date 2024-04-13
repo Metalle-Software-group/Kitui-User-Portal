@@ -361,7 +361,7 @@ export const CreateEditUser = ({
             });
           } else setErrMsg('Something went wrong');
         else setSuccessFull(true);
-        toast.success('Job Updated Successfully', {
+        toast.success('Kindly check your email', {
           position: 'top-right',
         });
       })
