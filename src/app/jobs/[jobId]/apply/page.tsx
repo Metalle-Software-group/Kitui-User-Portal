@@ -1,9 +1,10 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-
+import 'react-toastify/dist/ReactToastify.css';
 import { currentlySelectedJobKey, URL_SEARCH_PARAMS } from '@/constants';
 import {
 	JobMinistryTag,
@@ -204,6 +205,7 @@ const ApplyJob = () => {
 							</p>
 
 							<UploadFileCard
+								setError={() => setErrMsg('')}
 								{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
 							/>
 						</div>
@@ -243,6 +245,7 @@ const ApplyJob = () => {
 					</div>
 				</div>
 			)}
+			<ToastContainer />
 		</div>
 	);
 };

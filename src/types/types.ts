@@ -232,6 +232,7 @@ export type FileSelectorPropsType = {
 	setSelectedFile: Dispatch<SetStateAction<File[]>>;
 	handleDeleteItem: (file: File) => void;
 	selectedFiles: File[];
+	setError?: () => void;
 };
 
 export type TUploadDocsCardProps = {
