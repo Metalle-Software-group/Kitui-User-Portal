@@ -1728,50 +1728,40 @@ export const FeaturedJobs = () => {
 	return (
 		<div className='w-full'>
 			{/* featured jobs category list  */}
-			<div className='flex w-full justify-center'>
-				<div className='flex  space-x-3 mb-5 '>
-					{isMinistryLoading ? (
-						<div className='w-full h-full my-[50px]'>
-							<Loader />
-						</div>
-					) : isMinistryError ? (
-						<div className='w-full h-full my-[50px]'>
-							<Loader {...{ title: 'Error fetching data.' }} />
-						</div>
-					) : (
-						<div className='flex w-[617px] overflow-x-auto gap-x-[16px]'>
-							<>
-								<div className='w-fit'>
-									<FeaturedJobsCategories
-										{...{
-											onChange: () => setFilters(initialFilterState),
-											checked: filters === initialFilterState ? true : false,
-											name: 'All',
-										}}
-									/>
-								</div>
-
-								{ministries?.data?.map(({ name }, index) => (
-									<div className='flex w-[300px]'>
-										<FeaturedJobsCategories
-											key={index}
-											{...{
-												onChange: updateFilter,
-												checked: filters.department.find(
-													(value) => value === name
-												)
-													? true
-													: false,
-												name,
-											}}
-										/>
-									</div>
-								))}
-							</>
-						</div>
-					)}
+			{isMinistryLoading ? (
+				<div className='w-full h-full my-[50px]'>
+					<Loader />
 				</div>
-			</div>
+			) : isMinistryError ? (
+				<div className='w-full h-full my-[50px]'>
+					<Loader {...{ title: 'Error fetching data.' }} />
+				</div>
+			) : (
+				<div className='w-full gap-[24px] px-[24px] py-[10px]'>
+					<div className='flex gap-[16px] py-[20px] overflow-x-auto'>
+						<FeaturedJobsCategories
+							{...{
+								onChange: () => setFilters(initialFilterState),
+								checked: filters === initialFilterState ? true : false,
+								name: 'All',
+							}}
+						/>
+
+						{ministries?.data?.map(({ name }, index) => (
+							<FeaturedJobsCategories
+								key={index}
+								{...{
+									onChange: updateFilter,
+									checked: filters.department.find((value) => value === name)
+										? true
+										: false,
+									name,
+								}}
+							/>
+						))}
+					</div>
+				</div>
+			)}
 
 			<div className='w-full'>
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
