@@ -958,7 +958,6 @@ export const VerifyEmail = () => {
 				if (err)
 					if (err.status === 400)
 						err.details.errors.map(({ message }) => {
-							console.log(message);
 							setAuthError(message);
 						});
 					else setAuthError('Something went wrong');

@@ -111,7 +111,7 @@ import {
 	getTextFromHTML,
 	useQueryCustomWrapper,
 } from '@/utils';
-import { formatDistance } from 'date-fns';
+import { formatDistanceStrict } from 'date-fns';
 import { FeaturedJobsCategories } from './FeaturedJobsCategories';
 import { Slogan, SloganWithCategory } from './Slogan';
 import { FindJobsCard } from '../cards/FindJobsCard';
@@ -386,9 +386,13 @@ export const CommentCard = ({
 				<div className='w-fit'>
 					<TimeLimitLabel
 						{...{
-							name: formatDistance(application_end ?? new Date(), new Date(), {
-								addSuffix: true,
-							}),
+							name: formatDistanceStrict(
+								application_end ?? new Date(),
+								new Date(),
+								{
+									addSuffix: true,
+								}
+							),
 						}}
 					/>
 				</div>
@@ -613,7 +617,7 @@ export const Comments = ({
 					{message}
 				</p>
 				<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-					{formatDistance(createdAt, new Date(), { addSuffix: true })}
+					{formatDistanceStrict(createdAt, new Date(), { addSuffix: true })}
 				</p>
 
 				<div className='px-[32px]'>
@@ -632,7 +636,7 @@ export const Comments = ({
 									{message}
 								</p>
 								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-									{formatDistance(new Date(), createdAt, {
+									{formatDistanceStrict(new Date(), createdAt, {
 										addSuffix: true,
 									})}
 								</p>
@@ -1589,7 +1593,6 @@ export const NewsCard = () => {
 			})
 				.then(({ data, err }) => {
 					if (err) {
-						console.log('error', err);
 						if (err.status === 400) {
 							toast.error('Please Log In!', {
 								position: 'top-right',
@@ -2392,7 +2395,7 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							type: data?.data?.job_type?.name ?? '',
 							location: data?.data.location ?? '',
 							title: data?.data?.title ?? '',
-							datePosted: formatDistance(
+							datePosted: formatDistanceStrict(
 								data?.data?.application_end
 									? new Date(data.data?.application_end)
 									: new Date(),
