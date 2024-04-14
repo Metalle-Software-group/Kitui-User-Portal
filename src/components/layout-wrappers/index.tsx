@@ -16,13 +16,13 @@ export default function ({ children }: TNodes) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<I18nProvider>
-				<main className='bg-bodyBg relative'>
+				<main className='bg-bodyBg relative flex flex-col justify-center items-center'>
 					<div className='hidden md:block'>
 						<Header />
 					</div>
 
 					<div
-						className={`w-full h-[calc(100%-108px)] ${
+						className={`w-full max-w-[1440px] h-[calc(100%-108px)] ${
 							!pathname.startsWith('/auth') ? 'mb-[150px] md:mb-[120px]' : ''
 						}`}>
 						{children}

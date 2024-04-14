@@ -126,7 +126,7 @@ export const AuthScreen = () => {
 				/>
 			</div>
 
-			<div className='w-full flex gap-[40px] p-[32px] flex-wrap justify-center items-center flex-col rounded-[16px] bg-white shadow-page404Shadow'>
+			<div className='w-full flex gap-[40px] p-[32px] flex-wrap lg:min-w-[500px] justify-center items-center flex-col rounded-[16px] bg-white shadow-page404Shadow'>
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}

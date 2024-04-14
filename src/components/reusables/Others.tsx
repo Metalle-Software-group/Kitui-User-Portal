@@ -260,7 +260,7 @@ export const Loader = ({
 
 export const DepartmentCard = ({ name, icon, id }: TMinistry) => {
 	return (
-		<div className='h-[84px] w-[286px] gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
+		<div className='h-[84px] w-[80vw] md:max-w-[286px] gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
 			<div className='flex-[1]'>
 				{icon ? (
 					<img
@@ -340,7 +340,7 @@ export const CommentCard = ({
 
 	return (
 		<div
-			className='md:w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'
+			className='w-[90%] md:w-[100%] md:max-w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'
 			{...{
 				onClick: (e) => router.push(`/jobs/${id}`),
 				title: 'Open this job',
@@ -1845,7 +1845,7 @@ export const FeaturedJobs = () => {
 			)}
 
 			<div className='w-full'>
-				<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
+				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]'>
 					{isLoading ? (
 						<div className='w-full h-full py-[50px]'>
 							<Loader />
@@ -2146,11 +2146,12 @@ export const JobContainer = () => {
 							<React.Fragment>
 								{data && data.data.length > 0 ? (
 									<div className='space-y-10'>
-										<div>
+										<div className='flex flex-col gap-[24px]'>
 											{data.data?.map((job, index) => (
 												<FindJobsCard key={index} {...job} />
 											))}
 										</div>
+
 										<div>
 											<div className='flex items-center justify-center'>
 												<div className='flex items-center justify-center'>

@@ -116,7 +116,7 @@ export default function () {
 						<Loader {...{ title: 'Error fetching data.' }} />
 					</div>
 				) : (
-					<div className='grid grid-cols-1 md:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black  gap-[20px] justify-between'>
+					<div className='flex items-center flex-col md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 rounded-[6px] mt-[16px] h-[98%] text-black gap-[20px] justify-between'>
 						{ministries?.data.map((category, index) => (
 							<div key={index}>
 								<DepartmentCard {...category} />
