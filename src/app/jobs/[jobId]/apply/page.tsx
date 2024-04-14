@@ -257,10 +257,6 @@ const ApplyJob = () => {
 										...(loading || selectedFiles.length < 1
 											? { disabled: true }
 											: {}),
-										onClick: () =>
-											handleApply({
-												job: job.id.toString(),
-											}),
 									}}>
 									{t('Submitting...')}
 								</button>
