@@ -245,38 +245,57 @@ const ApplyJob = () => {
 						</div>
 
 						<div className='flex gap-[32px]'>
-							<button
-								disabled={selectedFiles.length < 1}
-								className='rounded-[8px] border px-[20px] py-[12px] bg-white border-jobApplicationBtnColor shadow-btnBoxShadow text-bodyText leading-[24px] text-[16px] font-semibold'
-								{...{
-									...(loading ? { disabled: true } : {}),
-									onClick: () =>
-										handleUpdateJobProfile({
-											files: selectedFiles,
-											job: job.id,
-										}),
-								}}>
-								{t('Update Job Profile')}
-							</button>
+							{loading ? (
+								<button
+									disabled={selectedFiles.length < 1}
+									className={`rounded-[8px] ${
+										loading || selectedFiles.length < 1
+											? ''
+											: 'bg-main-Green border-main-Green text-white'
+									} border px-[20px] py-[12px] font-semibold leading-[24px] text-[16px] flex-[1] shadow-btnBoxShadow`}
+									{...{
+										...(loading || selectedFiles.length < 1
+											? { disabled: true }
+											: {}),
+									}}>
+									{t('Submitting...')}
+								</button>
+							) : (
+								<>
+									<button
+										disabled={selectedFiles.length < 1}
+										className='rounded-[8px] border px-[20px] py-[12px] bg-white border-jobApplicationBtnColor shadow-btnBoxShadow text-bodyText leading-[24px] text-[16px] font-semibold'
+										{...{
+											...(loading ? { disabled: true } : {}),
+											onClick: () =>
+												handleUpdateJobProfile({
+													files: selectedFiles,
+													job: job.id,
+												}),
+										}}>
+										{t('Update Job Profile')}
+									</button>
 
-							<button
-								disabled={selectedFiles.length < 1}
-								className={`rounded-[8px] ${
-									loading || selectedFiles.length < 1
-										? ''
-										: 'bg-main-Green border-main-Green text-white'
-								} border px-[20px] py-[12px] font-semibold leading-[24px] text-[16px] flex-[1] shadow-btnBoxShadow`}
-								{...{
-									...(loading || selectedFiles.length < 1
-										? { disabled: true }
-										: {}),
-									onClick: () =>
-										handleApply({
-											job: job.id.toString(),
-										}),
-								}}>
-								{t(loading ? 'Submitting...' : 'Submit Application')}
-							</button>
+									<button
+										disabled={selectedFiles.length < 1}
+										className={`rounded-[8px] ${
+											loading || selectedFiles.length < 1
+												? ''
+												: 'bg-main-Green border-main-Green text-white'
+										} border px-[20px] py-[12px] font-semibold leading-[24px] text-[16px] flex-[1] shadow-btnBoxShadow`}
+										{...{
+											...(loading || selectedFiles.length < 1
+												? { disabled: true }
+												: {}),
+											onClick: () =>
+												handleApply({
+													job: job.id.toString(),
+												}),
+										}}>
+										{t(loading ? 'Submitting...' : 'Submit Application')}
+									</button>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
