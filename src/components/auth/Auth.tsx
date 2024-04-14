@@ -299,6 +299,25 @@ export const CreateEditUser = ({
 		phone_number: z.string().min(2, {
 			message: 'Phone number must be at least 2 characters.',
 		}),
+
+		password: z
+			.string()
+			.min(8, {
+				message: 'Password be at least 8 characters.',
+			})
+			.max(20, {
+				message: 'Password must be at most 20 characters.',
+			}),
+
+		confirmPassword: z
+			.string()
+			.min(8, {
+				message: 'Password be at least 8 characters.',
+			})
+			.max(20, {
+				message: 'Password must be at most 20 characters.',
+			}),
+
 		email: z
 			.string()
 			.email({ message: 'Email field must contain a valid email' }),
@@ -325,12 +344,14 @@ export const CreateEditUser = ({
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
+			confirmPassword: '',
 			phone_number: '',
 			sub_county: '',
+			id_number: '',
 			firstname: '',
 			lastname: '',
-			id_number: '',
 			username: '',
+			password: '',
 			location: '',
 			county: '',
 			gender: '',
@@ -641,6 +662,54 @@ export const CreateEditUser = ({
 														<Input
 															placeholder='e.g Kabati'
 															{...field}
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='password'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Password
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Password'
+															type='password'
+															{...field}
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name={'confirmPassword'}
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Confirm Password
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Password'
+															{...field}
+															type='password'
 															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
 														/>
 													</FormControl>
