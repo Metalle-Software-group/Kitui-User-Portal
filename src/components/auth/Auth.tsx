@@ -131,7 +131,7 @@ export const AuthScreen = () => {
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
 						className='w-full space-y-6 flex items-center justify-center'>
-						<div className='flex flex-col gap-[24px] px-[32px] w-fit'>
+						<div className='flex flex-col gap-[24px] px-[32px] w-full'>
 							{/* form header  */}
 							<div className='flex gap-[12px] flex-col'>
 								<p className='font-bold text-[30px] leading-[36px] tracking-[.75%] text-title-text-color'>
@@ -398,11 +398,11 @@ export const CreateEditUser = ({
 						<p className='text-red-500'>{errMessage}</p>
 					</div>
 
-					<div className='w-full h-fit flex gap-[20px] flex-wrap'>
+					<div className='w-full h-fit lg:min-w-[500px] flex gap-[20px] flex-wrap'>
 						<Form {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
-								className='w-fit space-y-6'>
+								className='w-full space-y-6'>
 								<div className='flex flex-wrap gap-[24px]'>
 									<div className='flex-[1]'>
 										<FormField
