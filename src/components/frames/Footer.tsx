@@ -11,7 +11,6 @@ import Image from 'next/image';
 import { NewsCard } from '../reusables/Others';
 import { FBIcon, InstagramIcon, XIcon } from '../icons';
 import { useTranslation } from 'react-i18next';
-
 export const Footer = () => {
   const { t } = useTranslation();
   return (
