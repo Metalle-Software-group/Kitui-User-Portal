@@ -12,6 +12,7 @@ export default function ({ children }: TNodes) {
 	const pathname = usePathname();
 
 	const queryClient = new QueryClient();
+	console.log(pathname);
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -22,7 +23,11 @@ export default function ({ children }: TNodes) {
 					</div>
 
 					<div
-						className={`w-full max-w-[1440px] h-[calc(100%-108px)] ${
+						className={`w-full ${
+							pathname.startsWith('/auth')
+								? "bg-[url('/images/others/login.svg')] bg-cover bg-no-repeat"
+								: 'max-w-[1440px]'
+						} h-[calc(100%-108px)] ${
 							!pathname.startsWith('/auth') ? 'mb-[150px] md:mb-[120px]' : ''
 						}`}>
 						{children}
