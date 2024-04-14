@@ -100,7 +100,6 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  createResourceEndpointData,
   deleteResourceEndpointData,
   fetchEndpointData,
   uploadResourceEndpointData,
@@ -264,7 +263,7 @@ export const Loader = ({
 
 export const DepartmentCard = ({ name, icon, id }: TMinistry) => {
   return (
-    <div className='h-[84px] min-w-[286px] flex-grow gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
+    <div className='h-[84px] w-[286px] gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
       <div className='flex-[1]'>
         {icon ? (
           <img
@@ -276,7 +275,7 @@ export const DepartmentCard = ({ name, icon, id }: TMinistry) => {
       </div>
 
       <div className='flex flex-col gap-[6px] flex-[8]'>
-        <p className='font-bold leading-[24px] tracking-[.5%] text-[20px] text-title-text-color'>
+        <p className='font-bold leading-[24px] tracking-[.5%] text-[16px] text-title-text-color'>
           {name}
         </p>
         <p className='font-normal leading-[24px] text-gray-body-text text-[14px]'>
@@ -1015,7 +1014,7 @@ export const FileListDivider = () => (
   <div className='bg-dividerColor h-[1px]'></div>
 );
 
-export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
+export const ProfileContainer = ({ data, refetch }: ProfilePropsTypes) => {
   const [selectedFiles, setSelectedFile] = useState<File[]>([]);
   const [errMessage, setErrMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -1042,12 +1041,18 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
       .min(2, {
         message: 'First name must be at least 2 characters.',
       })
+      .max(25, {
+        message: 'First name must not exceed 25 characters.',
+      })
       .optional(),
 
     lastname: z
       .string()
       .min(2, {
         message: 'Last name must be at least 2 characters.',
+      })
+      .max(25, {
+        message: 'Last name must not exceed 25 characters.',
       })
       .optional(),
 
@@ -1056,11 +1061,17 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
       .min(2, {
         message: 'Phone number must be at least 2 characters.',
       })
+      .max(12, {
+        message: 'Phone number must not exceed 12 characters.',
+      })
       .optional(),
 
     email: z
       .string()
       .email({ message: 'Email field must contain a valid email' })
+      .max(25, {
+        message: 'Email must not exceed 25 characters.',
+      })
       .optional(),
 
     id_number: z
@@ -1068,18 +1079,23 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
       .min(6, {
         message: 'ID must be at least 6 characters.',
       })
-      .max(9, { message: 'ID mus 8 characters or less' })
+      .max(9, { message: 'ID must not exceed 8 characters' })
       .optional(),
+
     gender: z
       .string()
       .min(2, {
-        message: 'Gender must be at least 2 characters.',
+        message: 'Gender must be filled',
       })
       .optional(),
+
     location: z
       .string()
       .min(2, {
         message: 'Location must be field.',
+      })
+      .max(25, {
+        message: 'Location must not exceed 25 characters.',
       })
       .optional(),
     county: z
@@ -1087,11 +1103,17 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
       .min(2, {
         message: 'County of Residence must be filled',
       })
+      .max(25, {
+        message: 'County must not exceed 25 characters.',
+      })
       .optional(),
     sub_county: z
       .string()
       .min(2, {
         message: 'Sub-county must be at least 2 characters.',
+      })
+      .max(25, {
+        message: 'Sub-county must not exceed 25 characters.',
       })
       .optional(),
   });
@@ -1120,7 +1142,7 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
       .then(({ err }) => {
         if (err) {
           if (err.status === 400)
-            err?.details?.errors.map(({ path, message, name }) => {
+            err.details.errors.map(({ path, message, name }) => {
               const [field_name, ...rest] = path;
               //@ts-ignore
               form.setError(field_name, {
@@ -1134,13 +1156,14 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
           else if (err.status === 403) setErrMsg('Permission denied');
           else setErrMsg('Something went wrong');
         }
+
+        if (data) refetch();
       })
       .finally(() => setLoading(false));
   };
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const frmData = new FormData();
-    console.log('called');
 
     selectedFiles.map((file) => frmData.append('files.files', file));
 
@@ -1154,7 +1177,6 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
     })
       .then(({ data, err }) => {
         if (err) {
-          console.log('error', err);
           if (err.status === 400)
             err.details.errors &&
               err.details.errors.map(({ path: [field_name], message }) =>
@@ -1178,13 +1200,10 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
               position: 'top-right',
             });
           }
-        } else {
-          console.log('data', data);
-          console.log('loaded');
+        } else
           toast.success('Profile Updated', {
             position: 'top-right',
           });
-        }
       })
       .finally(() => setLoading(false));
   }
@@ -1482,7 +1501,7 @@ export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
 };
 
 export const Profile = () => {
-  const { isLoading, isError, data } = useQuery({
+  const { isLoading, isError, data, refetch } = useQuery({
     queryFn: useQueryCustomWrapper<TUSER>,
     queryKey: [
       `user-data`,
@@ -1504,7 +1523,7 @@ export const Profile = () => {
           <Loader {...{ title: 'Error loading data' }} />
         </div>
       ) : (
-        <ProfileContainer {...{ data }} />
+        <ProfileContainer {...{ data, refetch }} />
       )}
     </div>
   );
@@ -1576,7 +1595,7 @@ export const MyApplications = () => {
               showPagination: true,
               isSearchAtEnd: false,
               data: data?.data ?? [],
-              filter: true,
+              // filter: true,
               pageCount: data?.meta?.pagination?.pageCount ?? 1,
               pageSize: data?.meta.pagination.page || 1,
               onPageChange: (page) => {

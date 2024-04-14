@@ -2,6 +2,7 @@ import { StrapiRequestParams } from 'strapi-sdk-js';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { ColumnDef } from '@tanstack/react-table';
+import { QueryObserverResult } from 'react-query';
 
 export type NavUrlType = {
 	name: string;
@@ -228,6 +229,15 @@ export type TqueryKey = [
 
 export type ProfilePropsTypes = {
 	data: { data: TUSER; meta: ResponseMeta } | undefined;
+	refetch: () => Promise<
+		QueryObserverResult<
+			{
+				data: TUSER;
+				meta: ResponseMeta;
+			},
+			unknown
+		>
+	>;
 };
 
 export type FileSelectorPropsType = {
@@ -452,11 +462,11 @@ export type TSeeMore = {
 	title: string;
 };
 
-export type TDataApplyJobORUpdateProfile = {
+export type TDataApplyJobORUpdateProfile<TFiles = any> = {
 	// user: string | number;
 	job: string | number;
 	comment?: string;
-	files?: any[];
+	files?: TFiles[];
 };
 
 export type TMoreSearchTypes = {
