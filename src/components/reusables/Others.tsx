@@ -350,7 +350,7 @@ export const CommentCard = ({
 					{title}
 				</p>
 
-				<div className='w-fit'>
+				<div className='hidden sm:block w-fit'>
 					<JobMinistryTag
 						{...{
 							textClassName: 'text-dev-accent',
@@ -373,7 +373,7 @@ export const CommentCard = ({
 					/>
 				</div>
 
-				<div className='w-fit'>
+				<div className='w-fit hidden sm:block'>
 					<LocationLabel
 						{...{
 							className:
