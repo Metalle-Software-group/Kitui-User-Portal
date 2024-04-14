@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { TSuccessProps } from '@/types/types';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 
 export const TechnicalErrorCard = () => {
   return (
@@ -44,6 +45,12 @@ export const SuccessfulApplicationCard = ({
   sentiment,
   link,
 }: TSuccessProps) => {
+  useEffect(() => {
+    toast.success('Job Application Successful', {
+      position: 'top-right',
+    });
+  }, []);
+
   return (
     <div className='flex flex-col w-[820px] h-[520px] p-10 justify-center items-center shadow-applicationFormBoxShadow bg-white gap-[32px]'>
       <Image
