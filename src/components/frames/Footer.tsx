@@ -14,8 +14,8 @@ import { useTranslation } from 'react-i18next';
 export const Footer = () => {
 	const { t } = useTranslation();
 	return (
-		<div className='relative min-h-[600px] md:pt-[50px]'>
-			<div className='hidden md:block absolute top-0 left-0 w-full overflow-hidden transform rotate-[180deg] z-[1] bg-footer-btnColor'>
+		<div className='relative h-fit md:h-[600px] md:pt-[50px]'>
+			<div className='absolute top-0 left-0 w-full overflow-hidden transform rotate-[180deg] z-[1] bg-footer-btnColor'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					preserveAspectRatio='none'
@@ -33,8 +33,7 @@ export const Footer = () => {
 			<div className='text-white'>
 				<div className='flex w-full h-fit justify-center bg-footer-btnColor px-5 md:px-0'>
 					<NewsCard />
-
-					<div className='flex flex-col w-full space-y-10 md:pt-[200px] md:px-[100px]'>
+					<div className='flex flex-col mt-[100px] md:mt-0 w-full space-y-10 md:pt-[200px] md:px-[100px]'>
 						<div className='w-full space-y-5 md:h-[500px] md:grid md:grid-cols-6 border-b-2 border-white text-white '>
 							<div className=''>
 								<img

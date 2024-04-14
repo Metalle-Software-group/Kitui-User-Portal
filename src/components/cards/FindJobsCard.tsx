@@ -27,7 +27,7 @@ export const FindJobsCard = ({
 
 	return (
 		<div
-			className={`flex flex-col w-full  h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
+			className={`flex flex-col w-fit md:w-full  h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
 			{...{
 				onClick: (e) => router.push(`/jobs/${id}`),
 				title: 'Open this job',
