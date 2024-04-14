@@ -44,9 +44,9 @@ export const Header = () => {
             height={84}
             priority
           />
-          <div className='flex md:hidden'>
+          {/* <div className='flex md:hidden'>
             <MobileSideBar />
-          </div>
+          </div> */}
         </div>
 
         <div className='w-fit'>
