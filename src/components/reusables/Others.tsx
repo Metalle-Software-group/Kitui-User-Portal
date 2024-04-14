@@ -100,6 +100,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  createResourceEndpointData,
   deleteResourceEndpointData,
   fetchEndpointData,
   uploadResourceEndpointData,
@@ -1591,6 +1592,49 @@ export const MyApplications = () => {
 
 export const NewsCard = () => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const userCookie = getCookie(COOKIE_KEYS.user);
+
+  function onSubmit() {
+    if (userCookie) {
+      const frmData = new FormData();
+      frmData.append('data', `${JSON.stringify({ subscribeToUpdates: true })}`);
+      setLoading(true);
+      uploadResourceEndpointData({
+        data: frmData,
+        url: `auth/users`,
+        method: 'PUT',
+      })
+        .then(({ data, err }) => {
+          if (err) {
+            console.log('error', err);
+            if (err.status === 400) {
+              toast.error('Please Log In!', {
+                position: 'top-right',
+              });
+            } else if (err.status === 403) {
+              toast.error('Permission denied', {
+                position: 'top-right',
+              });
+            } else {
+              toast.error('Something went wrong', {
+                position: 'top-right',
+              });
+            }
+          } else {
+            toast.success('News Letter Subscribed', {
+              position: 'top-right',
+            });
+          }
+        })
+        .finally(() => setLoading(false));
+    } else {
+      toast.error('Please Log in to subscribe to our news letter', {
+        position: 'top-right',
+      });
+    }
+  }
+
   return (
     <div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
       <p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
@@ -1605,15 +1649,14 @@ export const NewsCard = () => {
       </p>
 
       <div className='flex gap-[8px] w-[200px] md:w-[400px] justify-center'>
-        <input
-          className='px-[10px] font-normal text-[14px] leading-[24px] outline-none text-inputTextColor rounded-[10px] w-full'
-          onChange={() => {}}
-          placeholder={t('Email')}
-        />
-        <button className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
+        <button
+          onClick={onSubmit}
+          disabled={loading}
+          className='flex gap-[8px] px-[8px] py-[5px] md:px-[16px] md:py-[10px] rounded-[8px] w-[100px] h-[44px] justify-center items-center bg-footer-btnColor text-white shadow-btnBoxShadow'>
           {t('Subscribe')}
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 };

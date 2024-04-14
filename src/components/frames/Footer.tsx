@@ -11,6 +11,8 @@ import Image from 'next/image';
 import { NewsCard } from '../reusables/Others';
 import { FBIcon, InstagramIcon, XIcon } from '../icons';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -193,6 +195,7 @@ export const Footer = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
