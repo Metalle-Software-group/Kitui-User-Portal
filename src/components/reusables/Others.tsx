@@ -99,8 +99,8 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+	deleteResourceEndpointData,
 	fetchEndpointData,
-	updateResourceEndpointData,
 	uploadResourceEndpointData,
 } from '@/utils/server';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -947,106 +947,79 @@ export const TableReusableComponent = ({
 };
 
 export const SelectedFileSingleList = ({
+	handleDeleteRemoteItem,
 	handleDeleteItem,
+	remoteFile,
 	file,
-}: { file: File } & Pick<FileSelectorPropsType, 'handleDeleteItem'>) => {
-	return (
-		<div className='flex flex-col gap-[8px]'>
-			<div className='flex gap-[4x] justify-between items-center'>
-				<CheckMarkIcon
+}: {
+	remoteFile?: Media;
+	file?: File;
+} & Pick<
+	FileSelectorPropsType,
+	'handleDeleteItem' | 'handleDeleteRemoteItem'
+>) => (
+	<div className='flex flex-col gap-[8px]'>
+		<div className='flex gap-[4x] justify-between items-center'>
+			<CheckMarkIcon
+				{...{
+					svgElementClassName: 'stroke-checkMarkColor',
+					className: 'w-[24px] h-[24px]',
+					applyToSvgEl: true,
+				}}
+			/>
+			<div className='flex-[1] px-[6px]'>
+				<p className='font-normal leading-[25.78px] text-[16px] text-bodyText overflow-x-hidden'>
+					{remoteFile ? remoteFile.name : file?.name}
+				</p>
+			</div>
+
+			<div
+				onClick={(e) =>
+					remoteFile
+						? handleDeleteRemoteItem
+							? handleDeleteRemoteItem({ id: remoteFile.id })
+							: null
+						: handleDeleteItem
+						? handleDeleteItem(file!)
+						: null
+				}
+				className='w-fit'
+				title='Delete file'>
+				<CrossMarkIcon
 					{...{
-						svgElementClassName: 'stroke-checkMarkColor',
+						svgElementClassName: 'stroke-crossMarkColor hover:stroke-red-700',
 						className: 'w-[24px] h-[24px]',
 						applyToSvgEl: true,
 					}}
 				/>
-				<div className='flex-[1] px-[6px]'>
-					<p className='font-normal leading-[25.78px] text-[16px] text-bodyText overflow-x-hidden'>
-						{file.name}
-					</p>
-				</div>
-
-				<div
-					onClick={(e) => handleDeleteItem(file)}
-					className='w-fit'
-					title='Delete file'>
-					<CrossMarkIcon
-						{...{
-							svgElementClassName: 'stroke-crossMarkColor hover:stroke-red-700',
-							className: 'w-[24px] h-[24px]',
-							applyToSvgEl: true,
-						}}
-					/>
-				</div>
 			</div>
 		</div>
-	);
-};
+	</div>
+);
 
 export const FileListDivider = () => (
 	<div className='bg-dividerColor h-[1px]'></div>
 );
 
-export const Profile = ({}: ProfilePropsTypes) => {
+export const ProfileContainer = ({ data }: ProfilePropsTypes) => {
 	const [selectedFiles, setSelectedFile] = useState<File[]>([]);
 	const [errMessage, setErrMsg] = useState<string | null>(null);
-	const [successFull, setSuccessFull] = useState(false);
 	const [loading, setLoading] = useState(false);
-	const [url, setUrl] = useState<string[]>([]);
 	const pathname = usePathname();
 	const { t } = useTranslation();
 	const router = useRouter();
 
 	const handleDeleteItem = (file: File) =>
-		setSelectedFile(
-			selectedFiles.filter((currItem) => {
-				return currItem !== file;
-			})
-		);
-
-	const uploadFilesSequentially = async (
-		files: File[],
-		data2: z.infer<typeof FormSchema>,
-		index = 0
-	) => {
-		if (index >= files.length) return;
-
-		const frmData = new FormData();
-		frmData.append('files', files[index]);
-
-		const formDataEntries: [string, FormDataEntryValue][] = Array.from(
-			frmData.entries()
-		);
-
-		formDataEntries.forEach((entry) => {
-			console.log(entry[0], entry[1]);
-		});
-
-		setLoading(true);
-		uploadResourceEndpointData({ url: 'upload', data: frmData })
-			.then((res) => {
-				setUrl((prevState) => [...prevState, res.data[0].url]);
-				uploadFilesSequentially(files, data2, index + 1);
-			})
-			.catch((err) => {
-				console.error(`Error uploading file ${index + 1}:`, err);
-				setLoading(false);
-			});
-	};
-
-	const userCookie = getCookie(COOKIE_KEYS.user);
-
-	const [userInfo, setUserInfo] = useState<TUSER | null>(
-		userCookie ? JSON.parse(userCookie) : null
-	);
-
-	console.log(userInfo);
+		setSelectedFile(selectedFiles.filter((currItem) => currItem !== file));
 
 	const FormSchema = z.object({
 		username: z
 			.string()
 			.min(2, {
-				message: 'Name must be at least 2 characters.',
+				message: 'Username must be at least 2 characters.',
+			})
+			.max(25, {
+				message: 'Username must not exceed 25 characters.',
 			})
 			.optional(),
 
@@ -1112,48 +1085,80 @@ export const Profile = ({}: ProfilePropsTypes) => {
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			phone_number: userInfo?.phone_number ?? '',
-			sub_county: userInfo?.sub_county ?? '',
-			id_number: userInfo?.id_number ?? '',
-			firstname: userInfo?.firstname ?? '',
-			username: userInfo?.username ?? '',
-			lastname: userInfo?.lastname ?? '',
-			location: userInfo?.location ?? '',
-			county: userInfo?.county ?? '',
-			gender: userInfo?.gender ?? '',
-			email: userInfo?.email ?? '',
+			phone_number: data?.data.phone_number ?? '',
+			sub_county: data?.data.sub_county ?? '',
+			id_number: data?.data.id_number ?? '',
+			firstname: data?.data.firstname ?? '',
+			username: data?.data.username ?? '',
+			lastname: data?.data.lastname ?? '',
+			location: data?.data.location ?? '',
+			county: data?.data.county ?? '',
+			gender: data?.data.gender ?? '',
+			email: data?.data.email ?? '',
 		},
 	});
 
+	const handleDeleteRemoteItem = ({ id }: { id: string | number }) => {
+		deleteResourceEndpointData({
+			url: `upload/files/${id}`,
+			data: {},
+		})
+			.then(({ err }) => {
+				if (err) {
+					if (err.status === 400)
+						err.details.errors.map(({ path, message, name }) => {
+							const [field_name, ...rest] = path;
+							//@ts-ignore
+							form.setError(field_name, {
+								message: message.replace(field_name, 'This field '),
+							});
+						});
+					else if (err.status === 401)
+						router.push(
+							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+						);
+					else if (err.status === 403) setErrMsg('Permission denied');
+					else setErrMsg('Something went wrong');
+				}
+			})
+			.finally(() => setLoading(false));
+	};
+
 	function onSubmit(data: z.infer<typeof FormSchema>) {
+		const frmData = new FormData();
+
+		selectedFiles.map((file) => frmData.append('files.files', file));
+
+		frmData.append('data', `${JSON.stringify(data)}`);
 		setLoading(true);
 
-		uploadFilesSequentially(selectedFiles, data).then(() => {
-			updateResourceEndpointData({ data: { ...data, url }, url: `auth/users` })
-				.then(({ data: res, err }) => {
-					if (err) {
-						if (err.status === 400)
-							err.details.errors.map(({ path: [field_name], message, name }) =>
-								//@ts-ignore
-								form.setError(field_name, {
-									message: message.replace(field_name, 'This field '),
-								})
-							);
-						else if (err.status === 401)
-							router.push(
-								`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(
-									pathname
-								)}`
-							);
-						else if (err.status === 403) setErrMsg('Permission denied');
-						else setErrMsg('Something went wrong');
-					}
+		uploadResourceEndpointData({
+			data: frmData,
+			url: `auth/users`,
+			method: 'PUT',
+		})
+			.then(({ data, err }) => {
+				console.log(data, err);
+				if (err) {
+					if (err.status === 400)
+						err.details.errors.map(({ path: [field_name], message, name }) =>
+							//@ts-ignore
+							form.setError(field_name, {
+								message: message.replace(field_name, 'This field '),
+							})
+						);
+					else if (err.status === 401)
+						router.push(
+							`/?${URL_SEARCH_PARAMS.redirect}=${encodeURIComponent(pathname)}`
+						);
+					else if (err.status === 403) setErrMsg('Permission denied');
+					else setErrMsg('Something went wrong');
+				}
 
-					if (res) setUserInfo(res);
-				})
-				.catch(console.log)
-				.finally(() => setLoading(false));
-		});
+				// setUserInfo;
+				if (data) console.log(data);
+			})
+			.finally(() => setLoading(false));
 	}
 
 	return (
@@ -1168,7 +1173,7 @@ export const Profile = ({}: ProfilePropsTypes) => {
 				</p>
 
 				<div className='w-full h-fit flex gap-[40px] md:p-[28px] flex-wrap'>
-					<Form {...form} {...{}}>
+					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
 							className='w-full space-y-6'>
@@ -1394,7 +1399,13 @@ export const Profile = ({}: ProfilePropsTypes) => {
 								</p>
 
 								<UploadFileCard
-									{...{ selectedFiles, setSelectedFile, handleDeleteItem }}
+									{...{
+										handleDeleteRemoteItem,
+										jobFiles: data?.data.files ?? [],
+										handleDeleteItem,
+										setSelectedFile,
+										selectedFiles,
+									}}
 								/>
 							</div>
 
@@ -1416,6 +1427,35 @@ export const Profile = ({}: ProfilePropsTypes) => {
 	);
 };
 
+export const Profile = () => {
+	const { isLoading, isError, data } = useQuery({
+		queryFn: useQueryCustomWrapper<TUSER>,
+		queryKey: [
+			`user-data`,
+			{
+				url: `auth/me`,
+				qFunc: fetchEndpointData,
+			},
+		],
+	});
+
+	return (
+		<div className='w-full h-full'>
+			{isLoading ? (
+				<div className='w-full h-full'>
+					<Loader />
+				</div>
+			) : isError ? (
+				<div className='w-full h-full'>
+					<Loader {...{ title: 'Error loading data' }} />
+				</div>
+			) : (
+				<ProfileContainer {...{ data }} />
+			)}
+		</div>
+	);
+};
+
 export const MyApplications = () => {
 	const userCookie = getCookie(COOKIE_KEYS.user);
 	const userInfo: TUSER | null = userCookie ? JSON.parse(userCookie) : null;
@@ -1432,19 +1472,12 @@ export const MyApplications = () => {
 				options: {
 					populate: {
 						job: {
-							populate: ['ministry', 'job_type'],
+							populate: { ministry: true, job_type: true },
 						},
-						comment: '',
-						user: '',
+						comment: true,
+						user: true,
 					},
 					sort: 'createdAt:desc',
-					// filters: {
-					// 	user: {
-					// 		id: {
-					// 			$eq: userInfo?.id,
-					// 		},
-					// 	},
-					// },
 				},
 			},
 		],
@@ -1551,10 +1584,12 @@ export const Error404 = () => {
 };
 
 export const UploadFileCard = ({
+	handleDeleteRemoteItem,
 	handleDeleteItem,
 	setSelectedFile,
 	selectedFiles,
 	setError,
+	jobFiles = [],
 }: FileSelectorPropsType) => {
 	const inputFieldRef = useRef<HTMLInputElement | null>(null);
 	const { t } = useTranslation();
@@ -1612,10 +1647,20 @@ export const UploadFileCard = ({
 					className='hidden'
 				/>
 			</div>
+
 			<div className='flex flex-col gap-[8px] my-[10px]'>
 				{selectedFiles.map((file, index) => (
 					<React.Fragment key={index}>
 						<SelectedFileSingleList {...{ file, handleDeleteItem }} />
+						{index !== selectedFiles.length - 1 ? <FileListDivider /> : null}
+					</React.Fragment>
+				))}
+
+				{jobFiles.map((remoteFile, index) => (
+					<React.Fragment key={index}>
+						<SelectedFileSingleList
+							{...{ remoteFile, handleDeleteRemoteItem, handleDeleteItem }}
+						/>
 						{index !== selectedFiles.length - 1 ? <FileListDivider /> : null}
 					</React.Fragment>
 				))}

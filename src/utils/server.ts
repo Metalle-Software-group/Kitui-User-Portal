@@ -175,7 +175,6 @@ export const updateResourceEndpointData = async ({
 	return strapi
 		.axios({ url, method: 'PUT', data })
 		.then((res) => {
-			console.log(res);
 			cookies().set(COOKIE_KEYS.user, JSON.stringify(res.data), {
 				httpOnly: false,
 				maxAge: 3600,
@@ -236,6 +235,26 @@ export const ResetPasswordHandler = async ({ data, url }: TApiHandlerProps) => {
 				response: { status, data, message },
 			}: {
 				response: TError & { data: Details };
+			}) => ({
+				err: { status, details: data, message },
+				data: null,
+			})
+		);
+};
+
+export const deleteResourceEndpointData = async ({
+	data,
+	url,
+}: TApiHandlerProps) => {
+	const strapi = await getStrapiConfiguredInstance();
+	return strapi
+		.axios({ method: 'DELETE', data, url })
+		.then(({ data }) => ({ data, err: null }))
+		.catch(
+			({
+				response: { status, details: data, message },
+			}: {
+				response: TError;
 			}) => ({
 				err: { status, details: data, message },
 				data: null,

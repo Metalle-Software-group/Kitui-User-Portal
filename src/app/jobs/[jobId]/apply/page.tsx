@@ -66,7 +66,6 @@ const ApplyJob = () => {
 		const frmData = new FormData();
 
 		selectedFiles.map((file) => frmData.append('files.files', file));
-		console.log(data, 'Morph');
 
 		frmData.append('data', `${JSON.stringify(data)}`);
 		setLoading(true);

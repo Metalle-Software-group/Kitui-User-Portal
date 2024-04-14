@@ -226,13 +226,17 @@ export type TqueryKey = [
 	}
 ];
 
-export type ProfilePropsTypes = {};
+export type ProfilePropsTypes = {
+	data: { data: TUSER; meta: ResponseMeta } | undefined;
+};
 
 export type FileSelectorPropsType = {
+	handleDeleteRemoteItem?: ({ id }: { id: string | number }) => void;
 	setSelectedFile: Dispatch<SetStateAction<File[]>>;
 	handleDeleteItem: (file: File) => void;
-	selectedFiles: File[];
 	setError?: () => void;
+	selectedFiles: File[];
+	jobFiles?: Media[];
 };
 
 export type TUploadDocsCardProps = {
@@ -279,6 +283,7 @@ export type TUSER = {
 	id_number: null;
 	status: string;
 	email: string;
+	files: Media[];
 	location: null;
 	county: null;
 	id: number;
