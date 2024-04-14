@@ -1655,7 +1655,7 @@ export const NewsCard = () => {
   }
 
   return (
-    <div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
+    <div className='flex flex-col w-[320px] md:w-fit absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
       <p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
         {t('County news & updates')}
       </p>
