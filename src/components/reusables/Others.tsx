@@ -1825,7 +1825,7 @@ export const FeaturedJobs = () => {
 		],
 	});
 
-	const { isLoading, isError, data, error } = useQuery({
+	const { isLoading, isError, data } = useQuery({
 		queryFn: useQueryCustomWrapper<TJob[]>,
 		queryKey: [
 			`featured-jobs`,
@@ -1845,6 +1845,7 @@ export const FeaturedJobs = () => {
 									},
 							  }
 							: {}),
+						status: JobStatusEnum.Open,
 					},
 				},
 			},
@@ -1961,6 +1962,8 @@ export const JobContainer = () => {
 						page: page,
 					},
 					filters: {
+						status: JobStatusEnum.Open,
+
 						$and: [
 							...(filters.term
 								? [
