@@ -126,7 +126,7 @@ export default function () {
 			</div>
 
 			{/* how it works  */}
-			<div className='bg-purple-100 gap-[24px] px-[100px] py-[40px] flex flex-col'>
+			<div className='bg-purple-100 gap-[24px] px-[10px] md:px-[100px] py-[40px] flex flex-col w-full'>
 				<div className='flex gap-[12px] flex-col'>
 					<p className='text-textTitle leading-[36px] text-[36px] tracking-[.75%] text-center font-extrabold'>
 						{t('How it works')}
@@ -138,7 +138,7 @@ export default function () {
 				</div>
 
 				{/* how it works  */}
-				<div className='flex flex-col md:flex-row gap-[24px] justify-between my-[12px]'>
+				<div className='flex flex-col md:flex-row gap-[24px] justify-between my-[12px] w-full'>
 					{HowItWorksSteps.map((item, index) => (
 						<HowItWorksCard {...{ ...item, step: index + 1 }} key={index} />
 					))}
