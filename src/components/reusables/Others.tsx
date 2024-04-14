@@ -2227,7 +2227,7 @@ export const JobContainer = () => {
           </section>
 
           {/* job listing */}
-          <section className='w-[70%] mb-[100px] flex flex-col gap-[24px]'>
+          <section className='md:w-[70%] mb-[100px] flex flex-col md:gap-[24px]'>
             {isLoading ? (
               <div className='w-[70%] h-full'>
                 <Loader />
@@ -2240,7 +2240,7 @@ export const JobContainer = () => {
               <React.Fragment>
                 {data && data.data.length > 0 ? (
                   <div className='space-y-10'>
-                    <div>
+                    <div className='space-y-10 md:space-y-0'>
                       {data.data?.map((job, index) => (
                         <FindJobsCard
                           key={index}

@@ -30,7 +30,7 @@ export default function ({ children }: TNodes) {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <main className='bg-bodyBg relative'>
-          <div className='hidden md:block'>
+          <div className='block'>
             <Header />
           </div>
 
