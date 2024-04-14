@@ -462,11 +462,11 @@ export type TSeeMore = {
 	title: string;
 };
 
-export type TDataApplyJobORUpdateProfile = {
+export type TDataApplyJobORUpdateProfile<TFiles = any> = {
 	// user: string | number;
 	job: string | number;
 	comment?: string;
-	files?: any[];
+	files?: TFiles[];
 };
 
 export type TMoreSearchTypes = {
