@@ -30,7 +30,7 @@ export const Header = () => {
 
 	return (
 		// shadow-headerShadow
-		<nav className='px-[100px] bg-white sticky top-0 left-0 z-[100] h-[108px] w-[99vw] flex justify-center items-center'>
+		<nav className='px-[10px] bg-white sticky top-0 left-0 z-[100] h-[108px] w-[99vw] flex justify-center items-center'>
 			<div className='flex justify-between items-center max-w-[1440px] w-full'>
 				<div
 					className='flex justify-between py-[12px]'

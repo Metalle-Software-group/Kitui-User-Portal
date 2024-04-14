@@ -73,8 +73,7 @@ export default function () {
 			</section>
 
 			{/* category  */}
-
-			<div className='flex justify-between items-center px-[16px] sm:px-[60px] lg:px-[80px] 2xl:px-[100px]'>
+			<div className='flex flex-col sm:flex-row justify-between items-center px-[16px] sm:px-[60px] lg:px-[80px] 2xl:px-[100px]'>
 				<div className='flex flex-col gap-[12px] selection:bg-inherit'>
 					<p className='font-extrabold text-[20px] md:text-[36px] leading-[18px] md:leading-[36px] md:tracking-[-.75%] text-textTitle'>
 						{t('Explore By Category')}

@@ -15,7 +15,7 @@ import { TDataApplyJobORUpdateProfile, TJob } from '@/types/types';
 import { uploadResourceEndpointData } from '@/utils/server';
 import { SuccessfulApplicationCard } from '@/components/cards/TechnicalError';
 import { getLocalStorageItem } from '@/utils';
-import { formatDistance } from 'date-fns';
+import { formatDistanceStrict } from 'date-fns';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -194,9 +194,13 @@ const ApplyJob = () => {
 									<div className='w-fit'>
 										<TimeLimitLabel
 											{...{
-												name: formatDistance(new Date(), job.application_end, {
-													addSuffix: true,
-												}),
+												name: formatDistanceStrict(
+													new Date(),
+													job.application_end,
+													{
+														addSuffix: true,
+													}
+												),
 											}}
 										/>
 									</div>

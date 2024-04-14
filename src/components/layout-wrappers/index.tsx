@@ -25,7 +25,6 @@ export default function ({ children }: TNodes) {
 	const pathname = usePathname();
 
 	const queryClient = new QueryClient();
-	console.log(pathname);
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -46,7 +45,11 @@ export default function ({ children }: TNodes) {
 						{children}
 					</div>
 
-					{!pathname.startsWith('/auth') ? <Footer /> : null}
+					{!pathname.startsWith('/auth') ? (
+						<div className='w-full'>
+							<Footer />
+						</div>
+					) : null}
 				</main>
 			</I18nProvider>
 		</QueryClientProvider>
