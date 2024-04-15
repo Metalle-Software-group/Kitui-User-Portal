@@ -44,9 +44,6 @@ export const Header = () => {
             height={84}
             priority
           />
-          {/* <div className='flex md:hidden'>
-            <MobileSideBar />
-          </div> */}
         </div>
 
         <div className='w-fit'>
@@ -60,7 +57,7 @@ export const Header = () => {
                   href:
                     url === '/auth/signin'
                       ? userCookie
-                        ? `/profile?=${PROFILE_TAB}=${PROFILE_TAB_ENUM.PROFILE}`
+                        ? `/profile?=${PROFILE_TAB}=${PROFILE_TAB_ENUM.MY_JOBS}`
                         : url
                       : url,
                 }}>

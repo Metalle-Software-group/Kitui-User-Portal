@@ -65,11 +65,7 @@ export default function ProfileDynamic() {
 
       <div className='md:p-[20px] md:py-[16px] mx-auto shadow-applicantBoxDetailsShadow rounded-[8px] w-full'>
         <Tabs
-          defaultValue={
-            params.get(PROFILE_TAB) === PROFILE_TAB_ENUM.MY_JOBS
-              ? PROFILE_TAB_ENUM.MY_JOBS
-              : PROFILE_TAB_ENUM.PROFILE
-          }
+          defaultValue={PROFILE_TAB_ENUM.MY_JOBS}
           className='w-full'>
           <TabsList className='border-b-[1px] md:px-[8px] h-[52px] w-full justify-start gap-[10px]'>
             <TabsTrigger

@@ -117,7 +117,8 @@ export const DataTable = ({
                       {...{
                         content: `${currentPage + index}`,
                         handler: () => {
-                          currentPage >= 1 &&
+                          currentPage > 1 &&
+                            currentPage < pageCount &&
                             handlePageChange(currentPage + index);
                         },
                         active:
@@ -137,7 +138,8 @@ export const DataTable = ({
                         active: false,
                         content: `${currentPage + index + 3}`,
                         handler: () => {
-                          currentPage >= 1 &&
+                          currentPage > 1 &&
+                            currentPage < pageCount &&
                             handlePageChange(currentPage + index);
                         },
                       }}
@@ -165,7 +167,9 @@ export const DataTable = ({
           <button
             className='border bg-white rounded-[8px] px-[14px] py-[8px] shadow-btnBoxShadow border-border-color flex gap-[8px] items-center'
             onClick={() => {
-              currentPage >= 1 && handlePageChange(currentPage + 1);
+              currentPage > 1 &&
+                currentPage < pageCount &&
+                handlePageChange(currentPage + 1);
             }}>
             <p className='text-[14px] font-semibold leading-[20px] text-filter-stroke-color'>
               Next

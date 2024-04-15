@@ -907,7 +907,7 @@ export const TableReusableComponent = ({
                   </div>
                 </div>
               ) : null}
-              <DropDownWrapperCustomComponent
+              {/* <DropDownWrapperCustomComponent
                 {...{
                   components: <FilterIconComponent />,
                 }}>
@@ -921,7 +921,7 @@ export const TableReusableComponent = ({
                     })),
                   }}
                 />
-              </DropDownWrapperCustomComponent>
+              </DropDownWrapperCustomComponent> */}
             </div>
             {headerBtn.present ? <AddJobsBtn {...headerBtn} /> : null}
           </div>
@@ -1450,7 +1450,7 @@ export const ProfileContainer = ({ data, refetch }: ProfilePropsTypes) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className='text-title-text-color'>
-                          {t('Location')}
+                          {t('Ward')}
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -2275,7 +2275,9 @@ export const JobContainer = () => {
                                   {...{
                                     content: `${page + index}`,
                                     handler: () => {
-                                      page >= 1 && setCurrentPage(page + index);
+                                      page > 1 &&
+                                        page < data.meta.pagination.pageCount &&
+                                        setCurrentPage(page + index);
                                     },
                                     active: index === 0 ? true : false,
                                   }}
@@ -2297,7 +2299,9 @@ export const JobContainer = () => {
                                     active: false,
                                     content: `${page + index + 3}`,
                                     handler: () => {
-                                      page >= 1 && setCurrentPage(page + index);
+                                      page > 1 &&
+                                        page < data.meta.pagination.pageCount &&
+                                        setCurrentPage(page + index);
                                     },
                                   }}
                                   key={index}
@@ -2313,7 +2317,7 @@ export const JobContainer = () => {
                                     {...{
                                       content: `${page + index}`,
                                       handler: () => {
-                                        page >= 1 &&
+                                        page > 1 &&
                                           page <
                                             data.meta.pagination.pageCount &&
                                           setCurrentPage(page + index);
@@ -2327,7 +2331,7 @@ export const JobContainer = () => {
                           )}
                           <button
                             onClick={() => {
-                              page >= 1 &&
+                              page > 1 &&
                                 page < data.meta.pagination.pageCount &&
                                 setCurrentPage(page + 1);
                             }}>
