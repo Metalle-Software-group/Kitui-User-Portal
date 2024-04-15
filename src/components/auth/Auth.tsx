@@ -126,12 +126,12 @@ export const AuthScreen = () => {
 				/>
 			</div>
 
-			<div className='w-full flex gap-[40px] p-[32px] flex-wrap justify-center items-center flex-col rounded-[16px] bg-white shadow-page404Shadow'>
+			<div className='w-full flex gap-[40px] p-[32px] flex-wrap lg:min-w-[500px] justify-center items-center flex-col rounded-[16px] bg-white shadow-page404Shadow'>
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
 						className='w-full space-y-6 flex items-center justify-center'>
-						<div className='flex flex-col gap-[24px] px-[32px] w-fit'>
+						<div className='flex flex-col gap-[24px] px-[32px] w-full'>
 							{/* form header  */}
 							<div className='flex gap-[12px] flex-col'>
 								<p className='font-bold text-[30px] leading-[36px] tracking-[.75%] text-title-text-color'>
@@ -299,6 +299,25 @@ export const CreateEditUser = ({
 		phone_number: z.string().min(2, {
 			message: 'Phone number must be at least 2 characters.',
 		}),
+
+		password: z
+			.string()
+			.min(8, {
+				message: 'Password be at least 8 characters.',
+			})
+			.max(20, {
+				message: 'Password must be at most 20 characters.',
+			}),
+
+		confirmPassword: z
+			.string()
+			.min(8, {
+				message: 'Password be at least 8 characters.',
+			})
+			.max(20, {
+				message: 'Password must be at most 20 characters.',
+			}),
+
 		email: z
 			.string()
 			.email({ message: 'Email field must contain a valid email' }),
@@ -325,12 +344,14 @@ export const CreateEditUser = ({
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
+			confirmPassword: '',
 			phone_number: '',
 			sub_county: '',
+			id_number: '',
 			firstname: '',
 			lastname: '',
-			id_number: '',
 			username: '',
+			password: '',
 			location: '',
 			county: '',
 			gender: '',
@@ -398,11 +419,11 @@ export const CreateEditUser = ({
 						<p className='text-red-500'>{errMessage}</p>
 					</div>
 
-					<div className='w-full h-fit flex gap-[20px] flex-wrap'>
+					<div className='w-full h-fit lg:min-w-[500px] flex gap-[20px] flex-wrap'>
 						<Form {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
-								className='w-fit space-y-6'>
+								className='w-full space-y-6'>
 								<div className='flex flex-wrap gap-[24px]'>
 									<div className='flex-[1]'>
 										<FormField
@@ -651,6 +672,54 @@ export const CreateEditUser = ({
 									</div>
 								</div>
 
+								<div className='flex flex-wrap gap-[24px]'>
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name='password'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Password
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Password'
+															type='password'
+															{...field}
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className='flex-[1]'>
+										<FormField
+											control={form.control}
+											name={'confirmPassword'}
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-textTitle font-bold text-[16px] leading-[24px]'>
+														Confirm Password
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder='Password'
+															{...field}
+															type='password'
+															className='rounded-[6px] px-[12px] py-[14px] border border-gray-300 bg-login-screen-text-color text-bodyText leading-[24px] text-[14px] font-normal flex items-center'
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+
 								<div className='flex items-center justify-start'>
 									<div className='flex gap-[8px] items-center'>
 										<Checkbox
@@ -889,7 +958,6 @@ export const VerifyEmail = () => {
 				if (err)
 					if (err.status === 400)
 						err.details.errors.map(({ message }) => {
-							console.log(message);
 							setAuthError(message);
 						});
 					else setAuthError('Something went wrong');

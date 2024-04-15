@@ -16,7 +16,6 @@ import { getCookie } from 'cookies-next';
 import { useState } from 'react';
 import { Logout } from '@/utils/server';
 import { TUSER } from '@/types/types';
-import { MobileSideBar } from './MobileSideBar';
 
 export const Header = () => {
   const [modal, setModal] = useState(false);
@@ -31,13 +30,13 @@ export const Header = () => {
 
   return (
     // shadow-headerShadow
-    <nav className='md:px-[100px] bg-white sticky top-0 left-0 z-[100] h-[108px]'>
-      <div className='flex justify-between items-center'>
+    <nav className='px-[10px] bg-white sticky top-0 left-0 z-[100] h-[108px] w-[99vw] flex justify-center items-center'>
+      <div className='flex justify-between items-center max-w-[1440px] w-full'>
         <div
-          className='flex justify-between md:py-[12px] items-center md:ml-[24px] md:mr-[24px] '
+          className='flex justify-between py-[12px]'
           onClick={(e) => router.push('/')}>
           <Image
-            className='dark:invert  p-2'
+            className='dark:invert ml-[24px] mr-[24px] p-2'
             src='/images/logo/logo.png'
             alt='KCG Logo'
             width={84}
@@ -47,7 +46,7 @@ export const Header = () => {
         </div>
 
         <div className='w-fit'>
-          <div className='hidden md:flex gap-[50px] w-full justify-between text-bodyText font-extrabold text-[16px] leading-[24px]'>
+          <div className='flex gap-[50px] w-full justify-between text-bodyText font-extrabold text-[16px] leading-[24px]'>
             {NavUrls.map(({ url, name }, index) => (
               <Link
                 key={index}
@@ -74,7 +73,7 @@ export const Header = () => {
             ))}
           </div>
         </div>
-        <div className='flex space-x-[20px] md:space-x-0 md:w-[266px] justify-between items-center'>
+        <div className='flex w-[266px] justify-between items-center'>
           <div className='flex space-x-2'>
             <Image
               src='/header/translate.svg'
@@ -101,14 +100,14 @@ export const Header = () => {
               priority
             />
           </div>
-          <div className='hidden md:flex w-fit h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
+          <div className='flex w-fit h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
             <p className='text-mainGreen font-[600] text-[14px] leading-[20px] px-[8px] py-[14px]'>
               {t('Contact Us')}
             </p>
           </div>
         </div>
         {userCookie && (
-          <div className='hidden md:flex flex-col w-[88px] h-[44px]'>
+          <div className='flex flex-col w-[88px] h-[44px]'>
             <div className='flex  rounded-[50px] bg-mainGreen px-[14px] py-[6px] gap-[10px] items-center'>
               <div className='flex w-[32px] h-[32px] rounded-full bg-white text-black font-bold items-center justify-center'>
                 {fname?.at(0)?.toUpperCase()}
