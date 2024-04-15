@@ -102,6 +102,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   deleteResourceEndpointData,
   fetchEndpointData,
+  updateUserProfileEndpointData,
   uploadResourceEndpointData,
 } from '@/utils/server';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -129,7 +130,8 @@ export const JobType = ({
   name?: string;
 }) => {
   return (
-    <p className={`border font-bold selection:bg-inherit ${className}`}>
+    <p
+      className={`border  h-fit font-bold  selection:bg-inherit rounded-[40px] px-[12px] py-[4px] leading-[16.37px] text-[12px] ${className}`}>
       {name}
     </p>
   );
@@ -1170,7 +1172,7 @@ export const ProfileContainer = ({ data, refetch }: ProfilePropsTypes) => {
     frmData.append('data', `${JSON.stringify(data)}`);
     setLoading(true);
 
-    uploadResourceEndpointData({
+    updateUserProfileEndpointData({
       data: frmData,
       url: `auth/users`,
       method: 'PUT',

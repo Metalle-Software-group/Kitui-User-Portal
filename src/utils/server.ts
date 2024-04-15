@@ -12,6 +12,7 @@ import {
 	TApiHandlerProps,
 	TAuthScreenProps,
 	TError,
+	TUSER,
 } from '@/types/types';
 
 export const getCookie = ({ name }: { name: string }) => {
@@ -89,6 +90,15 @@ export const Logout = async () => {
 	Object.values(COOKIE_KEYS).map((item) => deleteCookie({ name: item }));
 
 	redirect('/');
+};
+
+export const updateUserCookies = async ({ user }: { user: TUSER }) => {
+	cookies().set(COOKIE_KEYS.user, JSON.stringify(user), {
+		httpOnly: false,
+		maxAge: 3600,
+		secure: true,
+		path: '/',
+	});
 };
 
 export const deleteCookie = ({ name }: { name: string }) =>
@@ -218,6 +228,48 @@ export const uploadResourceEndpointData = async ({
 		.then(({ data, error }: SERVER_ERROR<TError | null>) =>
 			error ? { data: null, err: error } : { data, err: null }
 		)
+
+		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
+			err: { message, status, details },
+			data: null,
+		}));
+};
+
+export const updateUserProfileEndpointData = async ({
+	method = 'POST',
+	data,
+	url,
+}: TApiHandlerProps) => {
+	const auth = await getCookieAsync({ name: COOKIE_KEYS.auth });
+
+	return fetch(`${BACKEND_BASE_URL}/api/${url}`, {
+		body: data,
+		method,
+		headers: {
+			Authorization: `Bearer ${auth}`,
+		},
+	})
+		.then((data) => data.json())
+		.then(({ data, error }: SERVER_ERROR<TError | null>) => {
+			if (data?.id !== null || data?.id !== undefined) {
+				const userCookie = cookies().get(COOKIE_KEYS.user)?.value;
+				const currentUserDetails: TUSER | null = userCookie
+					? JSON.parse(userCookie)
+					: null;
+
+				cookies().set(
+					COOKIE_KEYS.user,
+					JSON.stringify({ ...currentUserDetails, ...data }),
+					{
+						httpOnly: false,
+						maxAge: 3600,
+						secure: true,
+						path: '/',
+					}
+				);
+			}
+			return error ? { data: null, err: error } : { data, err: null };
+		})
 
 		.catch(({ error: { message, status, details } }: SERVER_ERROR) => ({
 			err: { message, status, details },
