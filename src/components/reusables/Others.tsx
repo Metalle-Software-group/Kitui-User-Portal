@@ -102,6 +102,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
 	deleteResourceEndpointData,
 	fetchEndpointData,
+	updateUserProfileEndpointData,
 	uploadResourceEndpointData,
 } from '@/utils/server';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -111,7 +112,7 @@ import {
 	getTextFromHTML,
 	useQueryCustomWrapper,
 } from '@/utils';
-import { formatDistanceStrict } from 'date-fns';
+import { formatDistance } from 'date-fns';
 import { FeaturedJobsCategories } from './FeaturedJobsCategories';
 import { Slogan, SloganWithCategory } from './Slogan';
 import { FindJobsCard } from '../cards/FindJobsCard';
@@ -129,7 +130,8 @@ export const JobType = ({
 	name?: string;
 }) => {
 	return (
-		<p className={`border font-bold selection:bg-inherit ${className}`}>
+		<p
+			className={`border  h-fit font-bold  selection:bg-inherit rounded-[40px] px-[12px] py-[4px] leading-[16.37px] text-[12px] ${className}`}>
 			{name}
 		</p>
 	);
@@ -260,7 +262,7 @@ export const Loader = ({
 
 export const DepartmentCard = ({ name, icon, id }: TMinistry) => {
 	return (
-		<div className='h-[84px] w-[80vw] md:max-w-[286px] gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
+		<div className='h-[84px] w-[286px] gap-[12px] rounded-[6px] p-[12px] border border-gray-border flex items-center justify-between bg-white'>
 			<div className='flex-[1]'>
 				{icon ? (
 					<img
@@ -340,7 +342,7 @@ export const CommentCard = ({
 
 	return (
 		<div
-			className='w-[90%] md:w-[100%] md:max-w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'
+			className='md:w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'
 			{...{
 				onClick: (e) => router.push(`/jobs/${id}`),
 				title: 'Open this job',
@@ -350,7 +352,7 @@ export const CommentCard = ({
 					{title}
 				</p>
 
-				<div className='hidden sm:block w-fit'>
+				<div className='w-fit'>
 					<JobMinistryTag
 						{...{
 							textClassName: 'text-dev-accent',
@@ -373,7 +375,7 @@ export const CommentCard = ({
 					/>
 				</div>
 
-				<div className='w-fit hidden sm:block'>
+				<div className='w-fit'>
 					<LocationLabel
 						{...{
 							className:
@@ -386,13 +388,9 @@ export const CommentCard = ({
 				<div className='w-fit'>
 					<TimeLimitLabel
 						{...{
-							name: formatDistanceStrict(
-								application_end ?? new Date(),
-								new Date(),
-								{
-									addSuffix: true,
-								}
-							),
+							name: formatDistance(application_end ?? new Date(), new Date(), {
+								addSuffix: true,
+							}),
 						}}
 					/>
 				</div>
@@ -617,7 +615,7 @@ export const Comments = ({
 					{message}
 				</p>
 				<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-					{formatDistanceStrict(createdAt, new Date(), { addSuffix: true })}
+					{formatDistance(createdAt, new Date(), { addSuffix: true })}
 				</p>
 
 				<div className='px-[32px]'>
@@ -636,7 +634,7 @@ export const Comments = ({
 									{message}
 								</p>
 								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-									{formatDistanceStrict(new Date(), createdAt, {
+									{formatDistance(new Date(), createdAt, {
 										addSuffix: true,
 									})}
 								</p>
@@ -899,21 +897,21 @@ export const TableReusableComponent = ({
 									</div>
 								</div>
 							) : null}
-							<DropDownWrapperCustomComponent
-								{...{
-									components: <FilterIconComponent />,
-								}}>
-								<DropdownCustomComponent
-									{...{
-										onChangeHandler: (value) => setCurrentFilter(value),
-										currPageSize: currentFilter,
-										data: processedColumnNames.map((item) => ({
-											onChangeHandler: console.log,
-											label: item,
-										})),
-									}}
-								/>
-							</DropDownWrapperCustomComponent>
+							{/* <DropDownWrapperCustomComponent
+                {...{
+                  components: <FilterIconComponent />,
+                }}>
+                <DropdownCustomComponent
+                  {...{
+                    onChangeHandler: (value) => setCurrentFilter(value),
+                    currPageSize: currentFilter,
+                    data: processedColumnNames.map((item) => ({
+                      onChangeHandler: console.log,
+                      label: item,
+                    })),
+                  }}
+                />
+              </DropDownWrapperCustomComponent> */}
 						</div>
 						{headerBtn.present ? <AddJobsBtn {...headerBtn} /> : null}
 					</div>
@@ -1162,7 +1160,7 @@ export const ProfileContainer = ({ data, refetch }: ProfilePropsTypes) => {
 		frmData.append('data', `${JSON.stringify(data)}`);
 		setLoading(true);
 
-		uploadResourceEndpointData({
+		updateUserProfileEndpointData({
 			data: frmData,
 			url: `auth/users`,
 			method: 'PUT',
@@ -1420,7 +1418,7 @@ export const ProfileContainer = ({ data, refetch }: ProfilePropsTypes) => {
 										render={({ field }) => (
 											<FormItem>
 												<FormLabel className='text-title-text-color'>
-													{t('Location')}
+													{t('Ward')}
 												</FormLabel>
 												<FormControl>
 													<Input placeholder='e.g Mwingi' {...field} />
@@ -1593,6 +1591,7 @@ export const NewsCard = () => {
 			})
 				.then(({ data, err }) => {
 					if (err) {
+						console.log('error', err);
 						if (err.status === 400) {
 							toast.error('Please Log In!', {
 								position: 'top-right',
@@ -1621,7 +1620,7 @@ export const NewsCard = () => {
 	}
 
 	return (
-		<div className='flex flex-col absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
+		<div className='flex flex-col w-[320px] md:w-fit absolute md:h-[216px] rounded-[10px] md:rounded-[25px] p-[10px] md:p-[28px] justify-center items-center top-[-90px] bg-footer-color gap-[10px] z-[2]'>
 			<p className='font-bold md:text-[30px] md:leading-[36px] md:tracking-[.75%]'>
 				{t('County news & updates')}
 			</p>
@@ -1825,7 +1824,7 @@ export const FeaturedJobs = () => {
 		],
 	});
 
-	const { isLoading, isError, data } = useQuery({
+	const { isLoading, isError, data, error } = useQuery({
 		queryFn: useQueryCustomWrapper<TJob[]>,
 		queryKey: [
 			`featured-jobs`,
@@ -1845,7 +1844,6 @@ export const FeaturedJobs = () => {
 									},
 							  }
 							: {}),
-						status: JobStatusEnum.Open,
 					},
 				},
 			},
@@ -1891,7 +1889,7 @@ export const FeaturedJobs = () => {
 			)}
 
 			<div className='w-full'>
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]'>
+				<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
 					{isLoading ? (
 						<div className='w-full h-full py-[50px]'>
 							<Loader />
@@ -1962,8 +1960,6 @@ export const JobContainer = () => {
 						page: page,
 					},
 					filters: {
-						status: JobStatusEnum.Open,
-
 						$and: [
 							...(filters.term
 								? [
@@ -2181,7 +2177,7 @@ export const JobContainer = () => {
 					</section>
 
 					{/* job listing */}
-					<section className='w-[70%] mb-[100px] flex flex-col gap-[24px]'>
+					<section className='md:w-[70%] mb-[100px] flex flex-col md:gap-[24px]'>
 						{isLoading ? (
 							<div className='w-[70%] h-full'>
 								<Loader />
@@ -2194,12 +2190,11 @@ export const JobContainer = () => {
 							<React.Fragment>
 								{data && data.data.length > 0 ? (
 									<div className='space-y-10'>
-										<div className='flex flex-col gap-[24px]'>
+										<div className='space-y-10 md:space-y-0'>
 											{data.data?.map((job, index) => (
 												<FindJobsCard key={index} {...job} />
 											))}
 										</div>
-
 										<div>
 											<div className='flex items-center justify-center'>
 												<div className='flex items-center justify-center'>
@@ -2227,7 +2222,9 @@ export const JobContainer = () => {
 																	{...{
 																		content: `${page + index}`,
 																		handler: () => {
-																			page >= 1 && setCurrentPage(page + index);
+																			page > 1 &&
+																				page < data.meta.pagination.pageCount &&
+																				setCurrentPage(page + index);
 																		},
 																		active: index === 0 ? true : false,
 																	}}
@@ -2249,7 +2246,9 @@ export const JobContainer = () => {
 																		active: false,
 																		content: `${page + index + 3}`,
 																		handler: () => {
-																			page >= 1 && setCurrentPage(page + index);
+																			page > 1 &&
+																				page < data.meta.pagination.pageCount &&
+																				setCurrentPage(page + index);
 																		},
 																	}}
 																	key={index}
@@ -2265,7 +2264,7 @@ export const JobContainer = () => {
 																		{...{
 																			content: `${page + index}`,
 																			handler: () => {
-																				page >= 1 &&
+																				page > 1 &&
 																					page <
 																						data.meta.pagination.pageCount &&
 																					setCurrentPage(page + index);
@@ -2279,7 +2278,7 @@ export const JobContainer = () => {
 													)}
 													<button
 														onClick={() => {
-															page >= 1 &&
+															page > 1 &&
 																page < data.meta.pagination.pageCount &&
 																setCurrentPage(page + 1);
 														}}>
@@ -2398,7 +2397,7 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							type: data?.data?.job_type?.name ?? '',
 							location: data?.data.location ?? '',
 							title: data?.data?.title ?? '',
-							datePosted: formatDistanceStrict(
+							datePosted: formatDistance(
 								data?.data?.application_end
 									? new Date(data.data?.application_end)
 									: new Date(),

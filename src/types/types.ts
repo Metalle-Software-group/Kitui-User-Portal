@@ -53,8 +53,10 @@ export type TFilterTypes = {
 export type TupdateFilterType = keyof TFilterTypes;
 
 export enum JobTypes {
-	attachment = 'Attachment',
-	contract = 'Contract',
+	Attachment = 'Attachment',
+	Internship = 'Internship',
+	Permanent = 'Permanent',
+	Contract = 'Contract',
 }
 
 export type TAddRemoveFilter = {
@@ -350,6 +352,8 @@ export enum TApplicationStatus {
 	UnderReview = 'under_review',
 	Shortlisted = 'shortlisted',
 	Rejected = 'rejected',
+	Awarded = 'awarded',
+	New = 'new',
 }
 
 export interface TReply {
