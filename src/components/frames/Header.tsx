@@ -16,6 +16,7 @@ import { getCookie } from 'cookies-next';
 import { useState } from 'react';
 import { Logout } from '@/utils/server';
 import { TUSER } from '@/types/types';
+import { MobileSideBar } from './MobileSideBar';
 
 export const Header = () => {
   const [modal, setModal] = useState(false);
@@ -32,20 +33,22 @@ export const Header = () => {
     // shadow-headerShadow
     <nav className='px-[10px] bg-white sticky top-0 left-0 z-[100] h-[108px] w-[99vw] flex justify-center items-center'>
       <div className='flex justify-between items-center max-w-[1440px] w-full'>
-        <div
-          className='flex justify-between py-[12px]'
-          onClick={(e) => router.push('/')}>
+        <div className='flex justify-between py-[12px] items-center'>
           <Image
-            className='dark:invert ml-[24px] mr-[24px] p-2'
+            className='dark:invert md:ml-[24px] md:mr-[24px] p-2 cursor-pointer'
             src='/images/logo/logo.png'
             alt='KCG Logo'
             width={84}
             height={84}
             priority
+            onClick={(e) => router.push('/')}
           />
+          <div className='md:hidden'>
+            <MobileSideBar />
+          </div>
         </div>
 
-        <div className='w-fit'>
+        <div className='hidden md:flex w-fit'>
           <div className='flex gap-[50px] w-full justify-between text-bodyText font-extrabold text-[16px] leading-[24px]'>
             {NavUrls.map(({ url, name }, index) => (
               <Link
@@ -73,7 +76,7 @@ export const Header = () => {
             ))}
           </div>
         </div>
-        <div className='flex w-[266px] justify-between items-center'>
+        <div className='flex md:w-[266px] justify-between items-center gap-x-2 md:gap-x-0'>
           <div className='flex space-x-2'>
             <Image
               src='/header/translate.svg'
@@ -81,6 +84,7 @@ export const Header = () => {
               width={24}
               height={24}
               priority
+              className='hidden md:flex'
             />
             <LanguageSelector />
           </div>
@@ -100,7 +104,7 @@ export const Header = () => {
               priority
             />
           </div>
-          <div className='flex w-fit h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
+          <div className='hidden md:flex w-fit h-[36px] justify-center items-center rounded-xl border-2 border-mainGreen cursor-pointer selection:bg-inherit'>
             <p className='text-mainGreen font-[600] text-[14px] leading-[20px] px-[8px] py-[14px]'>
               {t('Contact Us')}
             </p>

@@ -1727,10 +1727,10 @@ export const UploadFileCard = ({
         className='w-full'
         title='Select file or drag and drop here'>
         <div
-          className='flex gap-[60px] cursor-pointer selection:bg-inherit'
+          className='flex flex-col md:flex-row gap-[60px] cursor-pointer selection:bg-inherit'
           onClick={triggerFileSelectorDialog}
           onDrag={triggerFileSelectorDialog}>
-          <div className='px-[14px] py-[8px] rounded-[4px] bg-chooseFileBgColor'>
+          <div className='md:px-[14px] md:py-[8px] rounded-[4px] md:bg-chooseFileBgColor'>
             <p className='leading-[19.36px] text-[16px] font-medium text-checkMarkColor'>
               {t('Choose file')}
             </p>
