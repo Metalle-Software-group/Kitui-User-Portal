@@ -14,6 +14,7 @@ import {
 import { HelpIcon } from '../icons';
 import {
 	DropdownData,
+	JobTypes,
 	TApplicationStatus,
 	TColumnStaffDefinition,
 	TJob,
@@ -54,21 +55,32 @@ export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			const status: string = row.getValue('status');
 
 			return (
-				<div
-					className={`h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] justify-center items-center rounded-[16px] font-semibold ${
-						status === TApplicationStatus.Shortlisted
-							? 'bg-hover-bg-color-btn text-dev-accent'
+				<div className='flex w-full'>
+					<div
+						className={`flex-grow-0 flex-shrink-0 flex-basis-auto h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] items-center rounded-[16px] font-semibold ${
+							status === TApplicationStatus.New
+								? 'bg-new-applicant-color text-new-applicant-text-color'
+								: status === TApplicationStatus.Shortlisted ||
+								  status === TApplicationStatus.Awarded
+								? 'bg-hover-bg-color-btn text-green-text'
+								: status === TApplicationStatus.UnderReview
+								? 'bg-job-awarded-bg-color text-job-awarded-text-color'
+								: status === TApplicationStatus.Rejected
+								? 'bg-job-closed-bg-color text-job-closed-text-color'
+								: ''
+						}`}>
+						{status === TApplicationStatus.Shortlisted
+							? 'Shortlisted'
+							: status === TApplicationStatus.Rejected
+							? 'Rejected'
 							: status === TApplicationStatus.UnderReview
-							? 'bg-job-awarded-bg-color text-job-awarded-text-color'
-							: 'bg-job-closed-bg-color text-job-closed-text-color'
-					}`}>
-					{status === TApplicationStatus.Shortlisted
-						? 'Shortlisted'
-						: status === TApplicationStatus.Rejected
-						? 'Rejected'
-						: status === TApplicationStatus.UnderReview
-						? 'Under review'
-						: null}
+							? 'Under review'
+							: status === TApplicationStatus.Awarded
+							? 'Awarded'
+							: status === TApplicationStatus.New
+							? 'New'
+							: ''}
+					</div>
 				</div>
 			);
 		},
@@ -186,25 +198,32 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 
 		cell: ({ row }) => {
 			const job: TJob = row.getValue('job');
+
 			return (
-				<div className='w-full flex gap-[6px] justify-center items-center'>
+				<div className='w-full flex gap-[6px] items-center'>
 					<div className='w-fit'>
 						<JobMinistryTag
 							{...{
 								textClassName:
 									'text-gray-body-text leading-[16.37px] text-[12px] font-bold bg-gray-200',
-								ministry_name: job?.ministry?.name,
+								ministry_name: job.ministry.name,
 								dotClass: 'bg-gray-body-text',
 								className: 'bg-gray-200',
 							}}
 						/>
 					</div>
+
 					<div className='w-fit'>
 						<JobType
 							{...{
-								className:
-									'border-bg-gray-200 text-gray-body-text px-[12px] py-[4px] rounded-[40px]',
-								name: job?.job_type?.name,
+								className: `${
+									job.job_type?.name === JobTypes.Attachment
+										? 'text-brown-text border-attachment-border'
+										: job.job_type?.name === JobTypes.Contract
+										? 'border-contract-border-color text-contract-text-color'
+										: 'text-brown-text border-attachment-border'
+								}`,
+								name: job.job_type.name,
 							}}
 						/>
 					</div>
@@ -220,21 +239,32 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			const status: string = row.getValue('status');
 
 			return (
-				<div
-					className={`h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] justify-center items-center rounded-[16px] font-semibold ${
-						status === TApplicationStatus.Shortlisted
-							? 'bg-hover-bg-color-btn text-dev-accent'
+				<div className='flex w-full'>
+					<div
+						className={`flex-grow-0 flex-shrink-0 flex-basis-auto h-[24px] w-fit leading-[20px] text-[12px] flex px-[8px] py-[2px] items-center rounded-[16px] font-semibold ${
+							status === TApplicationStatus.New
+								? 'bg-new-applicant-color text-new-applicant-text-color'
+								: status === TApplicationStatus.Shortlisted ||
+								  status === TApplicationStatus.Awarded
+								? 'bg-hover-bg-color-btn text-green-text'
+								: status === TApplicationStatus.UnderReview
+								? 'bg-job-awarded-bg-color text-job-awarded-text-color'
+								: status === TApplicationStatus.Rejected
+								? 'bg-job-closed-bg-color text-job-closed-text-color'
+								: ''
+						}`}>
+						{status === TApplicationStatus.Shortlisted
+							? 'Shortlisted'
+							: status === TApplicationStatus.Rejected
+							? 'Rejected'
 							: status === TApplicationStatus.UnderReview
-							? 'bg-job-awarded-bg-color text-job-awarded-text-color'
-							: 'bg-job-closed-bg-color text-job-closed-text-color'
-					}`}>
-					{status === TApplicationStatus.Shortlisted
-						? 'Shortlisted'
-						: status === TApplicationStatus.Rejected
-						? 'Rejected'
-						: status === TApplicationStatus.UnderReview
-						? 'Under review'
-						: null}
+							? 'Under review'
+							: status === TApplicationStatus.Awarded
+							? 'Awarded'
+							: status === TApplicationStatus.New
+							? 'New'
+							: ''}
+					</div>
 				</div>
 			);
 		},
