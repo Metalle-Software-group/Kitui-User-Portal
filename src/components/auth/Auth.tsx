@@ -84,13 +84,14 @@ export const AuthScreen = () => {
 			options: {},
 		})
 			.then(({ err, data }) => {
-				if (err) {
-					console.log(err);
-					if (err.status === 400)
-						setThirdPAuthError(err.message ?? 'Missing or invalid auth token');
-					else setThirdPAuthError('Something went wrong');
-				} else if (data)
+				if (data)
 					router.push(params.get(URL_SEARCH_PARAMS.redirect) ?? '/profile');
+				else {
+					console.log(err, data);
+					if (err?.status === 400)
+						setThirdPAuthError(err?.message ?? 'Missing or invalid auth token');
+					else setThirdPAuthError('Something went wrong');
+				}
 			})
 			.catch((err) => console.log(err));
 
