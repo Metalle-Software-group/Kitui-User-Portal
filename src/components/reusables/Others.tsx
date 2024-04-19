@@ -121,6 +121,7 @@ import RichTexEditor from '../editor/RichText';
 import { CommentForm } from './CommentForm';
 import { UploadDocsCard } from '../cards/UploadDocsCard';
 import Link from 'next/link';
+import { ResetPassword, SetPasswordComponent } from '../auth/Auth';
 
 export const JobType = ({
 	className = 'border-brown-border text-brown-text px-[12px] py-[4px] rounded-[40px]',
@@ -2619,3 +2620,37 @@ export const PageForPaginationJobs = ({
 		{content}
 	</div>
 );
+
+export const HumbuggerComponent = ({
+	onChangeHandler: clickHandler,
+	opened,
+}: {
+	onChangeHandler: (data: any) => void;
+	opened: boolean;
+}) => (
+	<div className='w-[28px]' onClick={clickHandler}>
+		<p
+			className={`h-[3px] bg-black w-full my-[3px] transition-transform duration-500 ${
+				opened ? 'rotate-[26deg] origin-left' : ''
+			}`}></p>
+
+		<p
+			className={`h-[3px] bg-body bg-black w-full my-[3px] transition-all duration-200 ${
+				opened ? 'invisible' : ''
+			}`}></p>
+		<p
+			className={`h-[3px] bg-body bg-black w-full my-[3px]  transition-transform duration-500 ${
+				opened ? '-rotate-[26deg] origin-left' : ''
+			}`}></p>
+	</div>
+);
+
+export const AuthPasswordWrapper = () => {
+	const params = useSearchParams();
+
+	return (
+		<div className='w-auto'>
+			{params.size >= 1 ? <SetPasswordComponent /> : <ResetPassword />}
+		</div>
+	);
+};
