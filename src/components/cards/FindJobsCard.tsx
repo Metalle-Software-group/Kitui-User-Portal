@@ -73,7 +73,7 @@ export const FindJobsCard = ({
 
 			<div className='font-semibold text-[14px] leading-[24px] text-commentCardTextColor text-wrap'>
 				{/* <RichTexEditor {...{ value: description }} /> */}
-				{about_job}
+				{about_job.substring(0, 150) + '...'}
 			</div>
 
 			<div className='flex w-full justify-between items-center'>
