@@ -347,7 +347,7 @@ export const CommentCard = ({
 				onClick: (e) => router.push(`/jobs/${id}`),
 				title: 'Open this job',
 			}}>
-			<div className='flex gap-[16px] justify-between'>
+			<div className='flex gap-[16px] justify-between flex-wrap'>
 				<p className='font-bold text-[18px] leading-[24.55px] text-title-text-color'>
 					{title}
 				</p>
@@ -357,14 +357,14 @@ export const CommentCard = ({
 						{...{
 							textClassName: 'text-dev-accent',
 							ministry_name: ministry?.name,
-							className: 'bg-tag-color',
+							className: 'bg-tag-color w-fit',
 							dotClass: 'bg-dev-accent',
 						}}
 					/>
 				</div>
 			</div>
 
-			<div className='my-[8px] flex gap-[16px] items-center'>
+			<div className='my-[8px] flex gap-[16px] items-center flex-wrap'>
 				<div className='w-fit'>
 					<JobType
 						{...{
@@ -2617,5 +2617,29 @@ export const PageForPaginationJobs = ({
 		}`}
 		onClick={handler}>
 		{content}
+	</div>
+);
+
+export const HumbuggerComponent = ({
+	onChangeHandler: clickHandler,
+	opened,
+}: {
+	onChangeHandler: (data: any) => void;
+	opened: boolean;
+}) => (
+	<div className='w-[28px]' onClick={clickHandler}>
+		<p
+			className={`h-[3px] bg-black w-full my-[3px] transition-transform duration-500 ${
+				opened ? 'rotate-[26deg] origin-left' : ''
+			}`}></p>
+
+		<p
+			className={`h-[3px] bg-body bg-black w-full my-[3px] transition-all duration-200 ${
+				opened ? 'invisible' : ''
+			}`}></p>
+		<p
+			className={`h-[3px] bg-body bg-black w-full my-[3px]  transition-transform duration-500 ${
+				opened ? '-rotate-[26deg] origin-left' : ''
+			}`}></p>
 	</div>
 );

@@ -924,11 +924,10 @@ export const ResetPassword = () => {
 	);
 };
 
-export const VerifyEmail = () => {
+export const SetPasswordComponent = () => {
 	const [authLoading, setAuthLoading] = useState<boolean>(false);
 	const [authError, setAuthError] = useState<string | null>(null);
 	const [success, setSuccess] = useState('');
-	const params = useSearchParams();
 
 	const FormSchema = z.object({
 		password: z
@@ -1073,7 +1072,7 @@ export const VerifyEmail = () => {
 									className='rounded-[8px] bg-dev-accent hover:bg-dev-accent text-white border-dev-accent border px-[10px] py-[16px] gap-[8px] shadow-btnBoxShadow items-center justify-center w-full leading-[24px] text-[16px] font-bold'
 									type='submit'
 									{...(authLoading || success ? { disabled: true } : {})}>
-									{authLoading ? 'Submitting...' : 'Verify email'}
+									{authLoading ? 'Submitting...' : 'Set email'}
 								</Button>
 							</div>
 						</div>
