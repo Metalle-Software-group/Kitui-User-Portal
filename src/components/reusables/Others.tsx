@@ -2629,16 +2629,16 @@ export const HumbuggerComponent = ({
 }) => (
 	<div className='w-[28px]' onClick={clickHandler}>
 		<p
-			className={`h-[3px] bg-black w-full my-[3px] transition-transform duration-500 ${
+			className={`h-[3px] bg-mainGreen w-full my-[3px] transition-transform duration-500 ${
 				opened ? 'rotate-[26deg] origin-left' : ''
 			}`}></p>
 
 		<p
-			className={`h-[3px] bg-body bg-black w-full my-[3px] transition-all duration-200 ${
+			className={`h-[3px] bg-body bg-mainGreen w-full my-[3px] transition-all duration-200 ${
 				opened ? 'invisible' : ''
 			}`}></p>
 		<p
-			className={`h-[3px] bg-body bg-black w-full my-[3px]  transition-transform duration-500 ${
+			className={`h-[3px] bg-body bg-mainGreen w-full my-[3px]  transition-transform duration-500 ${
 				opened ? '-rotate-[26deg] origin-left' : ''
 			}`}></p>
 	</div>
