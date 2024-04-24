@@ -13,8 +13,8 @@ const Header = dynamic(
 	() => import('../frames/Header').then((mod) => mod.Header),
 	{
 		ssr: false,
-		loading: (props) => (
-			<div className='w-full h-[200px]'>
+		loading: () => (
+			<div className='w-full h-[108px]'>
 				<Loader {...{ title: 'Loading...' }} />
 			</div>
 		),

@@ -344,7 +344,7 @@ export const CommentCard = ({
 		<div
 			className='md:w-[379px] p-[20px] bg-white border mx-auto rounded-[20px] gap-[12px] border-boxBorder-color'
 			{...{
-				onClick: (e) => router.push(`/jobs/${id}`),
+				onClick: () => router.push(`/jobs/${id}`),
 				title: 'Open this job',
 			}}>
 			<div className='flex gap-[16px] justify-between flex-wrap'>
@@ -461,7 +461,7 @@ export const FilterCheckbox = ({
 	label,
 	id,
 }: FilterJobsTypes) => (
-	<div className='flex items-center gap-[8px] selection:bg-inherit'>
+	<div className='flex items-center gap-[8px] selection:bg-inherit flex-none'>
 		<Checkbox
 			{...{
 				onCheckedChange: (checked) =>
@@ -487,7 +487,7 @@ export const FilterTag = ({
 	type,
 }: EmpTypes & Pick<FilterJobsTypes, 'onChange' | 'type'>) => {
 	return (
-		<div className='bg-purple-200 border-purple-200 border gap-[10px] px-[16px] py-[8px] rounded-[20px] flex items-center justify-center selection:bg-inherit'>
+		<div className='bg-purple-200 border-purple-200 border gap-[10px] px-[16px] py-[8px] rounded-[20px] flex flex-grow-0 flex-shrink-0 flex-basis-auto items-center justify-center selection:bg-inherit'>
 			<p className='text-filtertTagColor leading-[24px] text-[14px] font-normal'>
 				{name}
 			</p>
@@ -1895,7 +1895,7 @@ export const FeaturedJobs = () => {
 			)}
 
 			<div className='w-full'>
-				<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px] '>
+				<div className='grid grid-cols-1 md:grid-cols-3 gap-[12px]'>
 					{isLoading ? (
 						<div className='w-full h-full py-[50px]'>
 							<Loader />
@@ -1938,7 +1938,6 @@ export const FeaturedJobs = () => {
 
 export const JobContainer = () => {
 	const params = useSearchParams();
-	const router = useRouter();
 	const [page, setCurrentPage] = useState(1);
 	const [filters, setFilters] = useState<TFilterTypes>({
 		...initialFilterState,
@@ -2065,8 +2064,8 @@ export const JobContainer = () => {
 			</div>
 
 			<section className='px-[20px] pb-[20px] md:px-[100px] md:pb-[100px]'>
-				<div className='flex gap-[32px] justify-start my-[20px] w-full overflow-x-auto h-[40px]'>
-					<div className='flex gap-[16px] items-center justify-start w-[328px]'>
+				<div className='flex gap-[32px] justify-start my-[20px] w-full overflow-x-auto flex-col md:flex-row'>
+					<div className='flex gap-[16px] items-center justify-start w-full md:w-[328px]'>
 						<button className='flex items-center justify-center'>
 							<SettingsIcon
 								{...{
@@ -2089,7 +2088,7 @@ export const JobContainer = () => {
 						</button>
 					</div>
 
-					<div className='flex gap-[12px] w-full items-center justify-start'>
+					<div className='flex gap-[12px] w-full items-center overflow-x-auto h-auto'>
 						{filters.department.map((name, index) => (
 							<FilterTag
 								key={index}
@@ -2125,7 +2124,7 @@ export const JobContainer = () => {
 									/>
 								</div>
 							) : (
-								<div className='flex md:flex-col md:space-y-5 space-x-2 md:space-x-0'>
+								<div className='flex md:flex-col md:space-y-5 space-x-2 md:space-x-0 gap-[20px]'>
 									{ministries?.data?.map(({ name }, index) => (
 										<FilterCheckbox
 											key={index}
@@ -2196,7 +2195,7 @@ export const JobContainer = () => {
 							<React.Fragment>
 								{data && data.data.length > 0 ? (
 									<div className='space-y-10'>
-										<div className='space-y-10 md:space-y-0'>
+										<div className='space-y-4 md:space-y-6'>
 											{data.data?.map((job, index) => (
 												<FindJobsCard key={index} {...job} />
 											))}
