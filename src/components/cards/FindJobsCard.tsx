@@ -27,12 +27,13 @@ export const FindJobsCard = ({
 
 	return (
 		<div
-			className={`flex flex-col w-fit md:w-full  h-fit rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
+			className={`flex flex-col w-full md:w-full  h-fit rounded-[6px] sm:rounded-[20px] p-[20px] border-[1px] border-boxBorder-color justify-center items-start space-y-3 cursor-pointer`}
 			{...{
 				onClick: (e) => router.push(`/jobs/${id}`),
 				title: 'Open this job',
 			}}>
-			<div className='flex gap-[16px] justify-between'>
+			{' '}
+			<div className='flex gap-[16px] justify-between flex-wrap'>
 				<p className='font-bold text-[18px] leading-[24.55px] text-title-text-color'>
 					{title}
 				</p>
@@ -48,8 +49,7 @@ export const FindJobsCard = ({
 					/>
 				</div>
 			</div>
-
-			<div className='my-[8px] flex gap-2 md:gap-[16px] items-center'>
+			<div className='my-[8px] flex gap-[16px] items-center flex-wrap'>
 				<div className='w-fit'>
 					<JobType {...{ name: job_type?.name ?? 'Attachment' }} />
 				</div>
@@ -70,12 +70,10 @@ export const FindJobsCard = ({
 					/>
 				</div>
 			</div>
-
 			<div className='font-semibold text-[14px] leading-[24px] text-commentCardTextColor text-wrap'>
 				{/* <RichTexEditor {...{ value: description }} /> */}
 				{about_job.substring(0, 150) + '...'}
 			</div>
-
 			<div className='flex w-full justify-between items-center'>
 				<button className='flex w-[130px] rounded-[8px] bg-foundationGreen justify-center items-center'>
 					<p className='font-semibold  text-[14px] leading-[20px] text-foundationGreen2 px-[8px] py-[14px]'>
