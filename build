@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+init(){
+    rm .next/* -r && zip -rqv build.zip . -x node_modules .gitignore LICENSE *.lock build.sh && xdg-open .
+}
+
+init "$@"

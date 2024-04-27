@@ -601,11 +601,11 @@ export const Comments = ({
 				No comments yet. Be the first one to leave a comment.
 			</div>
 		) : null}
-		{comments.map(({ id, message, user, createdAt, replies }) => (
+		{comments?.map(({ id, message, user, createdAt, replies }) => (
 			<div key={id} className='flex flex-col gap-[6px]'>
 				<div className='flex gap-[6px] item-center'>
 					<p className='font-bold text-[16px] leading-[24px] text-commentsColor'>
-						{user.username}
+						{user?.username ?? user?.firstname ?? user?.lastname ?? ''}
 					</p>
 					<p className='leading-[24px] text-[14px] font-normal text-bodyText'>
 						says
