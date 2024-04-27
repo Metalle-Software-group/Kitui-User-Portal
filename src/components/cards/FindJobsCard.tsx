@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { formatDistanceStrict } from 'date-fns';
+import { formatDistanceStrictStrict } from 'date-fns';
 
 import { ArrowRight } from 'lucide-react';
 import { TJob } from '@/types/types';
@@ -61,7 +61,7 @@ export const FindJobsCard = ({
 				<div className='w-fit'>
 					<TimeLimitLabel
 						{...{
-							name: formatDistanceStrict(
+							name: formatDistanceStrictStrict(
 								application_end ? new Date(application_end) : new Date(),
 								new Date(),
 								{ addSuffix: true }

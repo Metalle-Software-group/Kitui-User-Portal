@@ -112,7 +112,7 @@ import {
 	getTextFromHTML,
 	useQueryCustomWrapper,
 } from '@/utils';
-import { formatDistance } from 'date-fns';
+import { formatDistanceStrict } from 'date-fns';
 import { FeaturedJobsCategories } from './FeaturedJobsCategories';
 import { Slogan, SloganWithCategory } from './Slogan';
 import { FindJobsCard } from '../cards/FindJobsCard';
@@ -139,7 +139,7 @@ export const JobType = ({
 
 export const TimeLimitLabel = ({
 	className = '',
-	name = '2 days ago',
+	name = '',
 }: {
 	className?: string;
 	name?: string;
@@ -171,7 +171,7 @@ export const JobMinistryTag = ({
 	dotClass?: string;
 }) => (
 	<div
-		className={`rounded-[40px] gap-[4px] px-[12px] py-[4px] flex  min-h-[24px] items-center ${className}`}>
+		className={`rounded-[20px] md:rounded-[40px] gap-[4px] px-[6px] sm:px-[12px] py-[4px] flex  h-fit justify-center md:min-h-[24px] items-center ${className}`}>
 		<p className={`w-[6px] h-[6px] rounded-full ${dotClass}`} />
 		<p className={`font-bold leading-[16.37px] text-[12px] ${textClassName}`}>
 			{ministry_name}
@@ -388,9 +388,13 @@ export const CommentCard = ({
 				<div className='w-fit'>
 					<TimeLimitLabel
 						{...{
-							name: formatDistance(application_end ?? new Date(), new Date(), {
-								addSuffix: true,
-							}),
+							name: formatDistanceStrict(
+								application_end ?? new Date(),
+								new Date(),
+								{
+									addSuffix: true,
+								}
+							),
 						}}
 					/>
 				</div>
@@ -615,7 +619,7 @@ export const Comments = ({
 					{message}
 				</p>
 				<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-					{formatDistance(createdAt, new Date(), { addSuffix: true })}
+					{formatDistanceStrict(createdAt, new Date(), { addSuffix: true })}
 				</p>
 
 				<div className='px-[32px]'>
@@ -634,7 +638,7 @@ export const Comments = ({
 									{message}
 								</p>
 								<p className='text-mainGreen font-normal text-[16px] leading-[24px]'>
-									{formatDistance(new Date(), createdAt, {
+									{formatDistanceStrict(new Date(), createdAt, {
 										addSuffix: true,
 									})}
 								</p>
@@ -2402,7 +2406,7 @@ export const SingleJobPage = ({ jobId }: Pick<TSinglePageProps, 'jobId'>) => {
 							type: data?.data?.job_type?.name ?? '',
 							location: data?.data.location ?? '',
 							title: data?.data?.title ?? '',
-							datePosted: formatDistance(
+							datePosted: formatDistanceStrict(
 								data?.data?.application_end
 									? new Date(data.data?.application_end)
 									: new Date(),

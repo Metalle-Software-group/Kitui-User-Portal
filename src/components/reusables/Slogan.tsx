@@ -85,7 +85,7 @@ export const SloganWithCategory = ({
 	return (
 		<div
 			className={`flex flex-col w-full h-[400px] items-center justify-center bg-light-Purple gap-[24px] p-5 md:p-0`}>
-			<div className='flex w-full justify-center space-x-5 items-center'>
+			<div className='flex flex-col sm:flex-row w-full justify-center space-x-5 items-center'>
 				<p className='font-extrabold text-[24px] md:text-[48px] md:leading-[65.47px] text-textTitle'>
 					{title}
 				</p>
@@ -96,7 +96,7 @@ export const SloganWithCategory = ({
 								'bg-bodyBg md:px-[16px] md:py-[6px] rounded-[40px] gap-[8px]',
 							dotClass: 'bg-mainGreen w-[6px] h-[6px]',
 							textClassName:
-								'text-mainGreen text-[14px] leading-[24px] font-normal',
+								'text-mainGreen text-[14px] leading-[24px] w-fit font-normal',
 							ministry_name: category,
 						}}
 					/>
@@ -108,7 +108,7 @@ export const SloganWithCategory = ({
 			</p>
 
 			<div className='flex w-fit justify-between gap-[24px]'>
-				<div className='my-[8px] flex gap-[16px] items-center'>
+				<div className='my-[8px] flex gap-[16px] items-center flex-wrap justify-center'>
 					<div className='w-fit'>
 						<JobType
 							{...{

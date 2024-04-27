@@ -20,7 +20,7 @@ import {
 	TJob,
 	TUSER,
 } from '@/types/types';
-import { formatDistanceStrict } from 'date-fns';
+import { formatDistanceStrictStrict } from 'date-fns';
 
 export const ApplicantsColumns: ColumnDef<TColumnStaffDefinition>[] = [
 	{
@@ -308,7 +308,7 @@ export const MyApplicantColumns: ColumnDef<TColumnStaffDefinition>[] = [
 			return (
 				<div className='h-fit flex flex-col justify-center  items-center px-[24px] py-[16px]'>
 					<p className='font-normal leading-[24px] text-[14px] text-gray-body-text'>
-						{formatDistanceStrict(
+						{formatDistanceStrictStrict(
 							job.application_end ?? new Date(),
 							new Date(),
 							{
