@@ -14,9 +14,9 @@ import {
 import { TDataApplyJobORUpdateProfile, TJob } from '@/types/types';
 import { uploadResourceEndpointData } from '@/utils/server';
 import { SuccessfulApplicationCard } from '@/components/cards/TechnicalError';
-import { getLocalStorageItem } from '@/utils';
-import { formatDistanceStrict } from 'date-fns';
 import { ToastContainer, toast } from 'react-toastify';
+import { formatDistanceStrict } from 'date-fns';
+import { getLocalStorageItem } from '@/utils';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ApplyJob = () => {
