@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--commentOutlinerColor: #6b7280;
+		--chooseFileIconBgColor: #1b2b41b0;
+		--commentCardTextColor: #717171;
+		--contract-border-color: #feecd9;
+		--new-applicant-text-color: #b54708;
+		--new-applicant-color: #fffaeb;
+		--hover-bg-color-btn: #e7f5ed;
+		--job-awarded-text-color: #175cd3;
+		--job-awarded-bg-color: #eff8ff;
+		--job-closed-text-color: #b42318;
+		--job-closed-bg-color: #fef3f2;
+		--green-text: #0c5221;
+		--chooseFileTextColor: #1b2b41b0;
+		--contract-text-color: #c76800;
+		--attachment-border: #f1eae4;
+		--chooseFileBgColor: #193b670d;
+		--boxBorder-color: #e9e9e9;
+		--checkboxColor1: #9333ea;
+		--commentsColor: #333333;
+		--filtertTagColor: #6b21a8;
+		--gray-border: #d1d5db;
+		--bodyText: #4b5563;
+		--downloadBtnColor: #b5e0c7;
+		--socialsColor: #ececec;
+		--brown-border: #906b4c;
+		--search-iconColor: #9ca3af;
+		--brown-text: #4e3928;
+		--tag-color: #e7f5ed80;
+		--bodyBg: #fbfbfb;
+		--mainGreen: #0c5221;
+		--footer-color: #0c7b3a;
+		--footer-btnColor: #212121;
+		--jobTypeBorderColor: #f1eae4;
+		--jobApplicationBtnColor: #d0d5dd;
+		--checkMarkColor: #005fdb;
+		--crossMarkColor: #1c2e4599;
+		--inputTextColor: #1c304a85;
+		--dividerColor: #1a38601a;
+		--dots-color: #98a2b3;
+		--text-title: #192434;
+		--foundation-green: #dbf0e4;
+		--foundation-green2: #0b7437;
+		--applicant-colorbg: #f9f5ff;
+		--deep-purple: #7f56d9;
+		--applicant-colorText: #6941c6;
+		--searchIconColor: #667085;
+		--main-Green: #0f9a49;
+		--light-Purple: #f3e8ff;
+		--settingsIconColor: #262828;
+		--settingsClearBarColor: #0d0c22;
+		--settingsClearColor: #5633d1;
+		--checkboxColor: #1c375a29;
+		--login-screen-text-color: #fbfbfb;
+		--title-text-color: #192434;
+		--gray-body-text: #4b5563;
+		--filter-stroke-color: #344054;
+		--accent-color: #0f9a49;
+
+		--background: 0 0% 100%;
+		--foreground: 222.2 84% 4.9%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 222.2 84% 4.9%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 222.2 84% 4.9%;
+
+		--primary: 222.2 47.4% 11.2%;
+		--primary-foreground: 210 40% 98%;
+
+		--secondary: 210 40% 96.1%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+
+		--muted: 210 40% 96.1%;
+		--muted-foreground: 215.4 16.3% 46.9%;
+
+		--accent: 210 40% 96.1%;
+		--accent-foreground: 222.2 47.4% 11.2%;
+
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 210 40% 98%;
+
+		--border: 214.3 31.8% 91.4%;
+		--input: 214.3 31.8% 91.4%;
+		--ring: 222.2 84% 4.9%;
+
+		--radius: 0.5rem;
+	}
+
+	.dark {
+		--background: 222.2 84% 4.9%;
+		--foreground: 210 40% 98%;
+
+		--card: 222.2 84% 4.9%;
+		--card-foreground: 210 40% 98%;
+
+		--popover: 222.2 84% 4.9%;
+		--popover-foreground: 210 40% 98%;
+
+		--primary: 210 40% 98%;
+		--primary-foreground: 222.2 47.4% 11.2%;
+
+		--secondary: 217.2 32.6% 17.5%;
+		--secondary-foreground: 210 40% 98%;
+
+		--muted: 217.2 32.6% 17.5%;
+		--muted-foreground: 215 20.2% 65.1%;
+
+		--accent: 217.2 32.6% 17.5%;
+		--accent-foreground: 210 40% 98%;
+
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 210 40% 98%;
+
+		--border: 217.2 32.6% 17.5%;
+		--input: 217.2 32.6% 17.5%;
+		--ring: 212.7 26.8% 83.9%;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+}
+/* remove spinners in input boxes  */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+/* input[type='number'] {
+	-moz-appearance: textfield;
+} */
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--gray-body-text);
+	border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+	background-color: var(--scrollbar-path-color);
+	border-radius: 20px;
+	width: 5px;
+}
